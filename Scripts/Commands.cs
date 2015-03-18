@@ -15,7 +15,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Script {
+namespace Script 
+{
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -44,7 +45,8 @@ namespace Script {
     using DataManager.Players;
     using PMU.DatabaseConnector;
 
-    public partial class Main {
+    public partial class Main 
+    {
         public static void ProcessServerCommand(Server.Forms.MainUI mainUI, Command fullCommand, string fullArgs) {
             try {
                 mainUI.AddCommandLine("Command not found: " + fullCommand.CommandArgs[0]);
@@ -530,7 +532,7 @@ namespace Script {
                                 Messenger.HackingAttempt(client, "Admin Cloning");
                                 return;
                             }
-							Server.Logging.ChatLogger.AppendToChatLog("Staff", "[Server] Server restart initiated by: " + client.Player.Name);
+                            Server.Logging.ChatLogger.AppendToChatLog("Staff", "[Server] Server restart initiated by: " + client.Player.Name);
                             RestartServer();
                         }
                         break;
@@ -595,22 +597,22 @@ namespace Script {
                         }
                         break;
                     case "/fastshutdown": {
-                    		if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
-                    			Messenger.PlayerMsg(client, "[SECRET] Fast shutdown started.", Text.BrightRed);
-                    			using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
-                                	foreach (Client i in ClientManager.GetClients()) {
-                                  		if (i.IsPlaying()) {
-                                        	i.Player.SaveCharacterData(dbConnection);
+                            if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
+                                Messenger.PlayerMsg(client, "[SECRET] Fast shutdown started.", Text.BrightRed);
+                                using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
+                                    foreach (Client i in ClientManager.GetClients()) {
+                                        if (i.IsPlaying()) {
+                                            i.Player.SaveCharacterData(dbConnection);
                                             i.Player.SavingLocked = true;
                                         }
                                     }
                                 }
-                                
+
                                 Messenger.PlayerMsg(client, "Everyone saved, shutting down...", Text.BrightRed);
                                 Environment.Exit(0);
-                    		}
-                    	}
-                    	break;
+                            }
+                        }
+                        break;
                     case "/shutdown": {
                             if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
                                 int waitingTime = 30;
@@ -730,10 +732,10 @@ namespace Script {
                         break;
                     case "/unvoid": {
                             if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
-                            	
-                            	string playerName = command[1];
-                            	Client n;
-                            	n = ClientManager.FindClient(playerName);
+
+                                string playerName = command[1];
+                                Client n;
+                                n = ClientManager.FindClient(playerName);
                                 IMap map = n.Player.Map;
                                 if (map.MapType == Enums.MapType.Void) {
                                     Server.Maps.Void @void = map as Server.Maps.Void;
@@ -1555,27 +1557,27 @@ namespace Script {
                         }
                         break;
                     case "/reward": {
-                    	if (Ranks.IsAllowed(client, Enums.Rank.Admin)) {
-                    		foreach (Client i in client.Player.Map.GetClients()) {
-                    		//	i.Player.GiveItem(746, 1);
-                    			i.Player.GiveItem(133, 3);
-                    			Messenger.PlayerMsg(i, "You have been awarded three event tokens for participating!", Text.BrightGreen);
-                    		}
-                    	}
-                    }
-                    	break;
+                            if (Ranks.IsAllowed(client, Enums.Rank.Admin)) {
+                                foreach (Client i in client.Player.Map.GetClients()) {
+                                    //	i.Player.GiveItem(746, 1);
+                                    i.Player.GiveItem(133, 3);
+                                    Messenger.PlayerMsg(i, "You have been awarded three event tokens for participating!", Text.BrightGreen);
+                                }
+                            }
+                        }
+                        break;
                     case "/givetokens": {
-                    	if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
-                    		Client n;
-                    		n = ClientManager.FindClient(command[1]);
-                    		int numTokens = command[2].ToInt();
-                    		
-                    		n.Player.GiveItem(133, numTokens);
-                    		Messenger.PlayerMsg(n, client.Player.Name + " has awarded you " + numTokens + " event tokens!", Text.BrightGreen);
-                    		Messenger.AdminMsg("[Staff] " + client.Player.Name + " has given " + n.Player.Name + " " + numTokens + " event tokens!", Text.BrightBlue);
-                    	}
-                    }
-                    	break;
+                            if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
+                                Client n;
+                                n = ClientManager.FindClient(command[1]);
+                                int numTokens = command[2].ToInt();
+
+                                n.Player.GiveItem(133, numTokens);
+                                Messenger.PlayerMsg(n, client.Player.Name + " has awarded you " + numTokens + " event tokens!", Text.BrightGreen);
+                                Messenger.AdminMsg("[Staff] " + client.Player.Name + " has given " + n.Player.Name + " " + numTokens + " event tokens!", Text.BrightBlue);
+                            }
+                        }
+                        break;
                     case "/setname*":
                     case "/setname": {
                             if (Ranks.IsAllowed(client, Enums.Rank.Admin)) {
@@ -1595,27 +1597,27 @@ namespace Script {
                         break;
 
                     case "/setguild": {
-                    try {
-                            if (Ranks.IsAllowed(client, Enums.Rank.Admin)) {
-                                using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
-                                    Client n = ClientManager.FindClient(command[1]);
-                                    string guildName = command[2];
-                                    if (n != null) {
-                                       // DataManager.Players.PlayerDataManager.AddGuildMember(dbConnection.Database, guildName, n.Player.CharID);
-                                       // DataManager.Players.PlayerDataManager.SetGuildAccess(dbConnection.Database, n.Player.CharID, (int)Enums.GuildRank.Founder);
-                                       // n.Player.GuildName = guildName;
-                                      //  n.Player.GuildAccess = Enums.GuildRank.Founder;
+                            try {
+                                if (Ranks.IsAllowed(client, Enums.Rank.Admin)) {
+                                    using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
+                                        Client n = ClientManager.FindClient(command[1]);
+                                        string guildName = command[2];
+                                        if (n != null) {
+                                            // DataManager.Players.PlayerDataManager.AddGuildMember(dbConnection.Database, guildName, n.Player.CharID);
+                                            // DataManager.Players.PlayerDataManager.SetGuildAccess(dbConnection.Database, n.Player.CharID, (int)Enums.GuildRank.Founder);
+                                            // n.Player.GuildName = guildName;
+                                            //  n.Player.GuildAccess = Enums.GuildRank.Founder;
 
-                                       // DataManager.Players.PlayerDataManager.RemoveGuildMember(dbConnection.Database, n.Player.CharID);
-                                        n.Player.GuildName = command[2];
-                                       // n.Player.GuildAccess = Enums.GuildRank.None;
+                                            // DataManager.Players.PlayerDataManager.RemoveGuildMember(dbConnection.Database, n.Player.CharID);
+                                            n.Player.GuildName = command[2];
+                                            // n.Player.GuildAccess = Enums.GuildRank.None;
 
-                                        Messenger.SendPlayerGuild(n);
+                                            Messenger.SendPlayerGuild(n);
+                                        }
                                     }
                                 }
-                            }
-                        } catch (Exception ex) {}
-                        } 
+                            } catch (Exception ex) { }
+                        }
                         break;
                     //case "/checkowner": {
                     //        if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
@@ -1790,7 +1792,7 @@ namespace Script {
                             }
                         }
                         break;
-                           case "/give": {
+                    case "/give": {
                             if (Ranks.IsAllowed(client, Enums.Rank.Developer)) {
                                 Client n = ClientManager.FindClient(command[1]);
                                 int itemAmount = command[2].ToInt();
@@ -1835,8 +1837,8 @@ namespace Script {
                                         }
                                     }
                                 }
-                                
-                                
+
+
                             }
                         }
                         break;
@@ -2338,9 +2340,9 @@ namespace Script {
                                 Messenger.PlayerMsg(n, "You have been muted.", Text.Green);
                                 Messenger.AdminMsg("[Staff] " + client.Player.Name + " has muted " + n.Player.Name + ".", Text.BrightBlue);
                                 Server.Logging.ChatLogger.AppendToChatLog("Staff", "[Mute Issued] " + client.Player.Name + " muted " + n.Player.Name);
-                                
+
                                 PlayerInfoReport(n);
-                                
+
                                 Messenger.SendPlayerData(n);
                             }
                         }
@@ -2819,7 +2821,7 @@ namespace Script {
                                     }
                                     Messenger.PlayerMsg(client, n.Player.Name + "'s MAC: " + n.MacAddress, Text.Yellow);
                                     Server.Logging.ChatLogger.AppendToChatLog("Staff", "[Info Request] " + client.Player.Name + " checked " + n.Player.Name + "'s IP/MAC.");
-                                    
+
                                 } else {
                                     Messenger.PlayerMsg(client, "Player is offline", Text.Grey);
                                 }
@@ -2879,9 +2881,9 @@ namespace Script {
                         }
                         break;
                     case "/time": {
-                    		Messenger.PlayerMsg(client, "It is currently: " + Server.Globals.ServerTime, Text.BrightGreen);
-                    }
-                    break;
+                            Messenger.PlayerMsg(client, "It is currently: " + Server.Globals.ServerTime, Text.BrightGreen);
+                        }
+                        break;
 
                     case "/me": {
                             if (client.Player.Muted == false) {
@@ -3413,35 +3415,35 @@ namespace Script {
                         }
                         break;
                     case "/kickparty": {
-                    try {
-                            if (client.Player.PartyID != null) {
-                                Client targetPlayer = ClientManager.FindClient(command[1]);
-                                if (targetPlayer.Player.PartyID == client.Player.PartyID) {
+                            try {
+                                if (client.Player.PartyID != null) {
+                                    Client targetPlayer = ClientManager.FindClient(command[1]);
+                                    if (targetPlayer.Player.PartyID == client.Player.PartyID) {
 
-                                    Party party = PartyManager.FindPlayerParty(client);
-                                    if (party.GetLeader() == client) {
-                                        Client n = ClientManager.FindClient(joinedArgs);
-                                        if (n != null) {
-                                            if (n.Player.Map.Moral == Enums.MapMoral.None) {
-                                                Messenger.PlayerMsg(client, "The party member can't be kicked there!", Text.BrightRed);
+                                        Party party = PartyManager.FindPlayerParty(client);
+                                        if (party.GetLeader() == client) {
+                                            Client n = ClientManager.FindClient(joinedArgs);
+                                            if (n != null) {
+                                                if (n.Player.Map.Moral == Enums.MapMoral.None) {
+                                                    Messenger.PlayerMsg(client, "The party member can't be kicked there!", Text.BrightRed);
+                                                } else {
+                                                    PartyManager.RemoveFromParty(party, n);
+                                                }
                                             } else {
-                                                PartyManager.RemoveFromParty(party, n);
+                                                Messenger.PlayerMsg(client, "Unable to find player.", Text.BrightRed);
                                             }
                                         } else {
-                                            Messenger.PlayerMsg(client, "Unable to find player.", Text.BrightRed);
+                                            Messenger.PlayerMsg(client, "You are not the party leader!", Text.BrightRed);
                                         }
                                     } else {
-                                        Messenger.PlayerMsg(client, "You are not the party leader!", Text.BrightRed);
+                                        Messenger.PlayerMsg(client, "Player is not in your party!", Text.BrightRed);
                                     }
                                 } else {
-                                    Messenger.PlayerMsg(client, "Player is not in your party!", Text.BrightRed);
+                                    Messenger.PlayerMsg(client, "You are not in a party!", Text.BrightRed);
                                 }
-                            } else {
-                                Messenger.PlayerMsg(client, "You are not in a party!", Text.BrightRed);
-                            }
-                        } catch (Exception ex) {
+                            } catch (Exception ex) {
                                 Messenger.AdminMsg(ex.ToString(), Text.White);
-                        }
+                            }
                         }
                         break;
                     case "/moduleswitch": {
@@ -3776,14 +3778,14 @@ namespace Script {
                         }
                         break;
                     case "/addnpcs": {
-                    	if (Ranks.IsAllowed(client, Enums.Rank.Scripter)) {
-                    		for (int i = 2002; i <= 3000; i++) {
-                    			NpcManager.SaveNpc(i);
-                    			Messenger.PlayerMsg(client, "NPC " + i + " added.", Text.BrightGreen);
-                    		}
-                    	}
-                    }
-                    	break;                    
+                            if (Ranks.IsAllowed(client, Enums.Rank.Scripter)) {
+                                for (int i = 2002; i <= 3000; i++) {
+                                    NpcManager.SaveNpc(i);
+                                    Messenger.PlayerMsg(client, "NPC " + i + " added.", Text.BrightGreen);
+                                }
+                            }
+                        }
+                        break;
                     default: {
                             Messenger.PlayerMsg(client, "That is not a valid command.", Text.BrightRed);
                         }

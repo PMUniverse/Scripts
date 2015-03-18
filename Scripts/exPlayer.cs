@@ -30,9 +30,9 @@ using PMU.DatabaseConnector.MySql;
 using PMU.DatabaseConnector;
 using Server.Database;
 
-namespace Script
+namespace Script 
 {
-    public class exPlayer : IExPlayer
+    public class exPlayer : IExPlayer 
     {
         public Client Client { get; set; }
 
@@ -53,7 +53,7 @@ namespace Script
         public string HousingCenterMap { get; set; }
         public int HousingCenterX { get; set; }
         public int HousingCenterY { get; set; }
-        
+
         public string PlazaEntranceMap { get; set; }
         public int PlazaEntranceX { get; set; }
         public int PlazaEntranceY { get; set; }
@@ -68,9 +68,9 @@ namespace Script
 
         public bool StoryEnabled { get; set; }
         public bool AnniversaryEnabled {
-        	get {
-        		return true;
-        	}
+            get {
+                return true;
+            }
         }
         //Buffs ~obsolete
         //public int StrBuffCount { get; set; }
@@ -99,14 +99,14 @@ namespace Script
         public CTF.PlayerState CTFState;
 
         #endregion
-        
+
         #region Snowball Game Vars
-        
+
         public bool InSnowballGame;
         public SnowballGame.Teams SnowballGameSide;
         public int SnowballGameLives;
         public SnowballGame SnowballGameInstance;
-        
+
         #endregion
 
         #region Electrostasis Tower
@@ -168,17 +168,17 @@ namespace Script
                 DungeonMaxX = row["DungeonMaxX"].ValueString.ToInt();
                 DungeonMaxY = row["DungeonMaxY"].ValueString.ToInt();
                 DungeonSeed = row["DungeonSeed"].ValueString.ToInt();
-                
+
                 PlazaEntranceMap = row["PlazaEntranceMap"].ValueString;
                 PlazaEntranceX = row["PlazaEntranceX"].ValueString.ToInt();
                 PlazaEntranceY = row["PlazaEntranceY"].ValueString.ToInt();
             }
             DungeonGenerated = false;
-            DungeonMap = new PitchBlackAbyss.Room[1,1];
+            DungeonMap = new PitchBlackAbyss.Room[1, 1];
         }
 
         public void Save() {
-            using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) { 
+            using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
                 dbConnection.Database.UpdateOrInsert("script_extras_general", new IDataColumn[] {
                     dbConnection.Database.CreateColumn(true, "CharID", Client.Player.CharID),
                     dbConnection.Database.CreateColumn(false, "SpawnMap", SpawnMap),
@@ -206,19 +206,19 @@ namespace Script
         public bool VerifySpawnPoint() {
             //Messenger.PlayerMsg(Client, "1", Text.Black);
             try {
-	            
-	            if (Client.Player.MapID == MapManager.GenerateMapID(469) || Client.Player.MapID == MapManager.GenerateMapID(470)) {
-	                if (Client.Player.HasItem(152) > 0) {
-	                    Client.Player.TakeItem(152, 1);
-	                }
-	            }
-	            return IsValidPlayerSpawn(SpawnMap);
+
+                if (Client.Player.MapID == MapManager.GenerateMapID(469) || Client.Player.MapID == MapManager.GenerateMapID(470)) {
+                    if (Client.Player.HasItem(152) > 0) {
+                        Client.Player.TakeItem(152, 1);
+                    }
+                }
+                return IsValidPlayerSpawn(SpawnMap);
             } catch (Exception ex) {
-            	Messenger.AdminMsg("Error: VerifySpawnPoint", Text.Black);
-            	return false;
+                Messenger.AdminMsg("Error: VerifySpawnPoint", Text.Black);
+                return false;
             }
-            
-            
+
+
         }
 
         public bool IsValidPlayerSpawn(string mapID) {
@@ -227,8 +227,8 @@ namespace Script
                 return false;
             }
             IMap map = MapManager.RetrieveMap(mapID);
-            if ((map.MapType == Enums.MapType.House && ((House)map).OwnerID == Client.Player.CharID) || mapID == Main.Crossroads || mapID == MapManager.GenerateMapID(412) || 
-            	mapID == MapManager.GenerateMapID(478) || mapID == MapManager.GenerateMapID(878) || mapID == MapManager.GenerateMapID(1035) /*|| mapID == MapManager.GenerateMapID(1802) || mapID == MapManager.GenerateMapID(1898)*/) {
+            if ((map.MapType == Enums.MapType.House && ((House)map).OwnerID == Client.Player.CharID) || mapID == Main.Crossroads || mapID == MapManager.GenerateMapID(412) ||
+                mapID == MapManager.GenerateMapID(478) || mapID == MapManager.GenerateMapID(878) || mapID == MapManager.GenerateMapID(1035) /*|| mapID == MapManager.GenerateMapID(1802) || mapID == MapManager.GenerateMapID(1898)*/) {
                 return true;
             } else {
                 return false;
@@ -252,12 +252,12 @@ namespace Script
             CTFSide = CTF.Teams.Red;
             CTFState = CTF.PlayerState.Free;
         }
-        
+
         public void UnloadSnowballGame() {
-        	InSnowballGame = false;
-        	SnowballGameLives = 0;
-        	SnowballGameInstance = null;
-        	SnowballGameSide = SnowballGame.Teams.Green;
+            InSnowballGame = false;
+            SnowballGameLives = 0;
+            SnowballGameInstance = null;
+            SnowballGameSide = SnowballGame.Teams.Green;
         }
 
     }

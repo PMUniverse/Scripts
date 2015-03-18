@@ -27,8 +27,8 @@ using System.Windows.Forms;
 
 namespace Script 
 {
-public class Test
-{
+    public class Test 
+    {
 
-}
+    }
 }

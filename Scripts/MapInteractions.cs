@@ -15,7 +15,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Script
+namespace Script 
 {
     using System;
     using System.Collections.Generic;
@@ -42,9 +42,9 @@ namespace Script
     using Server.WonderMails;
     using Server.Tournaments;
 
-    public partial class Main
+    public partial class Main 
     {
-    
+
 
         public static void OnPickupItem(ICharacter character, int itemSlot, InventoryItem invItem) {
             try {
@@ -62,13 +62,13 @@ namespace Script
                         || ItemManager.Items[invItem.Num].Type == Enums.ItemType.HeldInBag) {
                         hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic148.wav"), character.X, character.Y, 10);
                     } else if (ItemManager.Items[invItem.Num].Type == Enums.ItemType.Key ||
-                    	ItemManager.Items[invItem.Num].Type == Enums.ItemType.Scripted &&
-                    	(ItemManager.Items[invItem.Num].Data1 == 4 || ItemManager.Items[invItem.Num].Data1 == 43)) {
+                        ItemManager.Items[invItem.Num].Type == Enums.ItemType.Scripted &&
+                        (ItemManager.Items[invItem.Num].Data1 == 4 || ItemManager.Items[invItem.Num].Data1 == 43)) {
                         hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic681.wav"), character.X, character.Y, 10);
                     } else if (ItemManager.Items[invItem.Num].Type == Enums.ItemType.TM) {
                         hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic162.wav"), character.X, character.Y, 10);
                     } else if (ItemManager.Items[invItem.Num].Type == Enums.ItemType.Scripted &&
-                    	ItemManager.Items[invItem.Num].Data1 == 12) {
+                        ItemManager.Items[invItem.Num].Data1 == 12) {
                         hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic99.wav"), character.X, character.Y, 10);
                     } else {
                         hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic130.wav"), character.X, character.Y, 10);
@@ -76,28 +76,33 @@ namespace Script
                 }
 
                 PacketHitList.MethodEnded(ref hitlist);
-                
+            } catch (Exception ex) { }
+
+
+        }
 
         public static void OnDropItem(ICharacter character, int itemSlot, MapItem mapItem) {
-            
+
             try {
-            	PacketHitList hitlist = null;
+                PacketHitList hitlist = null;
                 IMap map = MapManager.RetrieveActiveMap(character.MapID);
                 PacketHitList.MethodStart(ref hitlist);
-                
-				hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic693.wav"), character.X, character.Y, 10);
-				
-				PacketHitList.MethodEnded(ref hitlist);
+
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic693.wav"), character.X, character.Y, 10);
+
+                PacketHitList.MethodEnded(ref hitlist);
+            } catch (Exception ex) { }
+        }
 
 
         public static void OnMapTick(IMap map) {
             bool pointReached = false;
             try {
-            	
+
                 PacketHitList hitlist = null;
                 PacketHitList.MethodStart(ref hitlist);
-				
-				
+
+
                 MapStatus status;
                 if (!map.ProcessingPaused) {
                     status = map.TempStatus.GetStatus("TrickRoom");
@@ -135,29 +140,29 @@ namespace Script
                             RemoveMapStatus(map, "Flash", hitlist);
                         }
                     }
-					
-					
+
+
                     status = map.TempStatus.GetStatus("Wind");
-                    
+
                     if (status != null) {
-                    	
+
                         status.Counter++;
                         if (map.TimeLimit <= 0) {
 
                         } else if (status.Counter > map.TimeLimit) {
-                        	int victims = 0;
-                            
+                            int victims = 0;
+
                             foreach (Client client in map.GetClients()) {
                                 if (Ranks.IsDisallowed(client, Enums.Rank.Mapper)) {
-                                	
+
                                     HandleGameOver(client, Enums.KillType.Other);
                                     victims++;
                                 }
                             }
                             if (victims > 0) {
-                            	hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic203.wav"));
-                            	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("You were blown out by a mysterious force...", Text.Black));
-							}
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic203.wav"));
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("You were blown out by a mysterious force...", Text.Black));
+                            }
                         } else if (status.Counter == map.TimeLimit - 6) {
                             hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic855.wav"));
                             hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("It's right nearby!  It's gusting hard!", Text.BrightRed));
@@ -182,7 +187,7 @@ namespace Script
                     } else if (map.Moral != Enums.MapMoral.House) {
                         AddMapStatus(map, "Wind", 0, "", -1, hitlist);
                     }
-					
+
                     //semi-invulnerable attacks
                     TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
                     pointReached = true;
@@ -202,27 +207,27 @@ namespace Script
                             }
                         }
                     }
-                    
+
 
                 }
-                
+
 
                 status = map.TempStatus.GetStatus("TotalTime");
                 if (status != null) {
                     status.Counter++;
                     if (status.Counter % 16 == 0) {
-                    	for (int i = 0; i < Server.Constants.MAX_MAP_ITEMS; i++) {
-                			if (map.ActiveItem[i].Num != 0 && map.ActiveItem[i].Hidden) {
-		                    	if (Server.Math.Rand(0,5) == 0) {
-		                    		foreach (Client n in map.GetClients()) {
-		                    			if (Server.AI.MovementProcessor.CanCharacterSeeDestination(map, n.Player.GetActiveRecruit(), map.ActiveItem[i].X, map.ActiveItem[i].Y)) {
-		                					hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(491, map.ActiveItem[i].X, map.ActiveItem[i].Y));
-		                					hitlist.AddPacket(n, PacketBuilder.CreateSoundPacket("magic1022.wav"));
-		                				}
-		                    		}
-		                    	}
-		                    }
-		                }
+                        for (int i = 0; i < Server.Constants.MAX_MAP_ITEMS; i++) {
+                            if (map.ActiveItem[i].Num != 0 && map.ActiveItem[i].Hidden) {
+                                if (Server.Math.Rand(0, 5) == 0) {
+                                    foreach (Client n in map.GetClients()) {
+                                        if (Server.AI.MovementProcessor.CanCharacterSeeDestination(map, n.Player.GetActiveRecruit(), map.ActiveItem[i].X, map.ActiveItem[i].Y)) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(491, map.ActiveItem[i].X, map.ActiveItem[i].Y));
+                                            hitlist.AddPacket(n, PacketBuilder.CreateSoundPacket("magic1022.wav"));
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     AddMapStatus(map, "TotalTime", 0, "", -1, hitlist);
@@ -240,37 +245,37 @@ namespace Script
 
         public static bool ScriptedCharacterIdentifyCharacter(IMap viewerMap, ICharacter viewer, ICharacter target) {
             if (target != null) {
-	            ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
-	            if (status != null && status.Tag == "ShadowForce" ||
-	            	target.VolatileStatus.GetStatus("Invisible") != null) {
-					return false;
-				}
-			}
-			
+                ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
+                if (status != null && status.Tag == "ShadowForce" ||
+                    target.VolatileStatus.GetStatus("Invisible") != null) {
+                    return false;
+                }
+            }
+
             return true;
         }
 
         public static bool ScriptedCharacterSeeCharacter(IMap viewerMap, ICharacter viewer, ICharacter target) {
             if (target != null) {
-	            ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
-	            if (status != null && status.Tag == "ShadowForce" ||
-	            	target.VolatileStatus.GetStatus("Invisible") != null) {
-					return false;
-				}
-			}
-			
+                ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
+                if (status != null && status.Tag == "ShadowForce" ||
+                    target.VolatileStatus.GetStatus("Invisible") != null) {
+                    return false;
+                }
+            }
+
             return true;
         }
 
         public static bool ScriptedWillCharacterSee(IMap viewerMap, ICharacter viewer, ICharacter target) {
             if (target != null) {
-	            ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
-	            if (status != null && status.Tag == "ShadowForce" ||
-	            	target.VolatileStatus.GetStatus("Invisible") != null) {
-					return false;
-				}
-			}
-			
+                ExtraStatus status = target.VolatileStatus.GetStatus("SemiInvul");
+                if (status != null && status.Tag == "ShadowForce" ||
+                    target.VolatileStatus.GetStatus("Invisible") != null) {
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -278,283 +283,283 @@ namespace Script
             try {
                 ExtraStatus status;
                 PacketHitList.MethodStart(ref hitlist);
-            	if (speed != Enums.Speed.Slip) {
-	                int stepCounter;
-	                if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                    
-	                    ((Recruit)character).Owner.Player.HPStepCounter++;
-	                    if (((Recruit)character).Owner.Player.Map.HungerEnabled) {
-	                        if (character.HasActiveItem(151)) {
-	                            ((Recruit)character).Owner.Player.BellyStepCounter += 5;
-	                        } else if (character.HasActiveItem(152)) {
-	                            //nothing
-	                        } else if (character.HasActiveItem(162)) {
-	                            ((Recruit)character).Owner.Player.BellyStepCounter += 20;
-	                        } else {
-	                            ((Recruit)character).Owner.Player.BellyStepCounter += 10;
-	                        }
-	                        if (HasAbility(character, "Gluttony")) {
-	                            ((Recruit)character).Owner.Player.BellyStepCounter += 10;
-	                        }
-	                    }
-	                    stepCounter = ((Recruit)character).Owner.Player.HPStepCounter;
-	                    ElectrostasisTower.OnPlayerStep(((Recruit)character).Owner);
-	
-	                    if (stepCounter % 5 == 0) {
-	                        if (map.MapID == MapManager.GenerateMapID(737)) {
-	                            bool hasBeenWelcomed = ((Recruit)character).Owner.Player.StoryHelper.ReadSetting("[Gameplay]-HasBeenWelcomed").ToBool();
-	                            if (!hasBeenWelcomed) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateChatMsg(((Recruit)character).Owner.Player.Name + " is new to PMU! Welcome!", Text.BrightGreen));
-	                                ((Recruit)character).Owner.Player.StoryHelper.SaveSetting("[Gameplay]-HasBeenWelcomed", "True");
-	                            }
-	                        }
-	                    }
-	                } else {
-	                    ((MapNpc)character).HPStepCounter++;
-	                    stepCounter = ((MapNpc)character).HPStepCounter;
-	                }
-	
-	                if (MapManager.IsMapActive(character.MapID)) {
-	
-	                    RemoveExtraStatus(character, map, "Roost", hitlist);
-	                    RemoveExtraStatus(character, map, "Endure", hitlist);
-	                    RemoveExtraStatus(character, map, "DestinyBond", hitlist);
+                if (speed != Enums.Speed.Slip) {
+                    int stepCounter;
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+
+                        ((Recruit)character).Owner.Player.HPStepCounter++;
+                        if (((Recruit)character).Owner.Player.Map.HungerEnabled) {
+                            if (character.HasActiveItem(151)) {
+                                ((Recruit)character).Owner.Player.BellyStepCounter += 5;
+                            } else if (character.HasActiveItem(152)) {
+                                //nothing
+                            } else if (character.HasActiveItem(162)) {
+                                ((Recruit)character).Owner.Player.BellyStepCounter += 20;
+                            } else {
+                                ((Recruit)character).Owner.Player.BellyStepCounter += 10;
+                            }
+                            if (HasAbility(character, "Gluttony")) {
+                                ((Recruit)character).Owner.Player.BellyStepCounter += 10;
+                            }
+                        }
+                        stepCounter = ((Recruit)character).Owner.Player.HPStepCounter;
+                        ElectrostasisTower.OnPlayerStep(((Recruit)character).Owner);
+
+                        if (stepCounter % 5 == 0) {
+                            if (map.MapID == MapManager.GenerateMapID(737)) {
+                                bool hasBeenWelcomed = ((Recruit)character).Owner.Player.StoryHelper.ReadSetting("[Gameplay]-HasBeenWelcomed").ToBool();
+                                if (!hasBeenWelcomed) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateChatMsg(((Recruit)character).Owner.Player.Name + " is new to PMU! Welcome!", Text.BrightGreen));
+                                    ((Recruit)character).Owner.Player.StoryHelper.SaveSetting("[Gameplay]-HasBeenWelcomed", "True");
+                                }
+                            }
+                        }
+                    } else {
+                        ((MapNpc)character).HPStepCounter++;
+                        stepCounter = ((MapNpc)character).HPStepCounter;
+                    }
+
+                    if (MapManager.IsMapActive(character.MapID)) {
+
+                        RemoveExtraStatus(character, map, "Roost", hitlist);
+                        RemoveExtraStatus(character, map, "Endure", hitlist);
+                        RemoveExtraStatus(character, map, "DestinyBond", hitlist);
                         status = character.VolatileStatus.GetStatus("Rage");
-	                    if (status != null) {
-	                        status.Counter--;
-	                        if (status.Counter <= 0) {
-	                            RemoveExtraStatus(character, map, "Rage", hitlist);
-	                        }
-	                    }
+                        if (status != null) {
+                            status.Counter--;
+                            if (status.Counter <= 0) {
+                                RemoveExtraStatus(character, map, "Rage", hitlist);
+                            }
+                        }
                         status = character.VolatileStatus.GetStatus("MetalBurst");
-	                    if (status != null) {
-	                        status.Counter--;
-	                        if (status.Counter <= 0) {
-	                            RemoveExtraStatus(character, map, "MetalBurst", hitlist);
-	                        }
-	                    }
-	                    //if (character.VolatileStatus.GetStatus("Taunt") != null) {
-	                    //	character.VolatileStatus.GetStatus("Taunt").Counter--;
-	                    //	if (character.VolatileStatus.GetStatus("Taunt").Counter <= 0) {
-	                    //		RemoveExtraStatus(character, map, "Taunt", hitlist);
-	                    //	}
-	                    //}
-	
-	                    Tile steppedTile = map.Tile[character.X, character.Y];
-	                    if (steppedTile.Type == Enums.TileType.MobileBlock) {
-	                        if (steppedTile.Data1 % 32 >= 16) {
-	                            if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                                if (((Recruit)character).Owner.Player.Map.HungerEnabled && character.VolatileStatus.GetStatus("SuperMobile") == null) {
-	                                    ((Recruit)character).Owner.Player.BellyStepCounter += 400;
-	                                }
-	                            }
-	                        } else if (steppedTile.Data1 % 4 >= 2) {
-	                            if (steppedTile.String1 == "1") {
-	                                if (!CheckStatusProtection(character, map, Enums.StatusAilment.Burn.ToString(), false, hitlist)) {
-	                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's boiling hot!", Text.BrightRed), character.X, character.Y, 10);
-	                                    SetStatusAilment(character, map, Enums.StatusAilment.Burn, 0, hitlist);
-	                                }
-	                            } else if (steppedTile.String1 == "2") {
-	                                if (!CheckStatusProtection(character, map, Enums.StatusAilment.Freeze.ToString(), false, hitlist)) {
-	                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's freezing cold!", Text.BrightRed), character.X, character.Y, 10);
-	                                    SetStatusAilment(character, map, Enums.StatusAilment.Freeze, 0, hitlist);
-	                                }
-	                            } else if (steppedTile.String1 == "3") {
-	                                if (!CheckStatusProtection(character, map, Enums.StatusAilment.Paralyze.ToString(), false, hitlist)) {
-	                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water is numbing!", Text.BrightRed), character.X, character.Y, 10);
-	                                    SetStatusAilment(character, map, Enums.StatusAilment.Paralyze, 0, hitlist);
-	                                }
-	                            } else if (steppedTile.String1 == "4") {
-	                                if (!CheckStatusProtection(character, map, Enums.StatusAilment.Poison.ToString(), false, hitlist)) {
-	                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's poisoned!", Text.BrightRed), character.X, character.Y, 10);
-	                                    SetStatusAilment(character, map, Enums.StatusAilment.Poison, 1, hitlist);
-	                                }
-	                            } else if (steppedTile.String1 == "5") {
-	                                if (!CheckStatusProtection(character, map, Enums.StatusAilment.Sleep.ToString(), false, hitlist)) {
-	                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water is oddly calming...", Text.BrightRed), character.X, character.Y, 10);
-	                                    SetStatusAilment(character, map, Enums.StatusAilment.Sleep, 3, hitlist);
-	                                }
-	                            } else if (character.StatusAilment == Enums.StatusAilment.Burn && !CheckStatusProtection(character, map, Enums.StatusAilment.OK.ToString(), false, hitlist)) {
-	                                SetStatusAilment(character, map, Enums.StatusAilment.OK, 0, hitlist);
-	                            }
-	                        } else if (steppedTile.Data1 % 16 >= 8 && !character.HasActiveItem(805) &&
-	                        	!CheckStatusProtection(character, map, Enums.StatusAilment.Burn.ToString(), false, hitlist)) {
-	                            SetStatusAilment(character, map, Enums.StatusAilment.Burn, 0, hitlist);
-	                        }
-	                    }
-	
-	                }
-	
-	                if (stepCounter % 5 == 0) {
-	                    if (character.HasActiveItem(344) && map.MapType == Enums.MapType.RDungeonMap && Server.Math.Rand(0, 3) == 0) {
-	                        RandomWarp(character, map, false, hitlist);
-	                    }
-	
-	                    int newHP = character.HP;
-	
-	                    //subtract weather damage, sticky items
-	                    if (stepCounter % 10 == 0) {
-	
-	                        //Overcoat
-	                        bool overcoat = false;
-	
-	                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, map, character, character.X, character.Y, Enums.Direction.Up, false, true, true);
-	                        
-	                        for (int i = 0; i < targets.Count; i++) {
-                                
+                        if (status != null) {
+                            status.Counter--;
+                            if (status.Counter <= 0) {
+                                RemoveExtraStatus(character, map, "MetalBurst", hitlist);
+                            }
+                        }
+                        //if (character.VolatileStatus.GetStatus("Taunt") != null) {
+                        //	character.VolatileStatus.GetStatus("Taunt").Counter--;
+                        //	if (character.VolatileStatus.GetStatus("Taunt").Counter <= 0) {
+                        //		RemoveExtraStatus(character, map, "Taunt", hitlist);
+                        //	}
+                        //}
+
+                        Tile steppedTile = map.Tile[character.X, character.Y];
+                        if (steppedTile.Type == Enums.TileType.MobileBlock) {
+                            if (steppedTile.Data1 % 32 >= 16) {
+                                if (character.CharacterType == Enums.CharacterType.Recruit) {
+                                    if (((Recruit)character).Owner.Player.Map.HungerEnabled && character.VolatileStatus.GetStatus("SuperMobile") == null) {
+                                        ((Recruit)character).Owner.Player.BellyStepCounter += 400;
+                                    }
+                                }
+                            } else if (steppedTile.Data1 % 4 >= 2) {
+                                if (steppedTile.String1 == "1") {
+                                    if (!CheckStatusProtection(character, map, Enums.StatusAilment.Burn.ToString(), false, hitlist)) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's boiling hot!", Text.BrightRed), character.X, character.Y, 10);
+                                        SetStatusAilment(character, map, Enums.StatusAilment.Burn, 0, hitlist);
+                                    }
+                                } else if (steppedTile.String1 == "2") {
+                                    if (!CheckStatusProtection(character, map, Enums.StatusAilment.Freeze.ToString(), false, hitlist)) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's freezing cold!", Text.BrightRed), character.X, character.Y, 10);
+                                        SetStatusAilment(character, map, Enums.StatusAilment.Freeze, 0, hitlist);
+                                    }
+                                } else if (steppedTile.String1 == "3") {
+                                    if (!CheckStatusProtection(character, map, Enums.StatusAilment.Paralyze.ToString(), false, hitlist)) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water is numbing!", Text.BrightRed), character.X, character.Y, 10);
+                                        SetStatusAilment(character, map, Enums.StatusAilment.Paralyze, 0, hitlist);
+                                    }
+                                } else if (steppedTile.String1 == "4") {
+                                    if (!CheckStatusProtection(character, map, Enums.StatusAilment.Poison.ToString(), false, hitlist)) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water's poisoned!", Text.BrightRed), character.X, character.Y, 10);
+                                        SetStatusAilment(character, map, Enums.StatusAilment.Poison, 1, hitlist);
+                                    }
+                                } else if (steppedTile.String1 == "5") {
+                                    if (!CheckStatusProtection(character, map, Enums.StatusAilment.Sleep.ToString(), false, hitlist)) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The water is oddly calming...", Text.BrightRed), character.X, character.Y, 10);
+                                        SetStatusAilment(character, map, Enums.StatusAilment.Sleep, 3, hitlist);
+                                    }
+                                } else if (character.StatusAilment == Enums.StatusAilment.Burn && !CheckStatusProtection(character, map, Enums.StatusAilment.OK.ToString(), false, hitlist)) {
+                                    SetStatusAilment(character, map, Enums.StatusAilment.OK, 0, hitlist);
+                                }
+                            } else if (steppedTile.Data1 % 16 >= 8 && !character.HasActiveItem(805) &&
+                                !CheckStatusProtection(character, map, Enums.StatusAilment.Burn.ToString(), false, hitlist)) {
+                                SetStatusAilment(character, map, Enums.StatusAilment.Burn, 0, hitlist);
+                            }
+                        }
+
+                    }
+
+                    if (stepCounter % 5 == 0) {
+                        if (character.HasActiveItem(344) && map.MapType == Enums.MapType.RDungeonMap && Server.Math.Rand(0, 3) == 0) {
+                            RandomWarp(character, map, false, hitlist);
+                        }
+
+                        int newHP = character.HP;
+
+                        //subtract weather damage, sticky items
+                        if (stepCounter % 10 == 0) {
+
+                            //Overcoat
+                            bool overcoat = false;
+
+                            TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, map, character, character.X, character.Y, Enums.Direction.Up, false, true, true);
+
+                            for (int i = 0; i < targets.Count; i++) {
+
                                 if (HasAbility(targets[i], "Overcoat") || HasActiveBagItem(character, 47, 0, 0)) {
-                                	
-	                                overcoat = true;
-	                                break;
-	                            }
-	                        }
-	                        
-	
-	                        switch (GetCharacterWeather(character)) {
-	                            case (Enums.Weather.Hail): {
-	                                if (HasAbility(character, "Ice Body") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
-	                                        newHP += 6;
-	                                    }
-	                                    if (HasAbility(character, "Snow Cloak")) {
-	                                    } else if (HasAbility(character, "Ice Body")) {
-	                                    } else if (HasAbility(character, "Magic Guard")) {
-	                                    } else if (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice) {
-	
-	                                    } else if (overcoat) {
-	                                    } else {
-	                                        newHP -= 6;
-	                                    }
-	                                }
-	                                break;
-	                            case (Enums.Weather.Sandstorm): {
-	                                    if (HasAbility(character, "Magic Guard")) {
-	                                    } else if (HasAbility(character, "Sand Veil")) {
-	                                    } else if (HasAbility(character, "Sand Force")) {
-	                                    } else if (character.Type1 == Enums.PokemonType.Rock || character.Type2 == Enums.PokemonType.Rock) {
-	                                    } else if (character.Type1 == Enums.PokemonType.Ground || character.Type2 == Enums.PokemonType.Ground) {
-	                                    } else if (character.Type1 == Enums.PokemonType.Steel || character.Type2 == Enums.PokemonType.Steel) {
-	                                    } else if (overcoat) {
-	                                    } else {
-	                                        newHP -= 5;
-	                                    }
-	                                }
-	                                break;
-	                            case (Enums.Weather.Sunny): {
-	                                    if (HasAbility(character, "Dry Skin") && !overcoat && !HasAbility(character, "Magic Guard")) {
-	                                        newHP -= 5;
-	                                    }
-	                                    if (HasAbility(character, "Solar Power") && !overcoat && !HasAbility(character, "Magic Guard")) {
-	                                        newHP -= 5;
-	                                    }
-	                                }
-	                                break;
-	                            case (Enums.Weather.Thunder):
-	                            case (Enums.Weather.Raining): {
-	                                    if (HasAbility(character, "Dry Skin") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
-	                                        newHP += 5;
-	                                    }
-	                                    if (HasAbility(character, "Rain Dish") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
-	                                        newHP += 5;
-	                                    }
-	                                }
-	                                break;
-	                        }
-	                        
-	                        if (character.HasActiveItem(431)) {
-	                        	Sticky(character, map, hitlist);
-	                        }
-	                    }
-	
-	                    if (character.CharacterType == Enums.CharacterType.Recruit && ((Recruit)character).Belly <= 0) {
-	                        newHP -= 5;
-	                        hitlist.AddPacket(((Recruit)character).Owner, PacketBuilder.CreateSoundPacket("magic129.wav"));
-	                    }
-	
-	                    //add HP based on natural healing
-	                    int h = 0;
-	                    
-	                    if ((character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) && character.StatusAilment != Enums.StatusAilment.Poison) {
-	                    	h += 100;
-	                    }
-	
-	                    
-	                    if (character.StatusAilment == Enums.StatusAilment.Poison) {
-	                        if (HasAbility(character, "Poison Heal") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
-	                            h += (200 * character.StatusAilmentCounter);
-	                        } else if (HasAbility(character, "Magic Guard") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) || (HasAbility(character, "Toxic Boost") && HasAbility(character, "Immunity"))) {
-	                            
-	                        } else {
-	                            h -= (100 * character.StatusAilmentCounter);
-	                        }
-	                    }
-	                    if (character.HasActiveItem(298) && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {//heal ribbon
-	                        h += 150;
-	                    }
-	                    if (HasActiveBagItem(character, 12, 0, 0) && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {//heal ribbon
-	                        h += 150;
-	                    }
-	                    if (character.HasActiveItem(154)) {
-	                    	if (character.Type1 == Enums.PokemonType.Poison || character.Type2 == Enums.PokemonType.Poison) {
-	                        	h += 50;
-	                        } else {
-	                        	h -= 100;
-	                        }
-	                    }
-	
-	                    if (h != 0) {
-	                        if (character.CharacterType == Enums.CharacterType.Recruit && character.HasActiveItem(298) && newHP < character.MaxHP && ((character.MaxHP + character.HPRemainder) * h / 4000) > 0) {
-	                            if (((Recruit)character).Owner.Player.Map.HungerEnabled) {
-	                                ((Recruit)character).Owner.Player.BellyStepCounter += 20;
-	                            }
-	                        }
-	                        if (h > 0 && character.VolatileStatus.GetStatus("HealBlock") != null) {
-	
-	                        } else {
-	                            newHP += ((character.MaxHP + character.HPRemainder) * h / 4000);
-	                        }
-	                        int newRemainder = ((character.MaxHP + character.HPRemainder) % 40);
-	                        character.HPRemainder = newRemainder;
-	
-	                    }
-	
-	
-	                    if (newHP > character.MaxHP) {
-	                        newHP = character.MaxHP;
-	                    }
-	
-	
-	                    if (newHP != character.HP) {
-	                        if (character.CharacterType == Enums.CharacterType.Recruit) {
-	
-	                            if (newHP <= 0) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateChatMsg("Oh, no!  " + character.Name + " fainted!", Text.BrightRed));
-	                                OnDeath(((Recruit)character).Owner, Enums.KillType.Other);
-	                            } else {
-	                                ((Recruit)character).Owner.Player.SetHP(newHP);
-	                            }
-	                        } else {
-	
-	                            if (newHP <= 0) {
-	                                OnNpcDeath(hitlist, null, (MapNpc)character);
-	                                //((MapNpc)character).Num = 0;
-	                                //((MapNpc)character).HP = 0;
-	                                MapManager.RetrieveActiveMap(character.MapID).ActiveNpc[((MapNpc)character).MapSlot] = new MapNpc(character.MapID, ((MapNpc)character).MapSlot);
-	
-	                                hitlist.AddPacketToMap(map, TcpPacket.CreatePacket("npcdead", ((MapNpc)character).MapSlot));
-	                            } else {
-	                                character.HP = newHP;
-	                            }
-	                        }
-	
-	                    }
-	
-	                    if ((character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) && character.VolatileStatus.GetStatus("AquaRing") != null) {
-	                        int heal = character.MaxHP / 32;
-	                        if (heal < 1) heal = 1;
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s health is restored by Aqua Ring!", Text.BrightGreen), character.X, character.Y, 10);
-	                        HealCharacter(character, map, heal, hitlist);
-	                    }
-	
+
+                                    overcoat = true;
+                                    break;
+                                }
+                            }
+
+
+                            switch (GetCharacterWeather(character)) {
+                                case (Enums.Weather.Hail): {
+                                        if (HasAbility(character, "Ice Body") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
+                                            newHP += 6;
+                                        }
+                                        if (HasAbility(character, "Snow Cloak")) {
+                                        } else if (HasAbility(character, "Ice Body")) {
+                                        } else if (HasAbility(character, "Magic Guard")) {
+                                        } else if (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice) {
+
+                                        } else if (overcoat) {
+                                        } else {
+                                            newHP -= 6;
+                                        }
+                                    }
+                                    break;
+                                case (Enums.Weather.Sandstorm): {
+                                        if (HasAbility(character, "Magic Guard")) {
+                                        } else if (HasAbility(character, "Sand Veil")) {
+                                        } else if (HasAbility(character, "Sand Force")) {
+                                        } else if (character.Type1 == Enums.PokemonType.Rock || character.Type2 == Enums.PokemonType.Rock) {
+                                        } else if (character.Type1 == Enums.PokemonType.Ground || character.Type2 == Enums.PokemonType.Ground) {
+                                        } else if (character.Type1 == Enums.PokemonType.Steel || character.Type2 == Enums.PokemonType.Steel) {
+                                        } else if (overcoat) {
+                                        } else {
+                                            newHP -= 5;
+                                        }
+                                    }
+                                    break;
+                                case (Enums.Weather.Sunny): {
+                                        if (HasAbility(character, "Dry Skin") && !overcoat && !HasAbility(character, "Magic Guard")) {
+                                            newHP -= 5;
+                                        }
+                                        if (HasAbility(character, "Solar Power") && !overcoat && !HasAbility(character, "Magic Guard")) {
+                                            newHP -= 5;
+                                        }
+                                    }
+                                    break;
+                                case (Enums.Weather.Thunder):
+                                case (Enums.Weather.Raining): {
+                                        if (HasAbility(character, "Dry Skin") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
+                                            newHP += 5;
+                                        }
+                                        if (HasAbility(character, "Rain Dish") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
+                                            newHP += 5;
+                                        }
+                                    }
+                                    break;
+                            }
+
+                            if (character.HasActiveItem(431)) {
+                                Sticky(character, map, hitlist);
+                            }
+                        }
+
+                        if (character.CharacterType == Enums.CharacterType.Recruit && ((Recruit)character).Belly <= 0) {
+                            newHP -= 5;
+                            hitlist.AddPacket(((Recruit)character).Owner, PacketBuilder.CreateSoundPacket("magic129.wav"));
+                        }
+
+                        //add HP based on natural healing
+                        int h = 0;
+
+                        if ((character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) && character.StatusAilment != Enums.StatusAilment.Poison) {
+                            h += 100;
+                        }
+
+
+                        if (character.StatusAilment == Enums.StatusAilment.Poison) {
+                            if (HasAbility(character, "Poison Heal") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {
+                                h += (200 * character.StatusAilmentCounter);
+                            } else if (HasAbility(character, "Magic Guard") && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) || (HasAbility(character, "Toxic Boost") && HasAbility(character, "Immunity"))) {
+
+                            } else {
+                                h -= (100 * character.StatusAilmentCounter);
+                            }
+                        }
+                        if (character.HasActiveItem(298) && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {//heal ribbon
+                            h += 150;
+                        }
+                        if (HasActiveBagItem(character, 12, 0, 0) && (character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0)) {//heal ribbon
+                            h += 150;
+                        }
+                        if (character.HasActiveItem(154)) {
+                            if (character.Type1 == Enums.PokemonType.Poison || character.Type2 == Enums.PokemonType.Poison) {
+                                h += 50;
+                            } else {
+                                h -= 100;
+                            }
+                        }
+
+                        if (h != 0) {
+                            if (character.CharacterType == Enums.CharacterType.Recruit && character.HasActiveItem(298) && newHP < character.MaxHP && ((character.MaxHP + character.HPRemainder) * h / 4000) > 0) {
+                                if (((Recruit)character).Owner.Player.Map.HungerEnabled) {
+                                    ((Recruit)character).Owner.Player.BellyStepCounter += 20;
+                                }
+                            }
+                            if (h > 0 && character.VolatileStatus.GetStatus("HealBlock") != null) {
+
+                            } else {
+                                newHP += ((character.MaxHP + character.HPRemainder) * h / 4000);
+                            }
+                            int newRemainder = ((character.MaxHP + character.HPRemainder) % 40);
+                            character.HPRemainder = newRemainder;
+
+                        }
+
+
+                        if (newHP > character.MaxHP) {
+                            newHP = character.MaxHP;
+                        }
+
+
+                        if (newHP != character.HP) {
+                            if (character.CharacterType == Enums.CharacterType.Recruit) {
+
+                                if (newHP <= 0) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateChatMsg("Oh, no!  " + character.Name + " fainted!", Text.BrightRed));
+                                    OnDeath(((Recruit)character).Owner, Enums.KillType.Other);
+                                } else {
+                                    ((Recruit)character).Owner.Player.SetHP(newHP);
+                                }
+                            } else {
+
+                                if (newHP <= 0) {
+                                    OnNpcDeath(hitlist, null, (MapNpc)character);
+                                    //((MapNpc)character).Num = 0;
+                                    //((MapNpc)character).HP = 0;
+                                    MapManager.RetrieveActiveMap(character.MapID).ActiveNpc[((MapNpc)character).MapSlot] = new MapNpc(character.MapID, ((MapNpc)character).MapSlot);
+
+                                    hitlist.AddPacketToMap(map, TcpPacket.CreatePacket("npcdead", ((MapNpc)character).MapSlot));
+                                } else {
+                                    character.HP = newHP;
+                                }
+                            }
+
+                        }
+
+                        if ((character.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)character).Belly > 0) && character.VolatileStatus.GetStatus("AquaRing") != null) {
+                            int heal = character.MaxHP / 32;
+                            if (heal < 1) heal = 1;
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s health is restored by Aqua Ring!", Text.BrightGreen), character.X, character.Y, 10);
+                            HealCharacter(character, map, heal, hitlist);
+                        }
+
                         //if (character.VolatileStatus.GetStatus("LeechSeed:0") != null && !HasAbility(character, "Magic Guard")) {
                         //    int seeddmg = character.MaxHP / 32;
                         //    if (seeddmg < 1) seeddmg = 1;
@@ -569,81 +574,81 @@ namespace Script
                         //        HealCharacter(character.VolatileStatus.GetStatus("LeechSeed:0").Target, MapManager.RetrieveActiveMap(character.VolatileStatus.GetStatus("LeechSeed:0").Target.MapID), seeddmg * heal / 5, hitlist);
                         //    }
                         //}
-	
-	                }
+
+                    }
                     status = character.VolatileStatus.GetStatus("Confusion");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(character, map, "Confusion", hitlist);
-	                    }
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(character, map, "Confusion", hitlist);
+                        }
+                    }
                     status = character.VolatileStatus.GetStatus("Invisible");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(character, map, "Invisible", hitlist);
-	                    }
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(character, map, "Invisible", hitlist);
+                        }
+                    }
                     status = character.VolatileStatus.GetStatus("Blind");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(character, map, "Blind", hitlist);
-	                    }
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(character, map, "Blind", hitlist);
+                        }
+                    }
                     status = character.VolatileStatus.GetStatus("Shocker");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(character, map, "Shocker", hitlist);
-	                    }
-	                }
-	
-	                //if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                //    if (((Recruit)character).Owner.Player.Confusion != 0) {
-	                //        ((Recruit)character).Owner.Player.Confusion--;
-	                //        if (((Recruit)character).Owner.Player.Confusion <= 0) {
-	                //            ((Recruit)character).Owner.Player.Confusion = 1;
-	                //            if (!CheckStatusProtection(character, map, "Confusion:0", false, hitlist)) {
-	                //                Confuse(character, map, 0, hitlist);
-	                //            }
-	                //        }
-	                //    }
-	                //} else {
-	                //    if (((MapNpc)character).Confused != 0) {
-	                //        ((MapNpc)character).Confused--;
-	                //        if (((MapNpc)character).Confused <= 0) {
-	                //            ((MapNpc)character).Confused = 1;
-	                //            if (!CheckStatusProtection(character, map, "Confusion:0", false, hitlist)) {
-	                //                Confuse(character, map, 0, hitlist);
-	                //            }
-	                //        }
-	                //    }
-	                //}
-	
-	                if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                    ((Recruit)character).Owner.Player.ProcessHunger(hitlist);
-	                }
-	
-	                if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                    Client clientOwner = ((Recruit)character).Owner;
-	                    StoryHelper.OnStep(clientOwner, hitlist);
-	                    if (stepCounter % 10 == 0) {
-	                        EggStep(clientOwner);
-	                    }
-	
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(character, map, "Shocker", hitlist);
+                        }
+                    }
+
+                    //if (character.CharacterType == Enums.CharacterType.Recruit) {
+                    //    if (((Recruit)character).Owner.Player.Confusion != 0) {
+                    //        ((Recruit)character).Owner.Player.Confusion--;
+                    //        if (((Recruit)character).Owner.Player.Confusion <= 0) {
+                    //            ((Recruit)character).Owner.Player.Confusion = 1;
+                    //            if (!CheckStatusProtection(character, map, "Confusion:0", false, hitlist)) {
+                    //                Confuse(character, map, 0, hitlist);
+                    //            }
+                    //        }
+                    //    }
+                    //} else {
+                    //    if (((MapNpc)character).Confused != 0) {
+                    //        ((MapNpc)character).Confused--;
+                    //        if (((MapNpc)character).Confused <= 0) {
+                    //            ((MapNpc)character).Confused = 1;
+                    //            if (!CheckStatusProtection(character, map, "Confusion:0", false, hitlist)) {
+                    //                Confuse(character, map, 0, hitlist);
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+                        ((Recruit)character).Owner.Player.ProcessHunger(hitlist);
+                    }
+
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+                        Client clientOwner = ((Recruit)character).Owner;
+                        StoryHelper.OnStep(clientOwner, hitlist);
+                        if (stepCounter % 10 == 0) {
+                            EggStep(clientOwner);
+                        }
+
+                    }
                 }
                 PacketHitList.MethodEnded(ref hitlist);
 
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: OnStep", Text.Black);
             }
-            
+
         }
 
-        
+
 
         public static bool WillTrapActivate(ICharacter character, IMap map, int x, int y) {
             Tile tile = map.Tile[x, y];
@@ -678,411 +683,411 @@ namespace Script
 
         public static void ActivateTrap(IMap map, int x, int y, int script, PacketHitList hitlist) {
             PacketHitList.MethodStart(ref hitlist);
-            
+
             if (script != 7 && script != 26 && Server.Math.Rand(0, 5) == 0 && map.Tile[x, y].Data3 < 1) {
-            	hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic126.wav"), x, y, 10);
-            	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The trap failed to work!", Text.Blue), x, y, 10);
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic126.wav"), x, y, 10);
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The trap failed to work!", Text.Blue), x, y, 10);
             } else {
-	            
-	            TargetCollection targets;
-	
-	            switch (script) {
-	                case 2: {//EXPLOSIONNNNN
-	                		//Damp
-	                		bool explode = true;
-				            
-				            	TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
-								for (int i = 0; i < checkedTargets.Count; i++) {
-				                    if (HasAbility(checkedTargets[i], "Damp")) {
-				                        explode = false;
-				                    }
-				                }
-				            
-				            if (explode) {
-		                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic215.wav"), x, y, 10);
-		                        for (int i = x - 2; i <= x + 2; i++) {
-		                            for (int j = y - 2; j <= y + 2; j++) {
-		                                if (i < 0 || j < 0 || i > map.MaxX || j > map.MaxY) {
-		
-		                                } else {
-		                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(497, i, j));
-		                                }
-		                            }
-		                        }
-		                        targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, map, null, x, y, Enums.Direction.Up, true, true, true);
-                                for (int i = 0; i < targets.Count; i++) {
-                                	if (HasActiveBagItem(targets[i], 6, 0, 0)) {
-                                		DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
-                                	} else {
-                                    	DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].HP / 2, Enums.KillType.Tile, hitlist, true);
+
+                TargetCollection targets;
+
+                switch (script) {
+                    case 2: {//EXPLOSIONNNNN
+                            //Damp
+                            bool explode = true;
+
+                            TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                            for (int i = 0; i < checkedTargets.Count; i++) {
+                                if (HasAbility(checkedTargets[i], "Damp")) {
+                                    explode = false;
+                                }
+                            }
+
+                            if (explode) {
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic215.wav"), x, y, 10);
+                                for (int i = x - 2; i <= x + 2; i++) {
+                                    for (int j = y - 2; j <= y + 2; j++) {
+                                        if (i < 0 || j < 0 || i > map.MaxX || j > map.MaxY) {
+
+                                        } else {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(497, i, j));
+                                        }
                                     }
                                 }
-	                        } else {
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic320.wav"), x, y, 10);
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(505, x, y));
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), x, y, 10);
-	                        }
-	                    }
-	                    break;
-	                case 3: {//chestnut
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic218.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(551, x, y));
-	                        targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                                targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, map, null, x, y, Enums.Direction.Up, true, true, true);
+                                for (int i = 0; i < targets.Count; i++) {
+                                    if (HasActiveBagItem(targets[i], 6, 0, 0)) {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
+                                    } else {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].HP / 2, Enums.KillType.Tile, hitlist, true);
+                                    }
+                                }
+                            } else {
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic320.wav"), x, y, 10);
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(505, x, y));
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), x, y, 10);
+                            }
+                        }
+                        break;
+                    case 3: {//chestnut
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic218.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(551, x, y));
+                            targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + " was pelted by chestnuts!", Text.BrightRed), x, y, 10);
                                 DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 15, Enums.KillType.Tile, hitlist, true);
-	                        }
-	                    }
-	                    break;
-	                case 4: {//ppzero
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic179.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(493, x, y));
-	                        targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                            }
+                        }
+                        break;
+                    case 4: {//ppzero
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic179.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(493, x, y));
+                            targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
-	                            int moveSlot = Server.Math.Rand(0, 4);
+                                int moveSlot = Server.Math.Rand(0, 4);
                                 if (targets[i].Moves[moveSlot].MoveNum > -1 && targets[i].Moves[moveSlot].CurrentPP > 0) {
                                     targets[i].Moves[moveSlot].CurrentPP = 0;
                                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(targets[i].Name + "'s move " + MoveManager.Moves[targets[i].Moves[moveSlot].MoveNum].Name + " lost all of its PP!", Text.BrightRed), x, y, 10);
                                     if (targets[i].CharacterType == Enums.CharacterType.Recruit) {
                                         PacketBuilder.AppendMovePPUpdate(((Recruit)targets[i]).Owner, hitlist, moveSlot);
-	                                }
-	                            } else {
+                                    }
+                                } else {
                                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Nothing particularly bad happened to " + targets[i].Name + "...", Text.Blue), x, y, 10);
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case 5: {//grimy
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic220.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(494, x, y));
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Sludge splashed up from the ground!", Text.BrightRed), x, y, 10);
+                                }
+                            }
+                        }
+                        break;
+                    case 5: {//grimy
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic220.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(494, x, y));
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Sludge splashed up from the ground!", Text.BrightRed), x, y, 10);
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 Grimy(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 6: {//poison
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic221.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(496, x, y));
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Poison spikes shot out!", Text.BrightRed), x, y, 10);
+                            }
+                        }
+                        break;
+                    case 6: {//poison
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic221.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(496, x, y));
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Poison spikes shot out!", Text.BrightRed), x, y, 10);
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 SetStatusAilment(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), Enums.StatusAilment.Poison, 1, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 7: {//random
-	                		string trapString = "";
-	                		if (map.Tile[x, y].String3.Contains(";")) {
-	                			trapString = map.Tile[x, y].String3;
-	                		} else {
-	                			trapString = "2;3;4;5;6;15;16;17;18;19;23;25;26;28;39;42;43;44;49;50;51;52;53;70";
-	                		}
-	                		string[] trapSelection = trapString.Split(';');
-	                        string chosenTrap = trapSelection[Server.Math.Rand(0, trapSelection.Length)];
-	                        if (chosenTrap.IsNumeric() && chosenTrap.ToInt() != 7) {
+                            }
+                        }
+                        break;
+                    case 7: {//random
+                            string trapString = "";
+                            if (map.Tile[x, y].String3.Contains(";")) {
+                                trapString = map.Tile[x, y].String3;
+                            } else {
+                                trapString = "2;3;4;5;6;15;16;17;18;19;23;25;26;28;39;42;43;44;49;50;51;52;53;70";
+                            }
+                            string[] trapSelection = trapString.Split(';');
+                            string chosenTrap = trapSelection[Server.Math.Rand(0, trapSelection.Length)];
+                            if (chosenTrap.IsNumeric() && chosenTrap.ToInt() != 7) {
                                 targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                                 for (int i = 0; i < targets.Count; i++) {
                                     if (i != null && WillTrapActivate(targets[i], map, x, y)) {
                                         ActivateTrap(MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].X, targets[i].Y, chosenTrap.ToInt(), hitlist);
-	                                }
-	                            }
-	                        } else {
-	                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("But nothing happened...", Text.Blue), x, y, 10);
-	                        }
-	                    }
-	                    break;
-	                case 15: {//warp
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic256.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(555, x, y));
+                                    }
+                                }
+                            } else {
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("But nothing happened...", Text.Blue), x, y, 10);
+                            }
+                        }
+                        break;
+                    case 15: {//warp
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic256.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(555, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 RandomWarp(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), true, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 16: {//pokemon
-	                        //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSoundPacket(), x, y, 10);
-	                        //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(552, x, y));
-	                        //replace all nearby items with Pokemon
-	                    }
-	                    break;
-	                case 17: {//spikes
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(553, x, y));
+                            }
+                        }
+                        break;
+                    case 16: {//pokemon
+                            //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSoundPacket(), x, y, 10);
+                            //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(552, x, y));
+                            //replace all nearby items with Pokemon
+                        }
+                        break;
+                    case 17: {//spikes
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(553, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
-	                            if (map.Tile[x, y].String3.IsNumeric()) {
+                                if (map.Tile[x, y].String3.IsNumeric()) {
                                     DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP * map.Tile[x, y].String3.ToInt() / 8, Enums.KillType.Tile, hitlist, true);
-	                            } else {
+                                } else {
                                     DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP * Server.Math.Rand(1, 4) / 8, Enums.KillType.Tile, hitlist, true);
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case 18: {//toxic spikes
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(554, x, y));
+                                }
+                            }
+                        }
+                        break;
+                    case 18: {//toxic spikes
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(554, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 10, Enums.KillType.Tile, hitlist, true);
-	                            if (map.Tile[x, y].String3.IsNumeric()) {
+                                if (map.Tile[x, y].String3.IsNumeric()) {
                                     SetStatusAilment(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), Enums.StatusAilment.Poison, map.Tile[x, y].String3.ToInt(), hitlist);
-	                            } else {
+                                } else {
                                     SetStatusAilment(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), Enums.StatusAilment.Poison, Server.Math.Rand(1, 3), hitlist);
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case 19: {//stealth rock
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(556, x, y));
+                                }
+                            }
+                        }
+                        break;
+                    case 19: {//stealth rock
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic122.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(556, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 int HPFraction = DamageCalculator.Effectiveness[DamageCalculator.CalculateTypeMatchup(Enums.PokemonType.Rock, targets[i].Type1) + DamageCalculator.CalculateTypeMatchup(Enums.PokemonType.Rock, targets[i].Type2)];
                                 DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP * HPFraction / 1280, Enums.KillType.Tile, hitlist, true);
-	                        }
-	                    }
-	                    break;
-	                case 23: {//sticky
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic159.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(494, x, y));
+                            }
+                        }
+                        break;
+                    case 23: {//sticky
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic159.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(494, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 Sticky(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 25: {//mud
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic473.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(495, x, y));
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Mud splashed up from the ground!", Text.BrightRed), x, y, 10);
+                            }
+                        }
+                        break;
+                    case 25: {//mud
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic473.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(495, x, y));
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Mud splashed up from the ground!", Text.BrightRed), x, y, 10);
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
-	                            switch (Server.Math.Rand(0, 7)) {
-	                                case 0: {
-                                        ChangeAttackBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 1: {
-                                        ChangeDefenseBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 2: {
-                                        ChangeSpAtkBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 3: {
-                                        ChangeSpDefBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 4: {
-                                        ChangeSpeedBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 5: {
-                                        ChangeAccuracyBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                                case 6: {
-                                        ChangeEvasionBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
-	                                    }
-	                                    break;
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case 26: {//wonder tile
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic121.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(499, x, y));
+                                switch (Server.Math.Rand(0, 7)) {
+                                    case 0: {
+                                            ChangeAttackBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 1: {
+                                            ChangeDefenseBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 2: {
+                                            ChangeSpAtkBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 3: {
+                                            ChangeSpDefBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 4: {
+                                            ChangeSpeedBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 5: {
+                                            ChangeAccuracyBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                    case 6: {
+                                            ChangeEvasionBuff(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), -3, hitlist);
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case 26: {//wonder tile
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic121.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(499, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 RemoveBuffs(targets[i]);
                                 hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + "'s stats were returned to normal!", Text.WhiteSmoke), x, y, 10);
-	                        }
-	                    }
-	                    break;
-	                case 28: {//trip
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic172.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(557, x, y));
+                            }
+                        }
+                        break;
+                    case 28: {//trip
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic172.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(557, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + " tripped!", Text.BrightRed), x, y, 10);
                                 InvDrop(targets[i], map, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 34: {//secret (Stairs, etc), not used here
-	
-	                    }
-	                    break;
-	                case 39: {//pitfall
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("DeepFall.wav"), x, y, 10);
-	                        //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(494, x, y));
+                            }
+                        }
+                        break;
+                    case 34: {//secret (Stairs, etc), not used here
+
+                        }
+                        break;
+                    case 39: {//pitfall
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("DeepFall.wav"), x, y, 10);
+                            //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(494, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 if (targets[i].CharacterType == Enums.CharacterType.Recruit) {
                                     Client client = ((Recruit)targets[i]).Owner;
-	                                string[] trapData = map.Tile[x, y].String3.Split(';');
-	                                try {
-	                                    if (map.Tile[x, y].String3 == "" && map.MapType == Enums.MapType.RDungeonMap) {//fall down a level in a random dungeon
-	                                        if (RDungeonManager.RDungeons[((RDungeonMap)map).RDungeonIndex].Direction == Enums.Direction.Up) {//fall down a level
-	                                            client.Player.WarpToRDungeon(((RDungeonMap)map).RDungeonIndex, ((RDungeonMap)map).RDungeonFloor - 1);
-	                                        } else {//fall up a level
-	                                            client.Player.WarpToRDungeon(((RDungeonMap)map).RDungeonIndex, ((RDungeonMap)map).RDungeonFloor + 1);
-	                                        }
-	                                    } else {//fall down specific coordinates
+                                    string[] trapData = map.Tile[x, y].String3.Split(';');
+                                    try {
+                                        if (map.Tile[x, y].String3 == "" && map.MapType == Enums.MapType.RDungeonMap) {//fall down a level in a random dungeon
+                                            if (RDungeonManager.RDungeons[((RDungeonMap)map).RDungeonIndex].Direction == Enums.Direction.Up) {//fall down a level
+                                                client.Player.WarpToRDungeon(((RDungeonMap)map).RDungeonIndex, ((RDungeonMap)map).RDungeonFloor - 1);
+                                            } else {//fall up a level
+                                                client.Player.WarpToRDungeon(((RDungeonMap)map).RDungeonIndex, ((RDungeonMap)map).RDungeonFloor + 1);
+                                            }
+                                        } else {//fall down specific coordinates
                                             hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + " fell through!", Text.BrightRed), x, y, 10);
-	                                        Messenger.PlayerWarp(client, trapData[0].ToInt(), trapData[1].ToInt(), trapData[2].ToInt());
-	                                    }
+                                            Messenger.PlayerWarp(client, trapData[0].ToInt(), trapData[1].ToInt(), trapData[2].ToInt());
+                                        }
                                         DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 10, Enums.KillType.Tile, hitlist, true);
-	                                } catch {
+                                    } catch {
                                         hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateChatMsg("This is a bad trap.  Report this to an admin.", Text.Black), x, y, 10);
-	                                }
+                                    }
                                 } else if (targets[i].CharacterType == Enums.CharacterType.MapNpc) {
                                     hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + " fell through!", Text.BrightRed), x, y, 10);
-	                                //((MapNpc)i).Num = 0;
-	                                //((MapNpc)i).HP = 0;
+                                    //((MapNpc)i).Num = 0;
+                                    //((MapNpc)i).HP = 0;
                                     MapManager.RetrieveActiveMap(targets[i].MapID).ActiveNpc[((MapNpc)targets[i]).MapSlot] = new MapNpc(targets[i].MapID, ((MapNpc)targets[i]).MapSlot);
                                     hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), TcpPacket.CreatePacket("npcdead", ((MapNpc)targets[i]).MapSlot));
-	                            }
-	                        }
-	                    }
-	                    break;
-	                case 42: {//seal
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic275.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(558, x, y));
+                                }
+                            }
+                        }
+                        break;
+                    case 42: {//seal
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic275.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(558, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
-	                            int rand = Server.Math.Rand(0, 4);
+                                int rand = Server.Math.Rand(0, 4);
                                 AddExtraStatus(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), "MoveSeal:" + rand, 0, null, "", hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 43: {//slow
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic180.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(559, x, y));
+                            }
+                        }
+                        break;
+                    case 43: {//slow
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic180.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(559, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 ExtraStatus status = targets[i].VolatileStatus.GetStatus("MovementSpeed");
                                 if (status != null) {
                                     AddExtraStatus(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), "MovementSpeed", status.Counter - 1, null, "", hitlist);
-	                            } else {
+                                } else {
                                     AddExtraStatus(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), "MovementSpeed", -1, null, "", hitlist);
-	                            }
-	                            //AddExtraStatus(i, MapManager.RetrieveActiveMap(i.MapID), "MovementSpeed", (int)GetSpeedLimit(i) - 1, null, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 44: {//spin
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic198.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(560, x, y));
+                                }
+                                //AddExtraStatus(i, MapManager.RetrieveActiveMap(i.MapID), "MovementSpeed", (int)GetSpeedLimit(i) - 1, null, hitlist);
+                            }
+                        }
+                        break;
+                    case 44: {//spin
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic198.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(560, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(targets[i].MapID), PacketBuilder.CreateBattleMsg(targets[i].Name + " spun around and around...", Text.BrightRed), x, y, 10);
                                 AddExtraStatus(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), "Confusion", 15, null, "", hitlist);
                                 //Confuse(i, MapManager.RetrieveActiveMap(i.MapID), 15, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 49: {//summon
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic197.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(561, x, y));
-	                        //hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(492, x, y));
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("A sweet scent wafted out from the ground!", Text.BrightRed), x, y, 10);
-	                        for (int i = 0; i < Constants.MAX_MAP_NPCS / 4; i++) {
-	                        	if (Server.Math.Rand(0,2) == 0) {
-	                            	SpawnNpcInRange(map, x, y, 2, hitlist);
-	                            } else {
-	                            	map.SpawnNpc();
-	                            }
-	                        }
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Wild Pokémon were attracted to the scent!", Text.BrightRed), x, y, 10);
-	                    }
-	                    break;
-	                case 50: {//grudge
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic468.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(562, x, y));
-	                        //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(492, x, y));
-	                        for (int i = 0; i < Constants.MAX_MAP_NPCS / 4; i++) {
-	                            SpawnNpcInRange(map, x, y, 2, hitlist);
-	                        }
-	                        for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
-	                            if (map.ActiveNpc[i].Num > 0) {
+                            }
+                        }
+                        break;
+                    case 49: {//summon
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic197.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(561, x, y));
+                            //hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(492, x, y));
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("A sweet scent wafted out from the ground!", Text.BrightRed), x, y, 10);
+                            for (int i = 0; i < Constants.MAX_MAP_NPCS / 4; i++) {
+                                if (Server.Math.Rand(0, 2) == 0) {
+                                    SpawnNpcInRange(map, x, y, 2, hitlist);
+                                } else {
+                                    map.SpawnNpc();
+                                }
+                            }
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Wild Pokémon were attracted to the scent!", Text.BrightRed), x, y, 10);
+                        }
+                        break;
+                    case 50: {//grudge
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic468.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(562, x, y));
+                            //hitlist.AddPacketToMap(mapID, PacketBuilder.CreateSpellAnim(492, x, y));
+                            for (int i = 0; i < Constants.MAX_MAP_NPCS / 4; i++) {
+                                SpawnNpcInRange(map, x, y, 2, hitlist);
+                            }
+                            for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
+                                if (map.ActiveNpc[i].Num > 0) {
                                     AddExtraStatus(map.ActiveNpc[i], map, "Grudge", 0, null, "", hitlist);
-	                            }
-	                        }
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("All Pokémon on the floor now hold a grudge!", Text.BrightRed), x, y, 10);
-	                    }
-	                    break;
-	                case 51: {//selfdestruct
-	                		bool explode = true;
-				            
-				            	TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
-								for (int i = 0; i < checkedTargets.Count; i++) {
-				                    if (HasAbility(checkedTargets[i], "Damp")) {
-				                        explode = false;
-				                    }
-				                }
-				            
-				            if (explode) {
-		                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic216.wav"), x, y, 10);
-			                        for (int i = x - 1; i <= x + 1; i++) {
-			                            for (int j = y - 1; j <= y + 1; j++) {
-			                                if (i < 0 || j < 0 || i > map.MaxX || j > map.MaxY) {
-			
-			                                } else {
-			                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(497, i, j));
-			                                }
-			                            }
-			                        }
-                                    targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, map, null, x, y, Enums.Direction.Up, true, true, false);
-                                    for (int i = 0; i < targets.Count; i++) {
-                                    	if (HasActiveBagItem(targets[i], 6, 0, 0)) {
-                                			DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
-                                		} else {
-                                        	DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
+                                }
+                            }
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("All Pokémon on the floor now hold a grudge!", Text.BrightRed), x, y, 10);
+                        }
+                        break;
+                    case 51: {//selfdestruct
+                            bool explode = true;
+
+                            TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                            for (int i = 0; i < checkedTargets.Count; i++) {
+                                if (HasAbility(checkedTargets[i], "Damp")) {
+                                    explode = false;
+                                }
+                            }
+
+                            if (explode) {
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic216.wav"), x, y, 10);
+                                for (int i = x - 1; i <= x + 1; i++) {
+                                    for (int j = y - 1; j <= y + 1; j++) {
+                                        if (i < 0 || j < 0 || i > map.MaxX || j > map.MaxY) {
+
+                                        } else {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(497, i, j));
                                         }
-			                        }
-		                    } else {
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic320.wav"), x, y, 10);
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(505, x, y));
-	                        	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), x, y, 10);
-	                        }
-	                    }
-	                    break;
-	                case 52: {//slumber
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic217.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(492, x, y));
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Sleeping gas erupted from the ground!", Text.BrightRed), x, y, 10);
-	                        targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                                    }
+                                }
+                                targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, map, null, x, y, Enums.Direction.Up, true, true, false);
+                                for (int i = 0; i < targets.Count; i++) {
+                                    if (HasActiveBagItem(targets[i], 6, 0, 0)) {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
+                                    } else {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
+                                    }
+                                }
+                            } else {
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic320.wav"), x, y, 10);
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(505, x, y));
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), x, y, 10);
+                            }
+                        }
+                        break;
+                    case 52: {//slumber
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic217.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(492, x, y));
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Sleeping gas erupted from the ground!", Text.BrightRed), x, y, 10);
+                            targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 SetStatusAilment(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), Enums.StatusAilment.Sleep, 8, hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 53: {//gust
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic199.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(564, x, y));
-	                        targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
+                            }
+                        }
+                        break;
+                    case 53: {//gust
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic199.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(564, x, y));
+                            targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
 
                                 BlowBack(targets[i], map, (Enums.Direction)Server.Math.Rand(0, 4), hitlist);
-	                        }
-	                    }
-	                    break;
-	                case 70: {//shocker
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic356.wav"), x, y, 10);
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(538, x, y));
+                            }
+                        }
+                        break;
+                    case 70: {//shocker
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("Magic356.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(538, x, y));
                             targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 0, map, null, x, y, Enums.Direction.Up, true, true, false);
                             for (int i = 0; i < targets.Count; i++) {
                                 AddExtraStatus(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), "Shocker", 30, null, "", hitlist);
-	                        }
-	                    }
-	                    break;
-	            }
-	        }
+                            }
+                        }
+                        break;
+                }
+            }
             PacketHitList.MethodEnded(ref hitlist);
 
         }
@@ -1091,7 +1096,7 @@ namespace Script
             PacketHitList.MethodStart(ref hitlist);
             map.Tile[x, y].Data2++;
             if (map.Tile[x, y].Data3 == 1) {//fake stairs
-            	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("It's not a stairway!  It's a trap!", Text.BrightRed), x, y, 10);
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("It's not a stairway!  It's a trap!", Text.BrightRed), x, y, 10);
             }
             switch (map.Tile[x, y].Data1) {
                 case 2: {//EXPLOSIONNNNN
@@ -1277,10 +1282,10 @@ namespace Script
                     }
                     break;
             }
-            
+
             PacketHitList.MethodEnded(ref hitlist);
         }
-        
+
 
         public static void RemoveTrap(IMap map, int x, int y, PacketHitList hitlist) {
             PacketHitList.MethodStart(ref hitlist);
@@ -1441,20 +1446,20 @@ namespace Script
                     return mobilityNum.ToString() + ": Unknown";
             }
         }
-        
+
         public static Enums.PokemonType GetMobileBlockTerrainType(int data1) {
-        	//Messenger.AdminMsg(data1.ToString(), Text.Black);
-			switch (data1) {
-				case 2:
-					return Enums.PokemonType.Water;
-				case 8:
-					return Enums.PokemonType.Fire;
-				default:
-					return Enums.PokemonType.None;
-			
-			}
-			
-			//int mobilityList = data1;
+            //Messenger.AdminMsg(data1.ToString(), Text.Black);
+            switch (data1) {
+                case 2:
+                    return Enums.PokemonType.Water;
+                case 8:
+                    return Enums.PokemonType.Fire;
+                default:
+                    return Enums.PokemonType.None;
+
+            }
+
+            //int mobilityList = data1;
             //for (int i = 0; i < 16; i++) {
             //    if (mobilityList % 2 == 1 && !client.Player.GetActiveRecruit().Mobility[i]) {
             //        return true;
@@ -1465,10 +1470,10 @@ namespace Script
 
         public static void PlayerCollide(Client client, Client collidedWith, int playerCount) {
             try {
-            	//if (collidedWith.Player.Name == "Dausk") {
-            	//	Messenger.PlayerMsg(collidedWith, client.Player.Name, Text.Blue);
-            	//}
-            
+                //if (collidedWith.Player.Name == "Dausk") {
+                //	Messenger.PlayerMsg(collidedWith, client.Player.Name, Text.Blue);
+                //}
+
                 #region CTF Collision Checks
 
                 if (exPlayer.Get(client).InCTF) {
@@ -1637,17 +1642,17 @@ namespace Script
                         }
                         break;
                     case 9: {//chamber tile; doesn't do anything here
-                            
+
                         }
                         break;
                     case 10: {//chamber key
-                    		int slot = 0;
-                    		for (int i = 1; i <= client.Player.Inventory.Count; i++) {
-				                if (client.Player.Inventory[i].Num == 356 && !client.Player.Inventory[i].Sticky) {
-				                    slot = i;
-				                    break;
-				                }
-				            }
+                            int slot = 0;
+                            for (int i = 1; i <= client.Player.Inventory.Count; i++) {
+                                if (client.Player.Inventory[i].Num == 356 && !client.Player.Inventory[i].Sticky) {
+                                    slot = i;
+                                    break;
+                                }
+                            }
                             if (slot > 0) {
                                 Messenger.AskQuestion(client, "UseItem:356", "Will you use your Silver Key to open the chamber?", -1);
                             }
@@ -1662,28 +1667,28 @@ namespace Script
                         }
                         break;
                     case 12: {//Hallowed Well
-                    		
-								Story story = new Story();
-								StorySegment segment = new StorySegment();
-					        	segment.Action = Enums.StoryAction.Say;
-					            segment.AddParameter("Text", "This well makes you feel uneasy...  It's feels as though it wants to suck you in...");
-					            segment.AddParameter("Mugshot", "-1");
-					            segment.Parameters.Add("Speed", "0");
-					            segment.Parameters.Add("PauseLocation", "0");
-					            story.Segments.Add(segment);
-					            
-					            segment = new StorySegment();
-					        	segment.Action = Enums.StoryAction.Say;
-					            segment.AddParameter("Text", "Something shiny seems to glint from the bottom...");
-					            segment.AddParameter("Mugshot", "-1");
-					            segment.Parameters.Add("Speed", "0");
-					            segment.Parameters.Add("PauseLocation", "0");
-					            story.Segments.Add(segment);
-					            
-					            
-			            
-			            StoryManager.PlayStory(client, story);
-                    		
+
+                            Story story = new Story();
+                            StorySegment segment = new StorySegment();
+                            segment.Action = Enums.StoryAction.Say;
+                            segment.AddParameter("Text", "This well makes you feel uneasy...  It's feels as though it wants to suck you in...");
+                            segment.AddParameter("Mugshot", "-1");
+                            segment.Parameters.Add("Speed", "0");
+                            segment.Parameters.Add("PauseLocation", "0");
+                            story.Segments.Add(segment);
+
+                            segment = new StorySegment();
+                            segment.Action = Enums.StoryAction.Say;
+                            segment.AddParameter("Text", "Something shiny seems to glint from the bottom...");
+                            segment.AddParameter("Mugshot", "-1");
+                            segment.Parameters.Add("Speed", "0");
+                            segment.Parameters.Add("PauseLocation", "0");
+                            story.Segments.Add(segment);
+
+
+
+                            StoryManager.PlayStory(client, story);
+
                             //Messenger.AskQuestion(client, "HallowedWell", "Will you jump into the well?", -1);
                         }
                         break;
@@ -1788,9 +1793,9 @@ namespace Script
                             } else {
                                 Messenger.AskQuestion(client, "SnowballGameStart", "Would you like to start the game with these players?", -1);
                             }
-                    	}
-                    	break;
-                    
+                        }
+                        break;
+
                 }
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: ScriptedSign", Text.Black);
@@ -1817,7 +1822,7 @@ namespace Script
                     return scriptNum + ": Rock Climb";
                 case 7:
                     return scriptNum + ": Waterfall";
-                case 8: 
+                case 8:
                     return scriptNum + ": West Wing";
                 case 9:
                     return scriptNum + ": East Wing";
@@ -1853,80 +1858,80 @@ namespace Script
             try {
                 switch (chamberNum) {
                     case 1: {//pre-mapped, does not allow start or end
-                        string[] start = string2.Split(':');
-                        string[] end = string3.Split(':');
-                        int sourceX = start[0].ToInt();
-                        int sourceY = start[1].ToInt();
-                        req.MinX = end[0].ToInt() - sourceX + 1;
-                        req.MinY = end[1].ToInt() - sourceY + 1;
-                        req.MaxX = req.MinX;
-                        req.MaxY = req.MinY;
-                        req.Start = Enums.Acceptance.Never;
-                        req.End = Enums.Acceptance.Never;
-                        
-                        
-                        IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
-                        List<int> entrances = new List<int>();
-                        for (int x = 0; x < req.MinX; x++) {
-                        	if (sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.GROUND ||
-                        		sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
-                        		sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
-                        		entrances.Add(x);
-                        	}
-                        }
-                        if (entrances.Count == 0) {
-                        	req.TopAcceptance = Enums.Acceptance.Never;
-                        } else {
-                        	req.TopPassage = entrances[Server.Math.Rand(0, entrances.Count)];
-                        }
-                        
-                        entrances = new List<int>();
-                        for (int x = 0; x < req.MinX; x++) {
-                        	if (sourceMap.Tile[sourceX + x, sourceY+req.MinY-1].RDungeonMapValue == DungeonArrayFloor.GROUND ||
-                        		sourceMap.Tile[sourceX + x, sourceY+req.MinY-1].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
-                        		sourceMap.Tile[sourceX + x, sourceY+req.MinY-1].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
-                        		entrances.Add(x);
-                        	}
-                        }
-                        if (entrances.Count == 0) {
-                        	req.BottomAcceptance = Enums.Acceptance.Never;
-                        } else {
-                        	req.BottomPassage = entrances[Server.Math.Rand(0, entrances.Count)];
-                        }
-                        
-                        entrances = new List<int>();
-                        for (int y = 0; y < req.MinY; y++) {
-                        	if (sourceMap.Tile[sourceX, sourceY+y].RDungeonMapValue == DungeonArrayFloor.GROUND ||
-                        		sourceMap.Tile[sourceX, sourceY+y].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
-                        		sourceMap.Tile[sourceX, sourceY+y].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
-                        		entrances.Add(y);
-                        	}
-                        }
-                        if (entrances.Count == 0) {
-                        	req.LeftAcceptance = Enums.Acceptance.Never;
-                        } else {
-                        	req.LeftPassage = entrances[Server.Math.Rand(0, entrances.Count)];
-                        }
-                        
-                        entrances = new List<int>();
-                        for (int y = 0; y < req.MinY; y++) {
-                        	if (sourceMap.Tile[sourceX+req.MinX-1, sourceY+y].RDungeonMapValue == DungeonArrayFloor.GROUND ||
-                        		sourceMap.Tile[sourceX+req.MinX-1, sourceY+y].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
-                        		sourceMap.Tile[sourceX+req.MinX-1, sourceY+y].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
-                        		entrances.Add(y);
-                        	}
-                        }
-                        
-                        if (entrances.Count == 0) {
-                        	req.RightAcceptance = Enums.Acceptance.Never;
-                        } else {
-                        	req.RightPassage = entrances[Server.Math.Rand(0, entrances.Count)];
-                        }
+                            string[] start = string2.Split(':');
+                            string[] end = string3.Split(':');
+                            int sourceX = start[0].ToInt();
+                            int sourceY = start[1].ToInt();
+                            req.MinX = end[0].ToInt() - sourceX + 1;
+                            req.MinY = end[1].ToInt() - sourceY + 1;
+                            req.MaxX = req.MinX;
+                            req.MaxY = req.MinY;
+                            req.Start = Enums.Acceptance.Never;
+                            req.End = Enums.Acceptance.Never;
+
+
+                            IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
+                            List<int> entrances = new List<int>();
+                            for (int x = 0; x < req.MinX; x++) {
+                                if (sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.GROUND ||
+                                    sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
+                                    sourceMap.Tile[sourceX + x, sourceY].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
+                                    entrances.Add(x);
+                                }
+                            }
+                            if (entrances.Count == 0) {
+                                req.TopAcceptance = Enums.Acceptance.Never;
+                            } else {
+                                req.TopPassage = entrances[Server.Math.Rand(0, entrances.Count)];
+                            }
+
+                            entrances = new List<int>();
+                            for (int x = 0; x < req.MinX; x++) {
+                                if (sourceMap.Tile[sourceX + x, sourceY + req.MinY - 1].RDungeonMapValue == DungeonArrayFloor.GROUND ||
+                                    sourceMap.Tile[sourceX + x, sourceY + req.MinY - 1].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
+                                    sourceMap.Tile[sourceX + x, sourceY + req.MinY - 1].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
+                                    entrances.Add(x);
+                                }
+                            }
+                            if (entrances.Count == 0) {
+                                req.BottomAcceptance = Enums.Acceptance.Never;
+                            } else {
+                                req.BottomPassage = entrances[Server.Math.Rand(0, entrances.Count)];
+                            }
+
+                            entrances = new List<int>();
+                            for (int y = 0; y < req.MinY; y++) {
+                                if (sourceMap.Tile[sourceX, sourceY + y].RDungeonMapValue == DungeonArrayFloor.GROUND ||
+                                    sourceMap.Tile[sourceX, sourceY + y].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
+                                    sourceMap.Tile[sourceX, sourceY + y].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
+                                    entrances.Add(y);
+                                }
+                            }
+                            if (entrances.Count == 0) {
+                                req.LeftAcceptance = Enums.Acceptance.Never;
+                            } else {
+                                req.LeftPassage = entrances[Server.Math.Rand(0, entrances.Count)];
+                            }
+
+                            entrances = new List<int>();
+                            for (int y = 0; y < req.MinY; y++) {
+                                if (sourceMap.Tile[sourceX + req.MinX - 1, sourceY + y].RDungeonMapValue == DungeonArrayFloor.GROUND ||
+                                    sourceMap.Tile[sourceX + req.MinX - 1, sourceY + y].RDungeonMapValue == DungeonArrayFloor.HALLTILE ||
+                                    sourceMap.Tile[sourceX + req.MinX - 1, sourceY + y].RDungeonMapValue == DungeonArrayFloor.DOORTILE) {
+                                    entrances.Add(y);
+                                }
+                            }
+
+                            if (entrances.Count == 0) {
+                                req.RightAcceptance = Enums.Acceptance.Never;
+                            } else {
+                                req.RightPassage = entrances[Server.Math.Rand(0, entrances.Count)];
+                            }
                         }
                         break;
                     case 2: {//no chamber
-                    		req.TopPassage = -1;
-                        	req.TopAcceptance = Enums.Acceptance.Never;
+                            req.TopPassage = -1;
+                            req.TopAcceptance = Enums.Acceptance.Never;
                             req.BottomPassage = -1;
                             req.BottomAcceptance = Enums.Acceptance.Never;
                             req.LeftPassage = -1;
@@ -1936,58 +1941,58 @@ namespace Script
                         }
                         break;
                     case 3: {//chamber that accepts start and end
-                    
-                    	}
-                    	break;
+
+                        }
+                        break;
                     case 4: {//Ice Puzzle
-                    		req.Start = Enums.Acceptance.Never;
-                        	req.End = Enums.Acceptance.Never;
-                    		string[] parse = string1.Split(':');
-                    		if (parse[0] == "1") {
-                    			req.Start = Enums.Acceptance.Always;
-                    		}
-                    		if (parse[1] == "1") {
-                    			req.End = Enums.Acceptance.Always;
-                    		}
-                    		parse = string3.Split(':');
-                        	req.MinX = parse[0].ToInt()+2;
-                        	req.MinY = parse[1].ToInt()+2;
-                        	
-                        	
-                        	if (req.MinX > 50) req.MinX = 50;
-                        	if (req.MinY > 50) req.MinY = 50;
-                        	if (req.MinX < 4) req.MinX = 4;
-                        	if (req.MinY < 4) req.MinY = 4;
-                        	
-                        	req.MaxX = req.MinX;
-                        	req.MaxY = req.MinY;
-                        	
-                        	req.TopPassage = 0;
-                            req.BottomPassage = req.MinX-1;
+                            req.Start = Enums.Acceptance.Never;
+                            req.End = Enums.Acceptance.Never;
+                            string[] parse = string1.Split(':');
+                            if (parse[0] == "1") {
+                                req.Start = Enums.Acceptance.Always;
+                            }
+                            if (parse[1] == "1") {
+                                req.End = Enums.Acceptance.Always;
+                            }
+                            parse = string3.Split(':');
+                            req.MinX = parse[0].ToInt() + 2;
+                            req.MinY = parse[1].ToInt() + 2;
+
+
+                            if (req.MinX > 50) req.MinX = 50;
+                            if (req.MinY > 50) req.MinY = 50;
+                            if (req.MinX < 4) req.MinX = 4;
+                            if (req.MinY < 4) req.MinY = 4;
+
+                            req.MaxX = req.MinX;
+                            req.MaxY = req.MinY;
+
+                            req.TopPassage = 0;
+                            req.BottomPassage = req.MinX - 1;
                             req.LeftPassage = 0;
-                            req.RightPassage = req.MinY-1;
-                    	}
-                    	break;
+                            req.RightPassage = req.MinY - 1;
+                        }
+                        break;
                     case 10: {//single-item chamber, does not allow start or end
-                        req.MinX = 5;
-                        req.MinY = 5;
-                        req.MaxX = req.MinX;
-                        req.MaxY = req.MinY;
-                        req.Start = Enums.Acceptance.Never;
-                        req.End = Enums.Acceptance.Never;
-                        
-                        
+                            req.MinX = 5;
+                            req.MinY = 5;
+                            req.MaxX = req.MinX;
+                            req.MaxY = req.MinY;
+                            req.Start = Enums.Acceptance.Never;
+                            req.End = Enums.Acceptance.Never;
+
+
                         }
                         break;
                     case 11: {//3x3 kecleon shop, does not allow start or end
-                        req.MinX = 7;
-                        req.MinY = 7;
-                        req.MaxX = req.MinX;
-                        req.MaxY = req.MinY;
-                        req.Start = Enums.Acceptance.Never;
-                        req.End = Enums.Acceptance.Never;
-                        
-                        
+                            req.MinX = 7;
+                            req.MinY = 7;
+                            req.MaxX = req.MinX;
+                            req.MaxY = req.MinY;
+                            req.Start = Enums.Acceptance.Never;
+                            req.End = Enums.Acceptance.Never;
+
+
                         }
                         break;
                     default: {
@@ -2018,238 +2023,238 @@ namespace Script
 
         public static void CreateChamber(RDungeonMap map, DungeonArrayFloor arrayFloor, int chamberNum, string string1, string string2, string string3) {
             try {
-            	bool started = false;
-            	//Messenger.AdminMsg(chamberNum.ToString(), Text.Black);
-            	switch (chamberNum) {
+                bool started = false;
+                //Messenger.AdminMsg(chamberNum.ToString(), Text.Black);
+                switch (chamberNum) {
                     case 1: {//pre-mapped
-                        DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
-                        string[] start = string2.Split(':');
-                        string[] end = string3.Split(':');
-                        int sourceX = start[0].ToInt();
-                        int sourceY = start[1].ToInt();
-                        int xDiff = end[0].ToInt() - sourceX + 1;
-                        int yDiff = end[1].ToInt() - sourceY + 1;
-                        
-                        IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
-                        for (int x = 0; x < xDiff; x++) {
-                            for (int y = 0; y < yDiff; y++) {
-                                MapCloner.CloneTile(sourceMap, sourceX + x, sourceY + y, map.Tile[room.StartX + x, room.StartY + y]);
-                                arrayFloor.MapArray[room.StartX + x, room.StartY + y] = sourceMap.Tile[sourceX + x, sourceY + y].RDungeonMapValue;
+                            DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
+                            string[] start = string2.Split(':');
+                            string[] end = string3.Split(':');
+                            int sourceX = start[0].ToInt();
+                            int sourceY = start[1].ToInt();
+                            int xDiff = end[0].ToInt() - sourceX + 1;
+                            int yDiff = end[1].ToInt() - sourceY + 1;
+
+                            IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
+                            for (int x = 0; x < xDiff; x++) {
+                                for (int y = 0; y < yDiff; y++) {
+                                    MapCloner.CloneTile(sourceMap, sourceX + x, sourceY + y, map.Tile[room.StartX + x, room.StartY + y]);
+                                    arrayFloor.MapArray[room.StartX + x, room.StartY + y] = sourceMap.Tile[sourceX + x, sourceY + y].RDungeonMapValue;
+                                }
                             }
-                        }
                         }
                         break;
                     case 2: {//no chamber
-                    
-                    	}
-                    	break;
+
+                        }
+                        break;
                     case 3: {//chamber that accepts start and end
-                    
-                    	}
-                    	break;
+
+                        }
+                        break;
                     case 4: {//Ice Puzzle
-                    		int startX = 0;
-                    		int startY = 0;
-                    		string[] parse = string1.Split(':');
-                    		bool start = false;
-                    		bool end = false;
-                    		if (parse[0] == "1") {
-                    			start = true;
-                    		}
-                    		if (parse[1] == "1") {
-                    			end = true;
-                    		}
-                    		if (start && end) {
-	                    		for (int x = 0; x < map.MaxX; x++) {
-		                            for (int y = 0; y < map.MaxY; y++) {
-		                            	map.Tile[x, y].Type = Enums.TileType.Blocked;
-		                            	arrayFloor.MapArray[x, y] = 1025;
-		                            }
-		                        }
-	                        }
-                    		
-                    		DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
-                        	parse = string3.Split(':');
-                        	int xDiff = room.EndX - room.StartX + 1;
-                        	int yDiff = room.EndY - room.StartY + 1;
-                    		int[,] intArray = new int[xDiff - 2, yDiff-2];
-                    		
-                    		if (start && end) {
-                        		
-                        		intArray = RandomIce.GenIcePuzzle(xDiff - 2, yDiff-2, parse[2].ToInt(), parse[3].ToInt(), parse[4].ToInt(), parse[5].ToInt(), parse[6].ToInt(), false, false);
-                        	} else if (end) {
-                        		intArray = RandomIce.GenIcePuzzle(xDiff - 2, yDiff-2, parse[2].ToInt(), parse[3].ToInt(), parse[4].ToInt(), parse[5].ToInt(), parse[6].ToInt(), true, false);
-                        	}
-                        	
-                        	//put it on the map
-                        	for (int y = 0; y < yDiff; y++) {
-	                            for (int x = 0; x < xDiff; x++) {
-	                            	if (x == 0 || x == xDiff - 1 || y == 0 || y == yDiff - 1) {
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Slippery;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 2;
-	                            	} else if (intArray[x-1,y-1] == RandomIce.START) {
-	                            		
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Walkable;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 6;
-	                            		startX = x;
-	                            		startY = y;
-	                            		started = true;
-	                            	} else if (intArray[x-1,y-1] == RandomIce.END) {
-	                            		
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.RDungeonGoal;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 7;
-	                            	} else if (intArray[x-1,y-1] == RandomIce.BLOCK) {
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Blocked;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1;
-	                            	} else if (intArray[x-1,y-1] == RandomIce.GROUND) {
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Hallway;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 3;
-	                            	} else {
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Slippery;
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 2;
-	                            	}
-	                                
-	                            }
-	                        }
-	                        
-	                        if (!start && end) {
-	                        	if (startX == 1) {
-	                        		map.Tile[room.StartX + startX - 1, room.StartY + startY].Type = Enums.TileType.Walkable;
-	                        		arrayFloor.MapArray[room.StartX + startX - 1, room.StartY + startY] = 6;
-	                        	} else if (startX == xDiff - 2) {
-	                        		map.Tile[room.StartX + startX + 1, room.StartY + startY].Type = Enums.TileType.Walkable;
-	                            	arrayFloor.MapArray[room.StartX + startX + 1, room.StartY + startY] = 6;
-	                            	}
-	                            if (startY == 1) {
-	                            	map.Tile[room.StartX + startX, room.StartY + startY - 1].Type = Enums.TileType.Walkable;
-	                            	arrayFloor.MapArray[room.StartX + startX, room.StartY + startY - 1] = 6;
-	                            } else if (startY == yDiff - 2) {
-	                            	map.Tile[room.StartX + startX, room.StartY + startY + 1].Type = Enums.TileType.Walkable;
-	                            	arrayFloor.MapArray[room.StartX + startX, room.StartY + startY + 1] = 6;
-	                            }
-	                        }
-	                        
-	                        if (start && end) {
-		                        map.Tile[room.StartX, room.StartY].Type = Enums.TileType.Scripted;
-		                        map.Tile[room.StartX, room.StartY].Data1 = 15;
-		                        map.Tile[room.StartX, room.StartY].Data3 = 1;
-		                        arrayFloor.MapArray[room.StartX, room.StartY] = 4;
-	                        } else if (end) {
-	                        	map.Tile[room.StartX, room.StartY].Type = Enums.TileType.Walkable;
-	                        	arrayFloor.MapArray[room.StartX, room.StartY] = 3;
-	                        	map.Tile[room.EndX, room.EndY].Type = Enums.TileType.Walkable;
-	                        	arrayFloor.MapArray[room.EndX, room.EndY] = 3;
-	                        }
-                        	if (!started && start) {
-                        		Messenger.AdminMsg("Bad puzzle generated", Text.Red);
-                        	}
-                    	}
-                    	break;
-                    case 10: {//pre-mapped locked chamber
-                        DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
-                        
-                        //IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
-                        for (int x = 0; x < 5; x++) {
-                            for (int y = 0; y < 5; y++) {
-                            	if (x == 2 && y == 3) {
-                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.ScriptedSign;
-                            		map.Tile[room.StartX + x, room.StartY + y].Mask2 = 6;
-                            		map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 4;
-                            		map.Tile[room.StartX + x, room.StartY + y].Data1 = 10;
-                            		map.Tile[room.StartX + x, room.StartY + y].String1 = "-2:-3";
-                            		map.Tile[room.StartX + x, room.StartY + y].String2 = "2:1";
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
-                            	} else if (x == 0 || y == 0 || x == 4 || y == 4) {
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 4;
-                            	} else if (x == 1 || y == 1 || x == 3 || y == 3) {
-                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Blocked;
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
-                            	} else if (x == 2 && y == 2) {
-                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.ScriptedSign;
-                            		map.Tile[room.StartX + x, room.StartY + y].Data1 = 9;
-                            		map.Tile[room.StartX + x, room.StartY + y].String1 = string1;
-                            		map.Tile[room.StartX + x, room.StartY + y].String2 = string2;
-                            		map.Tile[room.StartX + x, room.StartY + y].String3 = "3";
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
-                            	}
-                                
+                            int startX = 0;
+                            int startY = 0;
+                            string[] parse = string1.Split(':');
+                            bool start = false;
+                            bool end = false;
+                            if (parse[0] == "1") {
+                                start = true;
+                            }
+                            if (parse[1] == "1") {
+                                end = true;
+                            }
+                            if (start && end) {
+                                for (int x = 0; x < map.MaxX; x++) {
+                                    for (int y = 0; y < map.MaxY; y++) {
+                                        map.Tile[x, y].Type = Enums.TileType.Blocked;
+                                        arrayFloor.MapArray[x, y] = 1025;
+                                    }
+                                }
+                            }
+
+                            DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
+                            parse = string3.Split(':');
+                            int xDiff = room.EndX - room.StartX + 1;
+                            int yDiff = room.EndY - room.StartY + 1;
+                            int[,] intArray = new int[xDiff - 2, yDiff - 2];
+
+                            if (start && end) {
+
+                                intArray = RandomIce.GenIcePuzzle(xDiff - 2, yDiff - 2, parse[2].ToInt(), parse[3].ToInt(), parse[4].ToInt(), parse[5].ToInt(), parse[6].ToInt(), false, false);
+                            } else if (end) {
+                                intArray = RandomIce.GenIcePuzzle(xDiff - 2, yDiff - 2, parse[2].ToInt(), parse[3].ToInt(), parse[4].ToInt(), parse[5].ToInt(), parse[6].ToInt(), true, false);
+                            }
+
+                            //put it on the map
+                            for (int y = 0; y < yDiff; y++) {
+                                for (int x = 0; x < xDiff; x++) {
+                                    if (x == 0 || x == xDiff - 1 || y == 0 || y == yDiff - 1) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Slippery;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 2;
+                                    } else if (intArray[x - 1, y - 1] == RandomIce.START) {
+
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Walkable;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 6;
+                                        startX = x;
+                                        startY = y;
+                                        started = true;
+                                    } else if (intArray[x - 1, y - 1] == RandomIce.END) {
+
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.RDungeonGoal;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 7;
+                                    } else if (intArray[x - 1, y - 1] == RandomIce.BLOCK) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Blocked;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1;
+                                    } else if (intArray[x - 1, y - 1] == RandomIce.GROUND) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Hallway;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 3;
+                                    } else {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Slippery;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 2;
+                                    }
+
+                                }
+                            }
+
+                            if (!start && end) {
+                                if (startX == 1) {
+                                    map.Tile[room.StartX + startX - 1, room.StartY + startY].Type = Enums.TileType.Walkable;
+                                    arrayFloor.MapArray[room.StartX + startX - 1, room.StartY + startY] = 6;
+                                } else if (startX == xDiff - 2) {
+                                    map.Tile[room.StartX + startX + 1, room.StartY + startY].Type = Enums.TileType.Walkable;
+                                    arrayFloor.MapArray[room.StartX + startX + 1, room.StartY + startY] = 6;
+                                }
+                                if (startY == 1) {
+                                    map.Tile[room.StartX + startX, room.StartY + startY - 1].Type = Enums.TileType.Walkable;
+                                    arrayFloor.MapArray[room.StartX + startX, room.StartY + startY - 1] = 6;
+                                } else if (startY == yDiff - 2) {
+                                    map.Tile[room.StartX + startX, room.StartY + startY + 1].Type = Enums.TileType.Walkable;
+                                    arrayFloor.MapArray[room.StartX + startX, room.StartY + startY + 1] = 6;
+                                }
+                            }
+
+                            if (start && end) {
+                                map.Tile[room.StartX, room.StartY].Type = Enums.TileType.Scripted;
+                                map.Tile[room.StartX, room.StartY].Data1 = 15;
+                                map.Tile[room.StartX, room.StartY].Data3 = 1;
+                                arrayFloor.MapArray[room.StartX, room.StartY] = 4;
+                            } else if (end) {
+                                map.Tile[room.StartX, room.StartY].Type = Enums.TileType.Walkable;
+                                arrayFloor.MapArray[room.StartX, room.StartY] = 3;
+                                map.Tile[room.EndX, room.EndY].Type = Enums.TileType.Walkable;
+                                arrayFloor.MapArray[room.EndX, room.EndY] = 3;
+                            }
+                            if (!started && start) {
+                                Messenger.AdminMsg("Bad puzzle generated", Text.Red);
                             }
                         }
+                        break;
+                    case 10: {//pre-mapped locked chamber
+                            DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
+
+                            //IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
+                            for (int x = 0; x < 5; x++) {
+                                for (int y = 0; y < 5; y++) {
+                                    if (x == 2 && y == 3) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.ScriptedSign;
+                                        map.Tile[room.StartX + x, room.StartY + y].Mask2 = 6;
+                                        map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 4;
+                                        map.Tile[room.StartX + x, room.StartY + y].Data1 = 10;
+                                        map.Tile[room.StartX + x, room.StartY + y].String1 = "-2:-3";
+                                        map.Tile[room.StartX + x, room.StartY + y].String2 = "2:1";
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
+                                    } else if (x == 0 || y == 0 || x == 4 || y == 4) {
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 4;
+                                    } else if (x == 1 || y == 1 || x == 3 || y == 3) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.Blocked;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
+                                    } else if (x == 2 && y == 2) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.ScriptedSign;
+                                        map.Tile[room.StartX + x, room.StartY + y].Data1 = 9;
+                                        map.Tile[room.StartX + x, room.StartY + y].String1 = string1;
+                                        map.Tile[room.StartX + x, room.StartY + y].String2 = string2;
+                                        map.Tile[room.StartX + x, room.StartY + y].String3 = "3";
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1025;
+                                    }
+
+                                }
+                            }
                         }
                         break;
                     case 11: {//3x3 kecleon shop
-                        DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
-                        
-                        //IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
-                        //Messenger.AdminMsg("Room creating", Text.Red);
-                        for (int x = 0; x < 7; x++) {
-                            for (int y = 0; y < 7; y++) {
-                            	if (x <= 1 || y <= 1 || x >= 5 || y >= 5) {
-                            		//free space
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 4;
-                            	} else if (x == 2 || y == 2 || x == 4 || y == 4) {
-                            		if (Server.Math.Rand(0,2) == 0) {
-	                            		//shop
-	                            		int itemNum = 0;
-	                            		int itemVal = 1;
-	                            		string tag = "";
-	                            		int price = 1;
-	                            		string[] itemSelection = string2.Split(';');
-	                            		string[] priceSelection = string3.Split(';');
-	                            		int chosenIndex = Server.Math.Rand(0, itemSelection.Length);
-							            string[] chosenItem = itemSelection[chosenIndex].Split(',');
-							            if (chosenItem[0].IsNumeric()) {
-							                if (chosenItem.Length == 2 && chosenItem[1].IsNumeric()) {
-							                    itemNum = chosenItem[0].ToInt();
-							                    itemVal = chosenItem[1].ToInt();
-							                    price = priceSelection[chosenIndex].ToInt();
-							                } else if (chosenItem.Length == 3 && chosenItem[2].IsNumeric()) {
-							                	itemNum = chosenItem[0].ToInt();
-							                    itemVal = chosenItem[1].ToInt();
-							                    tag = chosenItem[2];
-							                    price = priceSelection[chosenIndex].ToInt();
-							                } else {
-							                	itemNum = chosenItem[0].ToInt();
-							                	price = priceSelection[chosenIndex].ToInt();
-							                }
-							            }
-	                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.DropShop;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data1 = price; //price per unit
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data2 = itemNum; //item
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data3 = itemVal; //amount
-	                            		map.Tile[room.StartX + x, room.StartY + y].String1 = "";//no tag//no charID
-	                            		map.Tile[room.StartX + x, room.StartY + y].String2 = "";//no tag
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
-                            		} else {
-                            			map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.DropShop;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data1 = 0; //price per unit
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data2 = 0; //item
-	                            		map.Tile[room.StartX + x, room.StartY + y].Data2 = 0; //amount
-	                            		map.Tile[room.StartX + x, room.StartY + y].String1 = "";//no tag//no charID
-	                            		map.Tile[room.StartX + x, room.StartY + y].String2 = "";//no tag
-	                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
-                            		}
-                            	} else if (x == 3 && y == 3) {
-                            		map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.NPCAvoid;
-                            		map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
-                            		map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
-                            		arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
-                            		MapNpcPreset npc = new MapNpcPreset();
-		                            npc.SpawnX = room.StartX + x;
-		                            npc.SpawnY = room.StartY + y;
-		                            npc.NpcNum = 32;
-		                            npc.MinLevel = 100;
-		                            npc.MaxLevel = 100;
-		                            map.Npc.Add(npc);
-                            	}
-                                
+                            DungeonArrayRoom room = arrayFloor.Rooms[arrayFloor.Chamber.X, arrayFloor.Chamber.Y];
+
+                            //IMap sourceMap = MapManager.RetrieveMap(string1.ToInt());
+                            //Messenger.AdminMsg("Room creating", Text.Red);
+                            for (int x = 0; x < 7; x++) {
+                                for (int y = 0; y < 7; y++) {
+                                    if (x <= 1 || y <= 1 || x >= 5 || y >= 5) {
+                                        //free space
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 4;
+                                    } else if (x == 2 || y == 2 || x == 4 || y == 4) {
+                                        if (Server.Math.Rand(0, 2) == 0) {
+                                            //shop
+                                            int itemNum = 0;
+                                            int itemVal = 1;
+                                            string tag = "";
+                                            int price = 1;
+                                            string[] itemSelection = string2.Split(';');
+                                            string[] priceSelection = string3.Split(';');
+                                            int chosenIndex = Server.Math.Rand(0, itemSelection.Length);
+                                            string[] chosenItem = itemSelection[chosenIndex].Split(',');
+                                            if (chosenItem[0].IsNumeric()) {
+                                                if (chosenItem.Length == 2 && chosenItem[1].IsNumeric()) {
+                                                    itemNum = chosenItem[0].ToInt();
+                                                    itemVal = chosenItem[1].ToInt();
+                                                    price = priceSelection[chosenIndex].ToInt();
+                                                } else if (chosenItem.Length == 3 && chosenItem[2].IsNumeric()) {
+                                                    itemNum = chosenItem[0].ToInt();
+                                                    itemVal = chosenItem[1].ToInt();
+                                                    tag = chosenItem[2];
+                                                    price = priceSelection[chosenIndex].ToInt();
+                                                } else {
+                                                    itemNum = chosenItem[0].ToInt();
+                                                    price = priceSelection[chosenIndex].ToInt();
+                                                }
+                                            }
+                                            map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.DropShop;
+                                            map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
+                                            map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
+                                            map.Tile[room.StartX + x, room.StartY + y].Data1 = price; //price per unit
+                                            map.Tile[room.StartX + x, room.StartY + y].Data2 = itemNum; //item
+                                            map.Tile[room.StartX + x, room.StartY + y].Data3 = itemVal; //amount
+                                            map.Tile[room.StartX + x, room.StartY + y].String1 = "";//no tag//no charID
+                                            map.Tile[room.StartX + x, room.StartY + y].String2 = "";//no tag
+                                            arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
+                                        } else {
+                                            map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.DropShop;
+                                            map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
+                                            map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
+                                            map.Tile[room.StartX + x, room.StartY + y].Data1 = 0; //price per unit
+                                            map.Tile[room.StartX + x, room.StartY + y].Data2 = 0; //item
+                                            map.Tile[room.StartX + x, room.StartY + y].Data2 = 0; //amount
+                                            map.Tile[room.StartX + x, room.StartY + y].String1 = "";//no tag//no charID
+                                            map.Tile[room.StartX + x, room.StartY + y].String2 = "";//no tag
+                                            arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
+                                        }
+                                    } else if (x == 3 && y == 3) {
+                                        map.Tile[room.StartX + x, room.StartY + y].Type = Enums.TileType.NPCAvoid;
+                                        map.Tile[room.StartX + x, room.StartY + y].Mask2 = 67;
+                                        map.Tile[room.StartX + x, room.StartY + y].Mask2Set = 0;
+                                        arrayFloor.MapArray[room.StartX + x, room.StartY + y] = 1027;
+                                        MapNpcPreset npc = new MapNpcPreset();
+                                        npc.SpawnX = room.StartX + x;
+                                        npc.SpawnY = room.StartY + y;
+                                        npc.NpcNum = 32;
+                                        npc.MinLevel = 100;
+                                        npc.MaxLevel = 100;
+                                        map.Npc.Add(npc);
+                                    }
+
+                                }
                             }
-                        }
-                        //Messenger.AdminMsg("Room created: " + map.Name, Text.Red);
+                            //Messenger.AdminMsg("Room created: " + map.Name, Text.Red);
                         }
                         break;
                     default: {
@@ -2319,7 +2324,7 @@ namespace Script
 
         public static void DisplayVisibleKeyTile(Client client, IMap map, int x, int y, PacketHitList packetList) {
             Tile tile = new Tile(new DataManager.Maps.Tile());
-                MapCloner.CloneTile(map, x, y, tile);
+            MapCloner.CloneTile(map, x, y, tile);
             tile.Mask = 6;
             tile.MaskSet = 4;
             tile.Type = Enums.TileType.Blocked;
@@ -2513,14 +2518,14 @@ namespace Script
         }
 
         #endregion Path Methods
-        
+
         public static void EnterArena(Client client, ICharacter character, IMap map, string param2, string param3, PacketHitList hitlist) {
-        	PacketHitList.MethodStart(ref hitlist);
-        	
-        	//activate set-level mode for tanren arena
-        	if (map.MapID == MapManager.GenerateMapID(1718)) client.Player.BeginTempStatMode(50, true);
-        	
-        	if (param2.IsNumeric() && param3.IsNumeric()) {
+            PacketHitList.MethodStart(ref hitlist);
+
+            //activate set-level mode for tanren arena
+            if (map.MapID == MapManager.GenerateMapID(1718)) client.Player.BeginTempStatMode(50, true);
+
+            if (param2.IsNumeric() && param3.IsNumeric()) {
                 RandomWarp(character, map, false, hitlist, param2.ToInt(), param2.ToInt(), param3.ToInt(), param3.ToInt());
             } else {
                 RandomWarp(character, map, false, hitlist, 5, 24, 7, 23);
@@ -2538,76 +2543,76 @@ namespace Script
                     for (int j = 0; j < 4; j++) {
                         if (client.Player.GetActiveRecruit().Moves[i].MoveNum != 0) {
 
-                        	client.Player.Team[i].Moves[j].CurrentPP = client.Player.Team[i].Moves[j].MaxPP;
-                    	}
+                            client.Player.Team[i].Moves[j].CurrentPP = client.Player.Team[i].Moves[j].MaxPP;
+                        }
                     }
                     RemoveBuffs(client.Player.Team[i]);
                     RemoveAllBondedExtraStatus(client.Player.Team[i], map, hitlist, false);
-            		client.Player.Team[i].VolatileStatus.Clear();
+                    client.Player.Team[i].VolatileStatus.Clear();
                 }
             }
-            
+
 
             //remove statuses
-            
+
 
             if (HasAbility(client.Player.GetActiveRecruit(), "Illusion")) {
                 int selectedSlot = client.Player.ActiveSlot;
-                    for (int i = 1; i < 4; i++) {
-                        if (client.Player.Team[(selectedSlot + i) % 4] != null && client.Player.Team[(selectedSlot + i) % 4].Loaded) {
-                            selectedSlot = (selectedSlot + i) % 4;
-                            break;
-                        }
-                    }
-                    if (selectedSlot != client.Player.ActiveSlot) {
-                        AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", client.Player.Team[selectedSlot].Sprite, null, "", hitlist);
+                for (int i = 1; i < 4; i++) {
+                    if (client.Player.Team[(selectedSlot + i) % 4] != null && client.Player.Team[(selectedSlot + i) % 4].Loaded) {
+                        selectedSlot = (selectedSlot + i) % 4;
+                        break;
                     }
                 }
+                if (selectedSlot != client.Player.ActiveSlot) {
+                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", client.Player.Team[selectedSlot].Sprite, null, "", hitlist);
+                }
+            }
 
-                //set illusion
-                if (client.Player.GetActiveRecruit().HasActiveItem(213)) {
-                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 25, null, "", hitlist);
-                }
-                if (client.Player.GetActiveRecruit().HasActiveItem(224)) {
-                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 300, null, "", hitlist);
-                }
-                if (client.Player.GetActiveRecruit().HasActiveItem(244)) {
-                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 387, null, "", hitlist);
-                }
-                if (client.Player.GetActiveRecruit().HasActiveItem(245)) {
-                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 390, null, "", hitlist);
-                }
-                if (client.Player.GetActiveRecruit().HasActiveItem(246)) {
-                    AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 393, null, "", hitlist);
-                }
+            //set illusion
+            if (client.Player.GetActiveRecruit().HasActiveItem(213)) {
+                AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 25, null, "", hitlist);
+            }
+            if (client.Player.GetActiveRecruit().HasActiveItem(224)) {
+                AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 300, null, "", hitlist);
+            }
+            if (client.Player.GetActiveRecruit().HasActiveItem(244)) {
+                AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 387, null, "", hitlist);
+            }
+            if (client.Player.GetActiveRecruit().HasActiveItem(245)) {
+                AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 390, null, "", hitlist);
+            }
+            if (client.Player.GetActiveRecruit().HasActiveItem(246)) {
+                AddExtraStatus(client.Player.GetActiveRecruit(), client.Player.Map, "Illusion", 393, null, "", hitlist);
+            }
 
-                RefreshCharacterTraits(client.Player.GetActiveRecruit(), map, hitlist);
+            RefreshCharacterTraits(client.Player.GetActiveRecruit(), map, hitlist);
 
-				if (!client.Player.Dead) {
-	                if (HasAbility(client.Player.GetActiveRecruit(), "Sand Stream")) {
-	                    SetMapWeather(map, Enums.Weather.Sandstorm, hitlist);
-	                } else if (HasAbility(client.Player.GetActiveRecruit(), "Snow Warning")) {
-	                    SetMapWeather(map, Enums.Weather.Hail, hitlist);
-	                } else if (HasAbility(client.Player.GetActiveRecruit(), "Drizzle")) {
-	                    SetMapWeather(map, Enums.Weather.Raining, hitlist);
-	                } else if (HasAbility(client.Player.GetActiveRecruit(), "Drought")) {
-	                    SetMapWeather(map, Enums.Weather.Sunny, hitlist);
-	                } else if (HasAbility(client.Player.GetActiveRecruit(), "Air Lock")) {
-	                    SetMapWeather(map, Enums.Weather.None, hitlist);
-	                } else if (HasAbility(client.Player.GetActiveRecruit(), "Cloud Nine")) {
-	                    SetMapWeather(map, Enums.Weather.None, hitlist);
-	                }
+            if (!client.Player.Dead) {
+                if (HasAbility(client.Player.GetActiveRecruit(), "Sand Stream")) {
+                    SetMapWeather(map, Enums.Weather.Sandstorm, hitlist);
+                } else if (HasAbility(client.Player.GetActiveRecruit(), "Snow Warning")) {
+                    SetMapWeather(map, Enums.Weather.Hail, hitlist);
+                } else if (HasAbility(client.Player.GetActiveRecruit(), "Drizzle")) {
+                    SetMapWeather(map, Enums.Weather.Raining, hitlist);
+                } else if (HasAbility(client.Player.GetActiveRecruit(), "Drought")) {
+                    SetMapWeather(map, Enums.Weather.Sunny, hitlist);
+                } else if (HasAbility(client.Player.GetActiveRecruit(), "Air Lock")) {
+                    SetMapWeather(map, Enums.Weather.None, hitlist);
+                } else if (HasAbility(client.Player.GetActiveRecruit(), "Cloud Nine")) {
+                    SetMapWeather(map, Enums.Weather.None, hitlist);
                 }
+            }
 
 
-                if (HasAbility(client.Player.GetActiveRecruit(), "Download")) {
-                    int totalDef = 0;
-                    int totalSpDef = 0;
-                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, client.Player.GetActiveRecruit(), client.Player.GetActiveRecruit().X, client.Player.GetActiveRecruit().Y, Enums.Direction.Up, true, false, false);
-                    for (int i = 0; i < targets.Foes.Count; i++) {
-                        totalDef += targets.Foes[i].Def;
-                        totalSpDef += targets.Foes[i].SpclDef;
-                    }
+            if (HasAbility(client.Player.GetActiveRecruit(), "Download")) {
+                int totalDef = 0;
+                int totalSpDef = 0;
+                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, client.Player.GetActiveRecruit(), client.Player.GetActiveRecruit().X, client.Player.GetActiveRecruit().Y, Enums.Direction.Up, true, false, false);
+                for (int i = 0; i < targets.Foes.Count; i++) {
+                    totalDef += targets.Foes[i].Def;
+                    totalSpDef += targets.Foes[i].SpclDef;
+                }
 
                 if (totalDef < totalSpDef) {
                     ChangeAttackBuff(client.Player.GetActiveRecruit(), map, 1, hitlist);
@@ -2615,26 +2620,26 @@ namespace Script
                     ChangeSpAtkBuff(client.Player.GetActiveRecruit(), map, 1, hitlist);
                 }
             }
-			PacketHitList.MethodEnded(ref hitlist);
+            PacketHitList.MethodEnded(ref hitlist);
         }
-        
+
         public static void SetMapWeather(IMap map, Enums.Weather weather, PacketHitList hitlist) {
             TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
             for (int i = 0; i < checkedTargets.Count; i++) {
-                
+
                 if (map.Weather == Enums.Weather.None && (HasAbility(checkedTargets[i], "Cloud Nine") || HasAbility(checkedTargets[i], "Air Lock"))) {
-                	if (checkedTargets[i].CharacterType == Enums.CharacterType.Recruit) {
-                		if (((Recruit)checkedTargets[i]).Owner.Player.Dead) {
-                		
-                		} else {
-                			return;
-                		}
-                	} else {
-                    	return;
+                    if (checkedTargets[i].CharacterType == Enums.CharacterType.Recruit) {
+                        if (((Recruit)checkedTargets[i]).Owner.Player.Dead) {
+
+                        } else {
+                            return;
+                        }
+                    } else {
+                        return;
                     }
                 }
             }
-        	map.Weather = weather;
+            map.Weather = weather;
             hitlist.AddPacketToMap(map, TcpPacket.CreatePacket("weather", ((int)map.Weather).ToString()));
         }
 
@@ -2675,64 +2680,64 @@ namespace Script
             if (map.SpawnMarker >= map.Npc.Count) map.SpawnMarker = 0;
 
         }
-        
+
         public static void BlowBack(ICharacter character, IMap map, Enums.Direction dir, PacketHitList hitlist) {
-        	if (HasAbility(character, "Suction Cups")) {
-        		hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
-        	} else if (character.HasActiveItem(111)) {
-            	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
-        	} else {
-	        	WarpToNearestWall(character, map, dir, hitlist);	
-	        	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
-        	}
+            if (HasAbility(character, "Suction Cups")) {
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
+            } else if (character.HasActiveItem(111)) {
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
+            } else {
+                WarpToNearestWall(character, map, dir, hitlist);
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was blown back!", Text.WhiteSmoke), character.X, character.Y, 10);
+            }
         }
-        
+
         public static void Pounce(ICharacter character, IMap map, Enums.Direction dir, bool checkAllies, bool checkFoes, PacketHitList hitlist) {
-        	WarpToNearestWallOrChar(character, map, dir, checkAllies, checkFoes, hitlist);	
-	        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " went flying forward!", Text.WhiteSmoke), character.X, character.Y, 10);
+            WarpToNearestWallOrChar(character, map, dir, checkAllies, checkFoes, hitlist);
+            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " went flying forward!", Text.WhiteSmoke), character.X, character.Y, 10);
         }
-        
-        
+
+
         public static void WarpToNearestWallOrChar(ICharacter character, IMap map, Enums.Direction dir, bool checkAllies, bool checkFoes, PacketHitList hitlist) {
-        	int blockX = character.X;
+            int blockX = character.X;
             int blockY = character.Y;
-            
-            
+
+
             FindNearestBlock(map, dir, ref blockX, ref blockY);
-						
+
             int candX = blockX;
             int candY = blockY;
-            			
+
             TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.LineUntilHit, 100, map, character, character.X, character.Y, dir, checkAllies, checkFoes, false);
-            
+
             if (checkedTargets.Count > 0) {
-            	candX = checkedTargets[0].X;
-            	candY = checkedTargets[0].Y;
-            	if (candX != character.X || candY != character.Y) {
-            		MoveInDirection((Enums.Direction)(((int)dir + 1) % 2 + (int)dir / 2 * 2), 1, ref candX, ref candY);
-            	}
+                candX = checkedTargets[0].X;
+                candY = checkedTargets[0].Y;
+                if (candX != character.X || candY != character.Y) {
+                    MoveInDirection((Enums.Direction)(((int)dir + 1) % 2 + (int)dir / 2 * 2), 1, ref candX, ref candY);
+                }
             }
-			
-			
-			
-			if ((candX - character.X)*(candX - character.X) + (candY - character.Y)*(candY - character.Y) <
-				(blockX - character.X)*(blockX - character.X) + (blockY - character.Y)*(blockY - character.Y)) {
-				character.Y = candY;
-            	character.X = candX;
-			} else {
-				character.Y = blockY;
-            	character.X = blockX;
-			}
-			
+
+
+
+            if ((candX - character.X) * (candX - character.X) + (candY - character.Y) * (candY - character.Y) <
+                (blockX - character.X) * (blockX - character.X) + (blockY - character.Y) * (blockY - character.Y)) {
+                character.Y = candY;
+                character.X = candX;
+            } else {
+                character.Y = blockY;
+                character.X = blockX;
+            }
+
             if (character.CharacterType == Enums.CharacterType.Recruit) {
                 PacketBuilder.AppendPlayerXY(((Recruit)character).Owner, hitlist);
             } else if (character.CharacterType == Enums.CharacterType.MapNpc) {
                 PacketBuilder.AppendNpcXY(map, hitlist, ((MapNpc)character).MapSlot);
             }
         }
-        
+
         public static void WarpToNearestWall(ICharacter character, IMap map, Enums.Direction dir, PacketHitList hitlist) {
-        	int blockX = character.X;
+            int blockX = character.X;
             int blockY = character.Y;
             FindNearestBlock(map, dir, ref blockX, ref blockY);
 
@@ -2745,20 +2750,20 @@ namespace Script
                 PacketBuilder.AppendNpcXY(map, hitlist, ((MapNpc)character).MapSlot);
             }
         }
-        
-        
+
+
         public static void WarpToStairs(ICharacter character, IMap map, PacketHitList hitlist, int range) {
-        	 int stairX = -1, stairY = -1;
-        	 for (int x = 0; x < map.MaxX; x++) {
-                                        for (int y = 0; y < map.MaxY; y++) {
-                                            if (map.Tile[x, y].Type == Enums.TileType.RDungeonGoal) {
-                                                stairX = x;
-                                                stairY = y;
-                                                break;
-                                            }
-                                        }
-                                    }
-            
+            int stairX = -1, stairY = -1;
+            for (int x = 0; x < map.MaxX; x++) {
+                for (int y = 0; y < map.MaxY; y++) {
+                    if (map.Tile[x, y].Type == Enums.TileType.RDungeonGoal) {
+                        stairX = x;
+                        stairY = y;
+                        break;
+                    }
+                }
+            }
+
             for (int i = 1; i <= 500; i++) {
                 int X = Server.Math.Rand(stairX - range, stairX + range + 1);
                 int Y = Server.Math.Rand(stairY - range, stairY + range + 1);
@@ -2771,37 +2776,37 @@ namespace Script
             }
 
         }
-        
+
         public static void PointWarp(ICharacter character, IMap warpMap, PacketHitList hitlist, int X, int Y) {
-        	PointWarp(character, warpMap, hitlist, X, Y, true);
+            PointWarp(character, warpMap, hitlist, X, Y, true);
         }
 
         public static void PointWarp(ICharacter character, IMap warpMap, PacketHitList hitlist, int X, int Y, bool msg) {
             if (HasAbility(character, "Suction Cups")) {
-            	if (msg) {
-        			hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
-        		}
-        	} else if (character.HasActiveItem(111)) {
-            	if (msg) {
-        			hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
-        		}
-        	} else {
-	            PacketHitList.MethodStart(ref hitlist);
-	
-				if (msg) {
-					hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + " warped!", Text.WhiteSmoke), character.X, character.Y, 10);
-				}
-	
-	            character.X = X;
-	            character.Y = Y;
-				
-	            if (character.CharacterType == Enums.CharacterType.Recruit) {
-	                PacketBuilder.AppendPlayerXY(((Recruit)character).Owner, hitlist);
-	            } else if (character.CharacterType == Enums.CharacterType.MapNpc) {
-	                PacketBuilder.AppendNpcXY(warpMap, hitlist, ((MapNpc)character).MapSlot);
-	            }
-	
-	            PacketHitList.MethodEnded(ref hitlist);
+                if (msg) {
+                    hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                }
+            } else if (character.HasActiveItem(111)) {
+                if (msg) {
+                    hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                }
+            } else {
+                PacketHitList.MethodStart(ref hitlist);
+
+                if (msg) {
+                    hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + " warped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                }
+
+                character.X = X;
+                character.Y = Y;
+
+                if (character.CharacterType == Enums.CharacterType.Recruit) {
+                    PacketBuilder.AppendPlayerXY(((Recruit)character).Owner, hitlist);
+                } else if (character.CharacterType == Enums.CharacterType.MapNpc) {
+                    PacketBuilder.AppendNpcXY(warpMap, hitlist, ((MapNpc)character).MapSlot);
+                }
+
+                PacketHitList.MethodEnded(ref hitlist);
             }
         }
 
@@ -2811,37 +2816,37 @@ namespace Script
 
         public static void RandomWarp(ICharacter character, IMap warpMap, bool msg, PacketHitList hitlist, int startX, int endX, int startY, int endY) {
             if (HasAbility(character, "Suction Cups")) {
-            	if (msg) {
-        			hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
-        		}
-        	} else if (character.HasActiveItem(111)) {
-            	if (msg) {
-        			hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
-        		}
-        	} else {
-	            PacketHitList.MethodStart(ref hitlist);
-	
-	            if (startX < 0) startX = 0;
-	            if (startX > warpMap.MaxX) startX = warpMap.MaxX;
-	            if (endX < 0) endX = 0;
-	            if (endX > warpMap.MaxX) endX = warpMap.MaxX;
-	            if (startY < 0) startY = 0;
-	            if (startY > warpMap.MaxY) startY = warpMap.MaxY;
-	            if (endY < 0) endY = 0;
-	            if (endY > warpMap.MaxY) endY = warpMap.MaxY;
-	
-	            int x, y;
-	
-	            FindFreeTile(warpMap, startX, startY, endX, endY, out x, out y);
-				
-	            if (x == -1) {
-	            	if (msg) {
-	                	hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + " didn't warp.", Text.BrightRed), character.X, character.Y, 10);
-	                }
-	            } else {
-	                PointWarp(character, warpMap, hitlist, x, y);
-	            }
-	            PacketHitList.MethodEnded(ref hitlist);
+                if (msg) {
+                    hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Suction Cups prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                }
+            } else if (character.HasActiveItem(111)) {
+                if (msg) {
+                    hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + "'s Iron Ball prevented it from being warped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                }
+            } else {
+                PacketHitList.MethodStart(ref hitlist);
+
+                if (startX < 0) startX = 0;
+                if (startX > warpMap.MaxX) startX = warpMap.MaxX;
+                if (endX < 0) endX = 0;
+                if (endX > warpMap.MaxX) endX = warpMap.MaxX;
+                if (startY < 0) startY = 0;
+                if (startY > warpMap.MaxY) startY = warpMap.MaxY;
+                if (endY < 0) endY = 0;
+                if (endY > warpMap.MaxY) endY = warpMap.MaxY;
+
+                int x, y;
+
+                FindFreeTile(warpMap, startX, startY, endX, endY, out x, out y);
+
+                if (x == -1) {
+                    if (msg) {
+                        hitlist.AddPacketToMap(warpMap, PacketBuilder.CreateBattleMsg(character.Name + " didn't warp.", Text.BrightRed), character.X, character.Y, 10);
+                    }
+                } else {
+                    PointWarp(character, warpMap, hitlist, x, y);
+                }
+                PacketHitList.MethodEnded(ref hitlist);
             }
         }
 
@@ -2861,66 +2866,66 @@ namespace Script
                     }
                 }
             }
-            
+
             if (freeX == -1) {
-            	for (int X = 0; X < map.MaxX; X++) {
-            		for (int Y = 0; Y < map.MaxY; Y++) {
-            			if (map.Tile[X, Y].Type == Enums.TileType.Walkable || map.Tile[X, Y].Type == Enums.TileType.Arena) {
-	                        freeX = X;
-	                        freeY = Y;
-	                        break;
-	                    }
-            		}
-            	}
+                for (int X = 0; X < map.MaxX; X++) {
+                    for (int Y = 0; Y < map.MaxY; Y++) {
+                        if (map.Tile[X, Y].Type == Enums.TileType.Walkable || map.Tile[X, Y].Type == Enums.TileType.Arena) {
+                            freeX = X;
+                            freeY = Y;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
-		public static void ClearChamber(IMap map, int startX, int startY, int endX, int endY, PacketHitList hitlist) {
-			if (map.MapType != Enums.MapType.RDungeonMap) return;
-			PacketHitList.MethodStart(ref hitlist);
-			int[,] intArray = new int[map.MaxX + 1, map.MaxY + 1];
-			for (int x = startX; x <= endX; x++) {
-				for (int y = startY; y <= endY; y++) {
-					if (map.Tile[x,y].Type == Enums.TileType.ScriptedSign) {
-						if (map.Tile[x,y].Data1 == 9) {
-							if (map.Tile[x, y].String1.IsNumeric()) {
-								map.SpawnItem(map.Tile[x, y].String1.ToInt(), 1, false, false, map.Tile[x, y].String2, x, y, null);
-							}
-							intArray[x, y] = map.Tile[x, y].String3.ToInt();
-							RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
-						} else if (map.Tile[x,y].Data1 == 10) {
-							intArray[x, y] = 3;
-							RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
-							hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic161.wav"), x, y, 10);
-							hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The chamber was opened!", Text.WhiteSmoke), x, y, 10);
-						}
-					} else if (map.Tile[x, y].RDungeonMapValue >= 1280 && map.Tile[x, y].RDungeonMapValue < 1536) {
-						intArray[x, y] = 1025;
-						RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
-						map.Tile[x, y].Type = Enums.TileType.Blocked;
-					}
-				}
-			}
-			DungeonArrayFloor.TextureDungeon(intArray, startX+1, startY+1, endX-1, endY-1);
-			for (int x = startX; x <= endX; x++) {
-            	for (int y = startY; y <= endY; y++) {
-                	map.Tile[x, y].RDungeonMapValue = intArray[x, y];
-                }
-            }
-                                
-            RDungeonFloorGen.TextureDungeonMap((RDungeonMap)map, startX, startY, endX, endY);
-                                
+        public static void ClearChamber(IMap map, int startX, int startY, int endX, int endY, PacketHitList hitlist) {
+            if (map.MapType != Enums.MapType.RDungeonMap) return;
+            PacketHitList.MethodStart(ref hitlist);
+            int[,] intArray = new int[map.MaxX + 1, map.MaxY + 1];
             for (int x = startX; x <= endX; x++) {
-            	for (int y = startY; y <= endY; y++) {
-                	hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(x, y, map));
+                for (int y = startY; y <= endY; y++) {
+                    if (map.Tile[x, y].Type == Enums.TileType.ScriptedSign) {
+                        if (map.Tile[x, y].Data1 == 9) {
+                            if (map.Tile[x, y].String1.IsNumeric()) {
+                                map.SpawnItem(map.Tile[x, y].String1.ToInt(), 1, false, false, map.Tile[x, y].String2, x, y, null);
+                            }
+                            intArray[x, y] = map.Tile[x, y].String3.ToInt();
+                            RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
+                        } else if (map.Tile[x, y].Data1 == 10) {
+                            intArray[x, y] = 3;
+                            RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic161.wav"), x, y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The chamber was opened!", Text.WhiteSmoke), x, y, 10);
+                        }
+                    } else if (map.Tile[x, y].RDungeonMapValue >= 1280 && map.Tile[x, y].RDungeonMapValue < 1536) {
+                        intArray[x, y] = 1025;
+                        RDungeonFloorGen.AmbiguateTile(map.Tile[x, y]);
+                        map.Tile[x, y].Type = Enums.TileType.Blocked;
+                    }
                 }
             }
-            
-			PacketHitList.MethodEnded(ref hitlist);
-		}
+            DungeonArrayFloor.TextureDungeon(intArray, startX + 1, startY + 1, endX - 1, endY - 1);
+            for (int x = startX; x <= endX; x++) {
+                for (int y = startY; y <= endY; y++) {
+                    map.Tile[x, y].RDungeonMapValue = intArray[x, y];
+                }
+            }
+
+            RDungeonFloorGen.TextureDungeonMap((RDungeonMap)map, startX, startY, endX, endY);
+
+            for (int x = startX; x <= endX; x++) {
+                for (int y = startY; y <= endY; y++) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(x, y, map));
+                }
+            }
+
+            PacketHitList.MethodEnded(ref hitlist);
+        }
 
         public static bool IsScriptedTileBlocked(IMap map, int x, int y) {
-        	//Messenger.AdminMsg(map.Name + " X" + x + "Y" + y + " S" + map.Tile[x, y].Data1, Text.Yellow);
+            //Messenger.AdminMsg(map.Name + " X" + x + "Y" + y + " S" + map.Tile[x, y].Data1, Text.Yellow);
             switch (map.Tile[x, y].Data1) {
                 case 24:
                     return true;
@@ -2958,24 +2963,24 @@ namespace Script
                     break;
             }
         }
-        
-        
-    public static bool IsHardModeEntrance(IMap map) {
-    	if (map.MapType == Enums.MapType.Instanced) {
+
+
+        public static bool IsHardModeEntrance(IMap map) {
+            if (map.MapType == Enums.MapType.Instanced) {
                 switch (((InstancedMap)map).MapBase) {
-                	case 1624://tiny grotto entrance
-                	case 1830://lenile entrance
-                	case 1616://cliffside entrance
-                	case 1659://thunderstorm forest entrance
-                	case 1657://mt. barricade
-                	case 1683://winden forest
-                	case 1695://sauna
-                	case 1686://jailbreak
-                	return true;
+                    case 1624://tiny grotto entrance
+                    case 1830://lenile entrance
+                    case 1616://cliffside entrance
+                    case 1659://thunderstorm forest entrance
+                    case 1657://mt. barricade
+                    case 1683://winden forest
+                    case 1695://sauna
+                    case 1686://jailbreak
+                        return true;
                 }
+            }
+            return false;
         }
-        return false;
-    }
 
     }
 }

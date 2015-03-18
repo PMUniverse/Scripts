@@ -26,8 +26,10 @@ using Server.Players;
 using Server.Stories;
 using System.Xml;
 
-namespace Script {
-    public class Lottery {
+namespace Script 
+{
+    public class Lottery 
+    {
         public const DayOfWeek LOTTERY_DAY = DayOfWeek.Friday;
 
         public static int LotteryPayout = 0;

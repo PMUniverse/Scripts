@@ -31,8 +31,10 @@ using Server.Players;
 
 using Server.Events.Player.TriggerEvents;
 
-namespace Script {
-    public class ElectrostasisTower {
+namespace Script 
+{
+    public class ElectrostasisTower 
+    {
         public static bool IsInTower(IMap map) {
             if (map.MapType == Server.Enums.MapType.Standard) {
                 Map sMap = map as Map;
@@ -462,9 +464,9 @@ namespace Script {
 
             Messenger.SendTemporaryTileTo(packetList, client, x, y, tile);
         }
-        
+
         public static void EnterRDungeon(Client client, int dungeonNum, int floor) {
-        	Messenger.PlayerMsg(client, "You've entered EST!", Text.BrightRed);
+            Messenger.PlayerMsg(client, "You've entered EST!", Text.BrightRed);
         }
 
     }

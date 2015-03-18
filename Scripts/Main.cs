@@ -15,7 +15,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Script {
+namespace Script 
+{
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -45,7 +46,8 @@ namespace Script {
     using DataManager.Players;
     using Server.Database;
 
-    public partial class Main {
+    public partial class Main 
+    {
         static string AdminMsg;
 
         public static readonly string Crossroads = MapManager.GenerateMapID(Settings.Crossroads);

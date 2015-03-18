@@ -116,18 +116,18 @@ namespace Script {
                             setup.moveIndex = 739;
                             sayMove = true;
                         }
-                    	RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", setup.PacketStack, false);
-                    	semiInvul = true;
+                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", setup.PacketStack, false);
+                        semiInvul = true;
                     }
                 }
 
                 //of rampage attacks
                 status = setup.Attacker.VolatileStatus.GetStatus("Rampage");
                 if (status != null) {
-                    
-                        setup.moveSlot = -1;
-                        setup.moveIndex = status.Tag.ToInt();
-                        sayMove = true;
+
+                    setup.moveSlot = -1;
+                    setup.moveIndex = status.Tag.ToInt();
+                    sayMove = true;
                 }
 
                 //of rolling attacks
@@ -141,11 +141,11 @@ namespace Script {
 
                 //cancel fury cutter multipliers if using a different move
                 if (setup.Attacker.VolatileStatus.GetStatus("FuryCutter") != null) {
-                    
-                        if (setup.moveIndex != 175) {
-                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FuryCutter", setup.PacketStack);
-                        }
-                    
+
+                    if (setup.moveIndex != 175) {
+                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FuryCutter", setup.PacketStack);
+                    }
+
                 }
 
                 if (setup.moveSlot > -1 && setup.moveSlot < 4) {
@@ -153,63 +153,63 @@ namespace Script {
                     sayMove = true;
                 }
                 if (setup.moveIndex < 1) {
-                	setup.moveIndex = -1;
+                    setup.moveIndex = -1;
                     setup.SetupMove(MoveManager.StandardAttack);
                 } else {
                     setup.SetupMove(MoveManager.Moves[setup.moveIndex]);
                     if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) != null ||
-                    	GetBattleTagArg(setup.BattleTags, "OrderedMove", 0) != null) {
-                    	sayMove = true;
+                        GetBattleTagArg(setup.BattleTags, "OrderedMove", 0) != null) {
+                        sayMove = true;
                     }
                 }
-				
-				
-				//surf check
+
+
+                //surf check
                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
                         setup.moveIndex == 462) {
                     int x = setup.Attacker.X;
                     int y = setup.Attacker.Y;
                     MoveInDirection(setup.Attacker.Direction, 1, ref x, ref y);
                     if (x >= 0 && x <= setup.AttackerMap.MaxX && y >= 0 && y <= setup.AttackerMap.MaxY) {
-                    	Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[x, y];
-	                    if (tile.Type == Enums.TileType.ScriptedSign) {
-	                        if (tile.Data1 == 17) {
-	                            Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
-	                            setup.Cancel = true;
-	                            return;
-	                        }
-	                    }
+                        Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[x, y];
+                        if (tile.Type == Enums.TileType.ScriptedSign) {
+                            if (tile.Data1 == 17) {
+                                Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
+                                setup.Cancel = true;
+                                return;
+                            }
+                        }
                     }
                 }
                 //fly check
                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
                         setup.moveIndex == 423) {
-                        Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[setup.Attacker.X, setup.Attacker.Y];
+                    Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[setup.Attacker.X, setup.Attacker.Y];
                     if (tile.Type == Enums.TileType.Scripted) {
-	                    if (tile.Data1 == 14) {
-	                    	//Messenger.PlayerMsg(((Recruit)setup.Attacker).Owner, "But it failed...", Text.BrightRed);
-	                    	//setup.Cancel = true;
-	                    	//return;
-	                        Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                        if (tile.Data1 == 14) {
+                            //Messenger.PlayerMsg(((Recruit)setup.Attacker).Owner, "But it failed...", Text.BrightRed);
+                            //setup.Cancel = true;
+                            //return;
+                            Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                 }
                 //Dive check
                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
                         setup.moveIndex == 297) {
-                        Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[setup.Attacker.X, setup.Attacker.Y];
+                    Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[setup.Attacker.X, setup.Attacker.Y];
                     if (tile.Type == Enums.TileType.Scripted) {
-	                    if (tile.Data1 == 76) {
-	                    	//Messenger.PlayerMsg(((Recruit)setup.Attacker).Owner, "But it failed...", Text.BrightRed);
-	                    	//setup.Cancel = true;
-	                    	//return;
-	                        Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                        if (tile.Data1 == 76) {
+                            //Messenger.PlayerMsg(((Recruit)setup.Attacker).Owner, "But it failed...", Text.BrightRed);
+                            //setup.Cancel = true;
+                            //return;
+                            Messenger.PlayerWarp(((Recruit)setup.Attacker).Owner, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                 }
                 //rock climb check
                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
@@ -218,16 +218,16 @@ namespace Script {
                     int y = setup.Attacker.Y;
                     MoveInDirection(setup.Attacker.Direction, 1, ref x, ref y);
                     if (x >= 0 && x <= setup.AttackerMap.MaxX && y >= 0 && y <= setup.AttackerMap.MaxY) {
-                    	Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[x, y];
-	                    if (tile.Type == Enums.TileType.ScriptedSign) {
-	                        if (tile.Data1 == 20) {
-	                            setup.Attacker.X = x;
-	            				setup.Attacker.Y = y;
-	            				PacketBuilder.AppendPlayerXY(((Recruit)setup.Attacker).Owner, setup.PacketStack);
-	                            setup.Cancel = true;
-	                            return;
-	                        }
-	                    }
+                        Tile tile = ((Recruit)setup.Attacker).Owner.Player.Map.Tile[x, y];
+                        if (tile.Type == Enums.TileType.ScriptedSign) {
+                            if (tile.Data1 == 20) {
+                                setup.Attacker.X = x;
+                                setup.Attacker.Y = y;
+                                PacketBuilder.AppendPlayerXY(((Recruit)setup.Attacker).Owner, setup.PacketStack);
+                                setup.Cancel = true;
+                                return;
+                            }
+                        }
                     }
                 }
 
@@ -241,9 +241,9 @@ namespace Script {
                             return;
                         }
                     }
-                    
+
                 }
-                
+
 
                 if (sayMove) {
                     setup.Move.Name = setup.Attacker.Name + " used " + setup.Move.Name + "!";
@@ -251,275 +251,275 @@ namespace Script {
                     setup.Move.Name = "";
                 }
 
-				if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
-	                //check against cooldown
-	                if (GetBattleTagArg(setup.BattleTags, "OrderedMove", 0) == null) {
-		                if (setup.Attacker.PauseTimer == null) {
-		                    setup.Attacker.PauseTimer = new TickCount(Core.GetTickCount().Tick);
-		                }
-		                if (setup.Attacker.PauseTimer.Tick > Core.GetTickCount().Tick) {
-		                    setup.Cancel = true;
-		                    return;
-		                }
-		                if (setup.Attacker.AttackTimer == null ||
-		                    setup.Move.AdditionalEffectData1 == 9 ||
-		                    setup.Move.AdditionalEffectData1 == 128 ||
-		                    setup.Move.AdditionalEffectData1 == 132) {
-		                    setup.Attacker.AttackTimer = new TickCount(Core.GetTickCount().Tick);
-		                }
-		                if (setup.Attacker.AttackTimer.Tick > Core.GetTickCount().Tick) {
-		                    setup.Cancel = true;
-		                    return;
-		                }
-	                }
-	
-	                //check against freeze/paralyze/sleep
-	                if (setup.Attacker.StatusAilment == Enums.StatusAilment.Freeze) {
-	                    if (Server.Math.Rand(0, 3) == 0 && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), false, setup.PacketStack)) {
-	                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
-	                    } else if ((setup.Move.AdditionalEffectData1 == 37 || setup.Move.AdditionalEffectData1 == 38) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), true, setup.PacketStack)) {
-	
-	                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is frozen solid!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                } else if (setup.Attacker.StatusAilment == Enums.StatusAilment.Paralyze) {
-	                    if (Server.Math.Rand(0, 5) == 0) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is paralyzed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic184.wav"));
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                } else if (setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
-	                    setup.Attacker.StatusAilmentCounter--;
-	                    if (setup.Attacker.StatusAilmentCounter <= 0 && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), false, setup.PacketStack)) {
-	                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
-	                    } else if (setup.Move.AdditionalEffectData1 == 35 || setup.Move.Data1 == 36) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is fast asleep...", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is fast asleep...", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
-	
-	                //check against wrapping (victim)
-	                int trapdmg;
+                if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
+                    //check against cooldown
+                    if (GetBattleTagArg(setup.BattleTags, "OrderedMove", 0) == null) {
+                        if (setup.Attacker.PauseTimer == null) {
+                            setup.Attacker.PauseTimer = new TickCount(Core.GetTickCount().Tick);
+                        }
+                        if (setup.Attacker.PauseTimer.Tick > Core.GetTickCount().Tick) {
+                            setup.Cancel = true;
+                            return;
+                        }
+                        if (setup.Attacker.AttackTimer == null ||
+                            setup.Move.AdditionalEffectData1 == 9 ||
+                            setup.Move.AdditionalEffectData1 == 128 ||
+                            setup.Move.AdditionalEffectData1 == 132) {
+                            setup.Attacker.AttackTimer = new TickCount(Core.GetTickCount().Tick);
+                        }
+                        if (setup.Attacker.AttackTimer.Tick > Core.GetTickCount().Tick) {
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
+
+                    //check against freeze/paralyze/sleep
+                    if (setup.Attacker.StatusAilment == Enums.StatusAilment.Freeze) {
+                        if (Server.Math.Rand(0, 3) == 0 && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), false, setup.PacketStack)) {
+                            SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
+                        } else if ((setup.Move.AdditionalEffectData1 == 37 || setup.Move.AdditionalEffectData1 == 38) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), true, setup.PacketStack)) {
+
+                            SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is frozen solid!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    } else if (setup.Attacker.StatusAilment == Enums.StatusAilment.Paralyze) {
+                        if (Server.Math.Rand(0, 5) == 0) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is paralyzed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic184.wav"));
+                            setup.Cancel = true;
+                            return;
+                        }
+                    } else if (setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
+                        setup.Attacker.StatusAilmentCounter--;
+                        if (setup.Attacker.StatusAilmentCounter <= 0 && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), false, setup.PacketStack)) {
+                            SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
+                        } else if (setup.Move.AdditionalEffectData1 == 35 || setup.Move.Data1 == 36) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is fast asleep...", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is fast asleep...", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
+
+                    //check against wrapping (victim)
+                    int trapdmg;
                     status = setup.Attacker.VolatileStatus.GetStatus("Bind:0");
-	                if (status != null) {
-	                    status.Counter--;
+                    if (status != null) {
+                        status.Counter--;
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else if (status.Counter <= 0 || !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
-	                        status.Target.MapID != setup.AttackerMap.MapID || setup.Move.AdditionalEffectData1 == 85) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Bind:0", setup.PacketStack, true);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                            status.Target.MapID != setup.AttackerMap.MapID || setup.Move.AdditionalEffectData1 == 85) {
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Bind:0", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("Bind:1");
                     if (status != null) {
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else if (!MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
-	                        status.Target.MapID != setup.AttackerMap.MapID) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Bind:1", setup.PacketStack, true);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = status.Target.MaxHP / 12;
+                            status.Target.MapID != setup.AttackerMap.MapID) {
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Bind:1", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = status.Target.MaxHP / 12;
                             } else {
-                            	trapdmg = status.Target.MaxHP / 16;
+                                trapdmg = status.Target.MaxHP / 16;
                             }
-	                        if (trapdmg < 1) trapdmg = 1;
-	                        if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                            DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Player, setup.PacketStack, true);
-	                        } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
-	                            DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Npc, setup.PacketStack, true);
-	                        }
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                            if (trapdmg < 1) trapdmg = 1;
+                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Player, setup.PacketStack, true);
+                            } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
+                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Npc, setup.PacketStack, true);
+                            }
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
 
                     status = setup.Attacker.VolatileStatus.GetStatus("Clamp:0");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0 ||
-	                        !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
-	                        status.Target.MapID != setup.AttackerMap.MapID ||
-	                        setup.Move.AdditionalEffectData1 == 85) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Clamp:0", setup.PacketStack, true);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0 ||
+                            !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
+                            status.Target.MapID != setup.AttackerMap.MapID ||
+                            setup.Move.AdditionalEffectData1 == 85) {
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Clamp:0", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("Clamp:1");
-	                if (status != null) {
+                    if (status != null) {
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else if (!MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
                             status.Target.MapID != setup.AttackerMap.MapID) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Clamp:1", setup.PacketStack, true);
-	                    } else {
-		                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Clamp:1", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                             if (status.Tag == "1") {
-                            	trapdmg = status.Target.MaxHP / 12;
+                                trapdmg = status.Target.MaxHP / 12;
                             } else {
-                            	trapdmg = status.Target.MaxHP / 16;
+                                trapdmg = status.Target.MaxHP / 16;
                             }
-		                    if (trapdmg < 1) trapdmg = 1;
-		                    if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                            if (trapdmg < 1) trapdmg = 1;
+                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
                                 DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Player, setup.PacketStack, true);
-		                    } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
+                            } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
                                 DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Npc, setup.PacketStack, true);
-		                    }
-		                    setup.Cancel = true;
-		                    return;
-	                    }
-	                }
+                            }
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
 
                     status = setup.Attacker.VolatileStatus.GetStatus("Wrap:0");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0 || !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0 || !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
                             status.Target.MapID != setup.AttackerMap.MapID || setup.Move.AdditionalEffectData1 == 85) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Wrap:0", setup.PacketStack, true);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Wrap:0", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("Wrap:1");
-	                if (status != null) {
+                    if (status != null) {
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else if (!MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
                             status.Target.MapID != setup.AttackerMap.MapID) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Wrap:1", setup.PacketStack, true);
-	                    } else {
-		                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Wrap:1", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s attack continues!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                             if (status.Tag == "1") {
-                            	trapdmg = status.Target.MaxHP / 12;
+                                trapdmg = status.Target.MaxHP / 12;
                             } else {
-                            	trapdmg = status.Target.MaxHP / 16;
+                                trapdmg = status.Target.MaxHP / 16;
                             }
-		                    if (trapdmg < 1) trapdmg = 1;
-		                    if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                            if (trapdmg < 1) trapdmg = 1;
+                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
                                 DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Player, setup.PacketStack, true);
-		                    } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
+                            } else if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
                                 DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), trapdmg, Enums.KillType.Npc, setup.PacketStack, true);
-		                    }
-		                    setup.Cancel = true;
-		                    return;
-	                    }
-	                }
+                            }
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
 
                     status = setup.Attacker.VolatileStatus.GetStatus("SkyDrop:0");
-	                if (status != null) {
+                    if (status != null) {
                         status.Counter--;
                         if (status.Counter <= 0 || !MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
                             status.Target.MapID != setup.AttackerMap.MapID) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:0", setup.PacketStack, true);
-	                    } else {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:0", setup.PacketStack, true);
+                        } else {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is struggling to get free!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("SkyDrop:1");
-	                if (status != null) {
+                    if (status != null) {
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else if (!MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, status.Target.X, status.Target.Y) ||
                             status.Target.MapID != setup.AttackerMap.MapID) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:1", setup.PacketStack, true);
-	                    } else {
-	                    	RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:1", setup.PacketStack, false);
-	                        //execute the move
-	                        setup.BattleTags.Add("SkyDrop");
-	                    }
-	                }
-
-                //check against confusion
-                    status = setup.Attacker.VolatileStatus.GetStatus("Confusion");
-                if (status != null) {
-                    status.Counter -= 2;
-                    if (status.Counter <= 0) {
-                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", setup.PacketStack, true);
-                    } else if (Server.Math.Rand(0, 2) == 0 && !(HasAbility(setup.Attacker, "Tangled Feet") && HasAbility(setup.Attacker, "Own Tempo"))) {
-                        setup.moveSlot = -1;
-                        setup.moveIndex = -1;
-                        setup.SetupMove(MoveManager.StandardAttack);
-                        setup.Move.TargetType = Enums.MoveTarget.User;
-                        setup.Move.Name = setup.Attacker.Name + " attacked itself in confusion!";
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:1", setup.PacketStack, true);
+                        } else {
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:1", setup.PacketStack, false);
+                            //execute the move
+                            setup.BattleTags.Add("SkyDrop");
+                        }
                     }
-                }
-	
-	                //check against attraction
-                status = setup.Attacker.VolatileStatus.GetStatus("Attract");
-	                if (status != null) {
+
+                    //check against confusion
+                    status = setup.Attacker.VolatileStatus.GetStatus("Confusion");
+                    if (status != null) {
+                        status.Counter -= 2;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", setup.PacketStack, true);
+                        } else if (Server.Math.Rand(0, 2) == 0 && !(HasAbility(setup.Attacker, "Tangled Feet") && HasAbility(setup.Attacker, "Own Tempo"))) {
+                            setup.moveSlot = -1;
+                            setup.moveIndex = -1;
+                            setup.SetupMove(MoveManager.StandardAttack);
+                            setup.Move.TargetType = Enums.MoveTarget.User;
+                            setup.Move.Name = setup.Attacker.Name + " attacked itself in confusion!";
+                        }
+                    }
+
+                    //check against attraction
+                    status = setup.Attacker.VolatileStatus.GetStatus("Attract");
+                    if (status != null) {
                         status.Counter--;
                         if (status.Counter <= 0) {
-	                        RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Attract", setup.PacketStack, true);
-	                    } else {
-	
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is immobilized by love!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        setup.Cancel = true;
-	                        return;
-	                    }
-	                }
-	
-	
-	                if (setup.moveSlot > -1 && setup.moveSlot < 4) {
-	                    if (setup.Attacker.Moves[setup.moveSlot].CurrentPP <= 0) {
-	                    	bool noMovesLeft = true;
-	                    	for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
-	                    		if (setup.Attacker.Moves[i].CurrentPP > 0 && !setup.Attacker.Moves[i].Sealed) {
-	                    			noMovesLeft = false;
-	                    			break;
-	                    		}
-	                    	}
-	                    	if (noMovesLeft) {
-	                    		setup.moveSlot = -1;
-	                    		setup.moveIndex = 466;//struggle
-	                    		setup.SetupMove(MoveManager.Moves[setup.moveIndex]);
-                    			setup.Move.Name = setup.Attacker.Name + " used " + setup.Move.Name + "!";
-	                    	} else {
-		                        if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-		                            setup.PacketStack.AddPacket(((Recruit)setup.Attacker).Owner, PacketBuilder.CreateBattleMsg("There's no PP left for that move!", Text.BrightRed));
-		                            PacketBuilder.AppendMovePPUpdate(((Recruit)setup.Attacker).Owner, setup.PacketStack, setup.moveSlot);
-		                        }
-		                        setup.Cancel = true;
-		                        return;
-	                        }
-	
-	
-	                    } else if (setup.Attacker.Moves[setup.moveSlot].Sealed) {
-	                        if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                            setup.PacketStack.AddPacket(((Recruit)setup.Attacker).Owner, PacketBuilder.CreateBattleMsg("The move is sealed!  It can't be used!", Text.BrightRed));
-	                            PacketBuilder.AppendPlayerMoves(((Recruit)setup.Attacker).Owner, setup.PacketStack);
-	                        }
-	                        setup.Cancel = true;
-	                        return;
-	
-	
-	                    } else {
-	                    	bool deductPP = true;
-	                    	if (setup.Attacker.HasActiveItem(340)) deductPP = false;
-	                        
-	                        if (Server.Math.Rand(0, 4) <= 0 && HasActiveBagItem(setup.Attacker, 13, 0, 0)) {
-	                        	deductPP = false;
-	                        }
-	                        if (deductPP) setup.Attacker.Moves[setup.moveSlot].CurrentPP--;
-	                        
+                            RemoveBondedExtraStatus(setup.Attacker, setup.AttackerMap, "Attract", setup.PacketStack, true);
+                        } else {
+
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is immobilized by love!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            setup.Cancel = true;
+                            return;
+                        }
+                    }
+
+
+                    if (setup.moveSlot > -1 && setup.moveSlot < 4) {
+                        if (setup.Attacker.Moves[setup.moveSlot].CurrentPP <= 0) {
+                            bool noMovesLeft = true;
+                            for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
+                                if (setup.Attacker.Moves[i].CurrentPP > 0 && !setup.Attacker.Moves[i].Sealed) {
+                                    noMovesLeft = false;
+                                    break;
+                                }
+                            }
+                            if (noMovesLeft) {
+                                setup.moveSlot = -1;
+                                setup.moveIndex = 466;//struggle
+                                setup.SetupMove(MoveManager.Moves[setup.moveIndex]);
+                                setup.Move.Name = setup.Attacker.Name + " used " + setup.Move.Name + "!";
+                            } else {
+                                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                    setup.PacketStack.AddPacket(((Recruit)setup.Attacker).Owner, PacketBuilder.CreateBattleMsg("There's no PP left for that move!", Text.BrightRed));
+                                    PacketBuilder.AppendMovePPUpdate(((Recruit)setup.Attacker).Owner, setup.PacketStack, setup.moveSlot);
+                                }
+                                setup.Cancel = true;
+                                return;
+                            }
+
+
+                        } else if (setup.Attacker.Moves[setup.moveSlot].Sealed) {
+                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                setup.PacketStack.AddPacket(((Recruit)setup.Attacker).Owner, PacketBuilder.CreateBattleMsg("The move is sealed!  It can't be used!", Text.BrightRed));
+                                PacketBuilder.AppendPlayerMoves(((Recruit)setup.Attacker).Owner, setup.PacketStack);
+                            }
+                            setup.Cancel = true;
+                            return;
+
+
+                        } else {
+                            bool deductPP = true;
+                            if (setup.Attacker.HasActiveItem(340)) deductPP = false;
+
+                            if (Server.Math.Rand(0, 4) <= 0 && HasActiveBagItem(setup.Attacker, 13, 0, 0)) {
+                                deductPP = false;
+                            }
+                            if (deductPP) setup.Attacker.Moves[setup.moveSlot].CurrentPP--;
+
                             status = setup.Attacker.VolatileStatus.GetStatus("LastUsedMoveSlot");
                             if (status == null || status.Counter != setup.moveSlot) {
                                 AddExtraStatus(setup.Attacker, setup.AttackerMap, "LastUsedMoveSlot", setup.moveSlot, null, "", setup.PacketStack);
@@ -532,34 +532,34 @@ namespace Script {
                                     AddExtraStatus(setup.Attacker, setup.AttackerMap, "TimesLastMoveUsed", 1, null, "", setup.PacketStack);
                                 }
                             }
-	
-	                        //send PP update to players
-	                        if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                            PacketBuilder.AppendMovePPUpdate(((Recruit)setup.Attacker).Owner, setup.PacketStack, setup.moveSlot);
-	                        }
-	
-	
-	                        if (setup.Attacker.HasActiveItem(256) || setup.Attacker.HasActiveItem(257) || setup.Attacker.HasActiveItem(258)) {
-	                            for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
-	                                if (i != setup.moveSlot) {
-	                                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "MoveSeal:" + i, 0, null, "", setup.PacketStack, false);
-	                                }
-	                            }
-	                        }
-	
-	                    }
-	                }// else if (setup.Move.EffectType == Enums.MoveType.SubHP) {
-	                //    switch (setup.Move.Data2) {
-	                //        case 1: {
-	                //                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                //                    ((Recruit)setup.Attacker).Owner.Player.TakeItem(setup.Move.Data3, 1);
-	                //                }
-	                //                break;
-	                //            }
-	
-	                //    }
-	                //}
-                
+
+                            //send PP update to players
+                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                PacketBuilder.AppendMovePPUpdate(((Recruit)setup.Attacker).Owner, setup.PacketStack, setup.moveSlot);
+                            }
+
+
+                            if (setup.Attacker.HasActiveItem(256) || setup.Attacker.HasActiveItem(257) || setup.Attacker.HasActiveItem(258)) {
+                                for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
+                                    if (i != setup.moveSlot) {
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "MoveSeal:" + i, 0, null, "", setup.PacketStack, false);
+                                    }
+                                }
+                            }
+
+                        }
+                    }// else if (setup.Move.EffectType == Enums.MoveType.SubHP) {
+                    //    switch (setup.Move.Data2) {
+                    //        case 1: {
+                    //                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                    //                    ((Recruit)setup.Attacker).Owner.Player.TakeItem(setup.Move.Data3, 1);
+                    //                }
+                    //                break;
+                    //            }
+
+                    //    }
+                    //}
+
                 }
 
                 //For the charging of chargeup attacks (solarbeam/skull bash/razor wind/sky attack/dig/fly/etc.
@@ -579,20 +579,20 @@ namespace Script {
                     RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Bide", setup.PacketStack);
                 } else if (setup.Attacker.VolatileStatus.GetStatus("Avalanche") != null) {
                     if (GetBattleTagArg(setup.BattleTags, "Avalanche", 0) != null) {
-                    	setup.Move.Data1 *= 2;
+                        setup.Move.Data1 *= 2;
                     }
                     RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Avalanche", setup.PacketStack);
                 } else if (setup.Attacker.VolatileStatus.GetStatus("VitalThrow") != null) {
                     RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "VitalThrow", setup.PacketStack);
                     if (GetBattleTagArg(setup.BattleTags, "VitalThrow", 0) != null) {
-                    	
+
                     } else {
-                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " gave up on Vital Throw!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-                    	setup.Cancel = true;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " gave up on Vital Throw!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        setup.Cancel = true;
                         return;
                     }
                 } else if (semiInvul) {
-                    
+
                 } else {
                     if (setup.Move.AdditionalEffectData1 == 60 && setup.Attacker.VolatileStatus.GetStatus("SuperCharge") == null) {
                         switch (setup.Move.AdditionalEffectData2) {
@@ -629,19 +629,19 @@ namespace Script {
                                 }
                                 break;
                             case 6: {//Dig
-                            		bool passable = false;
-                            		Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
-                            		if (tile.Type == Enums.TileType.Arena) {
-                            			passable = true;
-                            		} else if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway || tile.Type == Enums.TileType.NPCAvoid) {
-                            			if (tile.Data1 == 0) passable = true;
-                            		} else if (tile.Type == Enums.TileType.MobileBlock) {
-                            			if (tile.Data1 <= 0) passable = true;
-                            		}
-                            		if (passable) {
-                                    	AddExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", 20, null, "Dig", setup.PacketStack);
+                                    bool passable = false;
+                                    Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
+                                    if (tile.Type == Enums.TileType.Arena) {
+                                        passable = true;
+                                    } else if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway || tile.Type == Enums.TileType.NPCAvoid) {
+                                        if (tile.Data1 == 0) passable = true;
+                                    } else if (tile.Type == Enums.TileType.MobileBlock) {
+                                        if (tile.Data1 <= 0) passable = true;
+                                    }
+                                    if (passable) {
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", 20, null, "Dig", setup.PacketStack);
                                     } else {
-                                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " can't dig here!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " can't dig here!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                                     }
                                     setup.Cancel = true;
                                     return;
@@ -666,19 +666,19 @@ namespace Script {
                                 }
                                 break;
                             case 10: {//Dive
-                            		bool passable = false;
-                            		Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
-                            		if (tile.Type == Enums.TileType.Arena) {
-                            			passable = true;
-                            		} else if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway) {
-                            			if (tile.Data1 == 1) passable = true;
-                            		} else if (tile.Type == Enums.TileType.MobileBlock) {
-                            			if (tile.Data1 == 2) passable = true;
-                            		}
-                            		if (passable) {
-                                    	AddExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", 20, null, "Dive", setup.PacketStack);
+                                    bool passable = false;
+                                    Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
+                                    if (tile.Type == Enums.TileType.Arena) {
+                                        passable = true;
+                                    } else if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway) {
+                                        if (tile.Data1 == 1) passable = true;
+                                    } else if (tile.Type == Enums.TileType.MobileBlock) {
+                                        if (tile.Data1 == 2) passable = true;
+                                    }
+                                    if (passable) {
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "SemiInvul", 20, null, "Dive", setup.PacketStack);
                                     } else {
-                                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " can't dive here!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " can't dive here!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                                     }
                                     setup.Cancel = true;
                                     return;
@@ -696,24 +696,24 @@ namespace Script {
                         setup.Cancel = true;
                         return;
                     } else if (setup.Move.AdditionalEffectData1 == 186) {
-                    	AddExtraStatus(setup.Attacker, setup.AttackerMap, "Avalanche", 0, null, "", setup.PacketStack);
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Avalanche", 0, null, "", setup.PacketStack);
                         setup.Cancel = true;
                         return;
                     } else if (setup.Move.AdditionalEffectData1 == 187) {
-                    	AddExtraStatus(setup.Attacker, setup.AttackerMap, "VitalThrow", 0, null, "", setup.PacketStack);
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "VitalThrow", 0, null, "", setup.PacketStack);
                         setup.Cancel = true;
                         return;
                     } else if (setup.Move.AdditionalEffectData1 == 197 && GetBattleTagArg(setup.BattleTags, "SkyDrop", 0) == null) {//sky drop
-                    	setup.Move.Name = "";
+                        setup.Move.Name = "";
                     }
                 }
-                
-                
-	            if (HasAbility(setup.Attacker, "Protean") && setup.Move.Element != Enums.PokemonType.None
-	            	&& (setup.Move.Element != setup.Attacker.Type1 && setup.Attacker.Type1 != Enums.PokemonType.None || setup.Move.Element != setup.Attacker.Type2 && setup.Attacker.Type2 != Enums.PokemonType.None)) {
-	                AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type1", (int)setup.Move.Element, null, "", setup.PacketStack);
-	                AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type2", 0, null, "", setup.PacketStack);
-	            }
+
+
+                if (HasAbility(setup.Attacker, "Protean") && setup.Move.Element != Enums.PokemonType.None
+                    && (setup.Move.Element != setup.Attacker.Type1 && setup.Attacker.Type1 != Enums.PokemonType.None || setup.Move.Element != setup.Attacker.Type2 && setup.Attacker.Type2 != Enums.PokemonType.None)) {
+                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type1", (int)setup.Move.Element, null, "", setup.PacketStack);
+                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type2", 0, null, "", setup.PacketStack);
+                }
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: BeforeMoveUsed", Text.Black);
                 Messenger.AdminMsg("Slot: " + setup.moveSlot + ", Name: " + MoveManager.Moves[setup.moveIndex].Name, Text.Black);
@@ -723,34 +723,33 @@ namespace Script {
         }
 
         public static void AfterMoveExecuted(BattleSetup setup) {
-        int point = 0;
+            int point = 0;
             try {
                 ExtraStatus status;
-                
+
                 if (setup.AttackerMap.TempStatus.GetStatus("Gravity") != null) {
-                	if (setup.moveIndex == 73 || setup.moveIndex == 423 || 
-                		setup.moveIndex == 380 || setup.moveIndex == 197 || 
-                		setup.moveIndex == 338 || setup.moveIndex == 339 || 
-                		setup.moveIndex == 610 || setup.moveIndex == 640) {
-                	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But "+setup.Attacker.Name+"'s move failed due to gravity!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                setup.Cancel = true;
-	                return;
-	                }
-	            }
-	            
-	            if (setup.Move.AdditionalEffectData1 == 224 && setup.Attacker.VolatileStatus.GetStatus("AteBerry") == null)
-	            {
-	            	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But "+setup.Attacker.Name+" hasn't eaten a berry yet!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                setup.Cancel = true;
-	                return;
-	            }
-	            
-	            if (setup.Move.AdditionalEffectData1 == 35 && setup.Attacker.StatusAilment != Enums.StatusAilment.Sleep) {
-	            	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But "+setup.Attacker.Name+" wasn't asleep!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                setup.Cancel = true;
-	                return;
-	            }
-                
+                    if (setup.moveIndex == 73 || setup.moveIndex == 423 ||
+                        setup.moveIndex == 380 || setup.moveIndex == 197 ||
+                        setup.moveIndex == 338 || setup.moveIndex == 339 ||
+                        setup.moveIndex == 610 || setup.moveIndex == 640) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But " + setup.Attacker.Name + "'s move failed due to gravity!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        setup.Cancel = true;
+                        return;
+                    }
+                }
+
+                if (setup.Move.AdditionalEffectData1 == 224 && setup.Attacker.VolatileStatus.GetStatus("AteBerry") == null) {
+                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But " + setup.Attacker.Name + " hasn't eaten a berry yet!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                    setup.Cancel = true;
+                    return;
+                }
+
+                if (setup.Move.AdditionalEffectData1 == 35 && setup.Attacker.StatusAilment != Enums.StatusAilment.Sleep) {
+                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But " + setup.Attacker.Name + " wasn't asleep!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                    setup.Cancel = true;
+                    return;
+                }
+
                 if (setup.AttackerMap.TempStatus.GetStatus("WonderRoom") != null) {
                     if (setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
                         setup.Move.MoveCategory = Enums.MoveCategory.Special;
@@ -761,53 +760,53 @@ namespace Script {
 
                 //use the correct attack/sp.attack stats
                 if (setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
-	                //proxy attack
-	                status = setup.Attacker.VolatileStatus.GetStatus("ProxyAttack");
-	                if (status != null) {
-	                	setup.AttackStat = status.Counter;
-	                } else {
-	                    setup.AttackStat = setup.Attacker.Atk;
-	                }
+                    //proxy attack
+                    status = setup.Attacker.VolatileStatus.GetStatus("ProxyAttack");
+                    if (status != null) {
+                        setup.AttackStat = status.Counter;
+                    } else {
+                        setup.AttackStat = setup.Attacker.Atk;
+                    }
                 } else if (setup.Move.MoveCategory == Enums.MoveCategory.Special) {
-                //proxy special
-                	status = setup.Attacker.VolatileStatus.GetStatus("ProxySpAtk");
-	                if (status != null) {
-	                	setup.AttackStat = status.Counter;
-	                } else {
-                    	setup.AttackStat = setup.Attacker.SpclAtk;
+                    //proxy special
+                    status = setup.Attacker.VolatileStatus.GetStatus("ProxySpAtk");
+                    if (status != null) {
+                        setup.AttackStat = status.Counter;
+                    } else {
+                        setup.AttackStat = setup.Attacker.SpclAtk;
                     }
                 }
-                
+
                 status = setup.Attacker.VolatileStatus.GetStatus("Shocker");
                 if (status != null) {
-                	switch (setup.Move.TargetType) {
-                		case Enums.MoveTarget.Foes:
-                		case Enums.MoveTarget.AllAlliesButUser: {
-                				setup.Move.TargetType = Enums.MoveTarget.AllButUser;
-                			} break;
-                		case Enums.MoveTarget.UserAndFoe:
-                		case Enums.MoveTarget.UserAndAllies: {
-                				setup.Move.TargetType = Enums.MoveTarget.All;
-                			} break;
-                	}
+                    switch (setup.Move.TargetType) {
+                        case Enums.MoveTarget.Foes:
+                        case Enums.MoveTarget.AllAlliesButUser: {
+                                setup.Move.TargetType = Enums.MoveTarget.AllButUser;
+                            } break;
+                        case Enums.MoveTarget.UserAndFoe:
+                        case Enums.MoveTarget.UserAndAllies: {
+                                setup.Move.TargetType = Enums.MoveTarget.All;
+                            } break;
+                    }
                 }
-                
-                
+
+
                 status = setup.Attacker.VolatileStatus.GetStatus("Longtoss");
                 if (status != null) {
-                	if (setup.Move.RangeType == Enums.MoveRange.LineUntilHit ||
-                		setup.Move.RangeType == Enums.MoveRange.FrontOfUserUntil ||
-                		setup.Move.RangeType == Enums.MoveRange.ArcThrow) {
-                		setup.Move.Range = 50;
-                	}
+                    if (setup.Move.RangeType == Enums.MoveRange.LineUntilHit ||
+                        setup.Move.RangeType == Enums.MoveRange.FrontOfUserUntil ||
+                        setup.Move.RangeType == Enums.MoveRange.ArcThrow) {
+                        setup.Move.Range = 50;
+                    }
                 }
-                
+
                 status = setup.Attacker.VolatileStatus.GetStatus("Pierce");
                 if (status != null || setup.Attacker.HasActiveItem(699)) {
-                	if (setup.Move.RangeType == Enums.MoveRange.LineUntilHit ||
-                		setup.Move.RangeType == Enums.MoveRange.FrontOfUserUntil) {
-                		setup.Move.RangeType = Enums.MoveRange.FrontOfUser;
-                	}
+                    if (setup.Move.RangeType == Enums.MoveRange.LineUntilHit ||
+                        setup.Move.RangeType == Enums.MoveRange.FrontOfUserUntil) {
+                        setup.Move.RangeType = Enums.MoveRange.FrontOfUser;
+                    }
                 }
 
                 //attacker-based move modification
@@ -876,10 +875,10 @@ namespace Script {
                             }
                             break;
                         case 190: {//copy move
-                        		switch (setup.Move.Data2) {
-                        			case 2: {// assist
-                        					TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, false, true, false);
-                        					List<int> moveNums = new List<int>();
+                                switch (setup.Move.Data2) {
+                                    case 2: {// assist
+                                            TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, false, true, false);
+                                            List<int> moveNums = new List<int>();
                                             for (int i = 0; i < targets.Friends.Count; i++) {
                                                 for (int j = 0; j < Constants.MAX_PLAYER_MOVES; j++) {
                                                     if (targets.Friends[i].Moves[j].MoveNum > 0 && !moveNums.Contains(targets.Friends[i].Moves[j].MoveNum)) {
@@ -887,21 +886,21 @@ namespace Script {
                                                     }
                                                 }
                                             }
-			                                string tag = "Assist:";
-			                                if (moveNums.Count > 0) {
-			                                	tag += moveNums[0];
-			                                } else {
-			                                	tag += "0";
-			                                }
-			                                for (int i = 1; i < moveNums.Count; i++) {
-			                                	tag += ("," + moveNums[i]);
-			                                }
-                        					setup.BattleTags.Add(tag);
-                        				}
-                        				break;
-                        			case 3: {//me first
-                        					TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, true, false, false);
-                        					List<int> moveNums = new List<int>();
+                                            string tag = "Assist:";
+                                            if (moveNums.Count > 0) {
+                                                tag += moveNums[0];
+                                            } else {
+                                                tag += "0";
+                                            }
+                                            for (int i = 1; i < moveNums.Count; i++) {
+                                                tag += ("," + moveNums[i]);
+                                            }
+                                            setup.BattleTags.Add(tag);
+                                        }
+                                        break;
+                                    case 3: {//me first
+                                            TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, true, false, false);
+                                            List<int> moveNums = new List<int>();
                                             for (int i = 0; i < targets.Foes.Count; i++) {
                                                 for (int j = 0; j < Constants.MAX_PLAYER_MOVES; j++) {
                                                     if (targets.Foes[i].Moves[j].MoveNum > 0 && !moveNums.Contains(targets.Foes[i].Moves[j].MoveNum)) {
@@ -909,30 +908,30 @@ namespace Script {
                                                     }
                                                 }
                                             }
-			                                string tag = "MeFirst:";
-			                                if (moveNums.Count > 0) {
-			                                	tag += moveNums[0];
-			                                } else {
-			                                	tag += "0";
-			                                }
-			                                for (int i = 1; i < moveNums.Count; i++) {
-			                                	tag += ("," + moveNums[i]);
-			                                }
-                        					setup.BattleTags.Add(tag);
-                        				}
-                        				break;
-                        		
-                        		}
-                        	}
-                        	break;
+                                            string tag = "MeFirst:";
+                                            if (moveNums.Count > 0) {
+                                                tag += moveNums[0];
+                                            } else {
+                                                tag += "0";
+                                            }
+                                            for (int i = 1; i < moveNums.Count; i++) {
+                                                tag += ("," + moveNums[i]);
+                                            }
+                                            setup.BattleTags.Add(tag);
+                                        }
+                                        break;
+
+                                }
+                            }
+                            break;
                         case 195: {//pounce
                                 setup.BattleTags.Add("Pounce:" + setup.Attacker.X + ":" + setup.Attacker.Y);
                             }
                             break;
                     }
                 }
-                							point = 1;
-                
+                point = 1;
+
 
                 switch (setup.Move.AdditionalEffectData1) {
                     case 32: {//HP damage
@@ -968,14 +967,14 @@ namespace Script {
                         }
                         break;
                     case 63: {//fury cutter damage
-                        status = setup.Attacker.VolatileStatus.GetStatus("FuryCutter");
+                            status = setup.Attacker.VolatileStatus.GetStatus("FuryCutter");
                             if (status != null) {
                                 setup.Move.Data1 *= (int)System.Math.Pow(2, status.Counter);
                             }
                         }
                         break;
                     case 70: {//spit up
-                        status = setup.Attacker.VolatileStatus.GetStatus("Stockpile");
+                            status = setup.Attacker.VolatileStatus.GetStatus("Stockpile");
                             if (status == null) {
                                 setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But there was nothing to spit up!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                                 setup.AttackerMultiplier = 0;
@@ -1151,15 +1150,15 @@ namespace Script {
                         }
                         break;
                     case 196: {//jump kick/hi jump kick
-                    		Pounce(setup.Attacker, setup.AttackerMap, setup.Attacker.Direction, true, false, setup.PacketStack);
-                    	}
-                    	break;
+                            Pounce(setup.Attacker, setup.AttackerMap, setup.Attacker.Direction, true, false, setup.PacketStack);
+                        }
+                        break;
                     case 197: {//sky drop
-                        	if (GetBattleTagArg(setup.BattleTags, "SkyDrop", 0) == null) {
+                            if (GetBattleTagArg(setup.BattleTags, "SkyDrop", 0) == null) {
                                 setup.Move.EffectType = Enums.MoveType.Scripted;
                                 setup.Move.Data1 = 197;
                             } else {
-                            	setup.Move.Accuracy = -1;
+                                setup.Move.Accuracy = -1;
                             }
                         }
                         break;
@@ -1170,95 +1169,95 @@ namespace Script {
                         }
                         break;
                     case 211: {//hidden power
-                    		int sum = 0;
-                    		int pwr = 60;
-                    		if (setup.AttackerMap.MapType == Enums.MapType.RDungeonMap) {
-                    			RDungeonMap rmap = setup.AttackerMap as RDungeonMap;
-                    			sum = (rmap.RDungeonIndex + rmap.RDungeonFloor) % 17 + 1;
-                    		} else {
-                    			sum = Server.Math.Rand(1, 18);
-                    		}
-                    		if (sum >= 13) sum++;
-                    		setup.Move.Element = (Enums.PokemonType)sum;
-                    		setup.Move.Data1 = pwr;
+                            int sum = 0;
+                            int pwr = 60;
+                            if (setup.AttackerMap.MapType == Enums.MapType.RDungeonMap) {
+                                RDungeonMap rmap = setup.AttackerMap as RDungeonMap;
+                                sum = (rmap.RDungeonIndex + rmap.RDungeonFloor) % 17 + 1;
+                            } else {
+                                sum = Server.Math.Rand(1, 18);
+                            }
+                            if (sum >= 13) sum++;
+                            setup.Move.Element = (Enums.PokemonType)sum;
+                            setup.Move.Data1 = pwr;
                         }
                         break;
                     case 217: {//natural gift
-                    		Enums.PokemonType berryType = Enums.PokemonType.Normal;
-                    		int pwr = 30;
-                    		int berryNum = -1;
-                    		if (setup.Attacker.HeldItem != null) berryNum = setup.Attacker.HeldItem.Num;
-                    		switch (berryNum) {
-                    			case 492: pwr += 30; berryType = Enums.PokemonType.Fire; break;
-								case 493: pwr += 30; berryType = Enums.PokemonType.Water; break;
-								case 4: pwr += 30; berryType = Enums.PokemonType.Poison; break;
-								case 524: pwr += 50; berryType = Enums.PokemonType.Grass; break;
-								case 74: pwr += 20; berryType = Enums.PokemonType.Poison; break;
-								case 222: pwr += 50; berryType = Enums.PokemonType.Bug; break;
-								case 86: pwr += 30; berryType = Enums.PokemonType.Fighting; break;
-								case 474: pwr += 40; berryType = Enums.PokemonType.Fighting; break;
-								case 475: pwr += 40; berryType = Enums.PokemonType.Poison; break;
-								case 476: pwr += 40; berryType = Enums.PokemonType.Psychic; break;
-								case 477: pwr += 40; berryType = Enums.PokemonType.Ground; break;
-								case 487: pwr += 30; berryType = Enums.PokemonType.Electric; break;
-								case 494: pwr += 30; berryType = Enums.PokemonType.Grass; break;
-								case 495: pwr += 30; berryType = Enums.PokemonType.Ice; break;
-								case 496: pwr += 30; berryType = Enums.PokemonType.Ground; break;
-								case 497: pwr += 30; berryType = Enums.PokemonType.Flying; break;
-								case 523: pwr += 50; berryType = Enums.PokemonType.Ground; break;
-								case 525: pwr += 50; berryType = Enums.PokemonType.Ice; break;
-								case 526: pwr += 50; berryType = Enums.PokemonType.Fighting; break;
-								case 527: pwr += 50; berryType = Enums.PokemonType.Poison; break;
-								case 528: pwr += 50; berryType = Enums.PokemonType.Psychic; break;
-								case 529: pwr += 50; berryType = Enums.PokemonType.Rock; break;
-								case 641: pwr += 30; berryType = Enums.PokemonType.Bug; break;
-								case 642: pwr += 30; berryType = Enums.PokemonType.Dark; break;
-								case 643: pwr += 30; berryType = Enums.PokemonType.Dragon; break;
-								case 644: pwr += 30; berryType = Enums.PokemonType.Electric; break;
-								case 645: pwr += 30; berryType = Enums.PokemonType.Fighting; break;
-								case 646: pwr += 30; berryType = Enums.PokemonType.Fire; break;
-								case 647: pwr += 30; berryType = Enums.PokemonType.Flying; break;
-								case 648: pwr += 30; berryType = Enums.PokemonType.Ghost; break;
-								case 649: pwr += 30; berryType = Enums.PokemonType.Grass; break;
-								case 650: pwr += 30; berryType = Enums.PokemonType.Ground; break;
-								case 651: pwr += 30; berryType = Enums.PokemonType.Ice; break;
-								case 652: pwr += 30; berryType = Enums.PokemonType.Normal; break;
-								case 653: pwr += 30; berryType = Enums.PokemonType.Poison; break;
-								case 654: pwr += 30; berryType = Enums.PokemonType.Psychic; break;
-								case 655: pwr += 30; berryType = Enums.PokemonType.Rock; break;
-								case 656: pwr += 30; berryType = Enums.PokemonType.Steel; break;
-								case 657: pwr += 30; berryType = Enums.PokemonType.Water; break;
-								case 767: pwr += 30; berryType = Enums.PokemonType.Bug; break;
-								case 768: pwr += 30; berryType = Enums.PokemonType.Rock; break;
-								case 769: pwr += 30; berryType = Enums.PokemonType.Ghost; break;
-								case 770: pwr += 30; berryType = Enums.PokemonType.Dragon; break;
-								case 771: pwr += 30; berryType = Enums.PokemonType.Dark; break;
-								case 772: pwr += 30; berryType = Enums.PokemonType.Steel; break;
-								case 773: pwr += 40; berryType = Enums.PokemonType.Fire; break;
-								case 774: pwr += 40; berryType = Enums.PokemonType.Water; break;
-								case 775: pwr += 40; berryType = Enums.PokemonType.Electric; break;
-								case 776: pwr += 40; berryType = Enums.PokemonType.Grass; break;
-								case 777: pwr += 40; berryType = Enums.PokemonType.Ice; break;
-								case 778: pwr += 40; berryType = Enums.PokemonType.Bug; break;
-								case 779: pwr += 40; berryType = Enums.PokemonType.Rock; break;
-								case 780: pwr += 40; berryType = Enums.PokemonType.Ghost; break;
-								case 781: pwr += 40; berryType = Enums.PokemonType.Flying; break;
-								case 782: pwr += 40; berryType = Enums.PokemonType.Dragon; break;
-								case 783: pwr += 40; berryType = Enums.PokemonType.Dark; break;
-								case 784: pwr += 40; berryType = Enums.PokemonType.Steel; break;
-								case 785: pwr += 50; berryType = Enums.PokemonType.Fire; break;
-								case 786: pwr += 50; berryType = Enums.PokemonType.Water; break;
-								case 787: pwr += 50; berryType = Enums.PokemonType.Electric; break;
-								case 788: pwr += 50; berryType = Enums.PokemonType.Flying; break;
-								case 789: pwr += 50; berryType = Enums.PokemonType.Dragon; break;
-								case 790: pwr += 50; berryType = Enums.PokemonType.Dark; break;
-								case 3: pwr += 60; berryType = Enums.PokemonType.Ice; break;
-								case 8: pwr += 30; berryType = Enums.PokemonType.Psychic; break;
-                    			
-                    		}
-                    		
-                    		setup.Move.Element = berryType;
-                    		setup.Move.Data1 = pwr;
+                            Enums.PokemonType berryType = Enums.PokemonType.Normal;
+                            int pwr = 30;
+                            int berryNum = -1;
+                            if (setup.Attacker.HeldItem != null) berryNum = setup.Attacker.HeldItem.Num;
+                            switch (berryNum) {
+                                case 492: pwr += 30; berryType = Enums.PokemonType.Fire; break;
+                                case 493: pwr += 30; berryType = Enums.PokemonType.Water; break;
+                                case 4: pwr += 30; berryType = Enums.PokemonType.Poison; break;
+                                case 524: pwr += 50; berryType = Enums.PokemonType.Grass; break;
+                                case 74: pwr += 20; berryType = Enums.PokemonType.Poison; break;
+                                case 222: pwr += 50; berryType = Enums.PokemonType.Bug; break;
+                                case 86: pwr += 30; berryType = Enums.PokemonType.Fighting; break;
+                                case 474: pwr += 40; berryType = Enums.PokemonType.Fighting; break;
+                                case 475: pwr += 40; berryType = Enums.PokemonType.Poison; break;
+                                case 476: pwr += 40; berryType = Enums.PokemonType.Psychic; break;
+                                case 477: pwr += 40; berryType = Enums.PokemonType.Ground; break;
+                                case 487: pwr += 30; berryType = Enums.PokemonType.Electric; break;
+                                case 494: pwr += 30; berryType = Enums.PokemonType.Grass; break;
+                                case 495: pwr += 30; berryType = Enums.PokemonType.Ice; break;
+                                case 496: pwr += 30; berryType = Enums.PokemonType.Ground; break;
+                                case 497: pwr += 30; berryType = Enums.PokemonType.Flying; break;
+                                case 523: pwr += 50; berryType = Enums.PokemonType.Ground; break;
+                                case 525: pwr += 50; berryType = Enums.PokemonType.Ice; break;
+                                case 526: pwr += 50; berryType = Enums.PokemonType.Fighting; break;
+                                case 527: pwr += 50; berryType = Enums.PokemonType.Poison; break;
+                                case 528: pwr += 50; berryType = Enums.PokemonType.Psychic; break;
+                                case 529: pwr += 50; berryType = Enums.PokemonType.Rock; break;
+                                case 641: pwr += 30; berryType = Enums.PokemonType.Bug; break;
+                                case 642: pwr += 30; berryType = Enums.PokemonType.Dark; break;
+                                case 643: pwr += 30; berryType = Enums.PokemonType.Dragon; break;
+                                case 644: pwr += 30; berryType = Enums.PokemonType.Electric; break;
+                                case 645: pwr += 30; berryType = Enums.PokemonType.Fighting; break;
+                                case 646: pwr += 30; berryType = Enums.PokemonType.Fire; break;
+                                case 647: pwr += 30; berryType = Enums.PokemonType.Flying; break;
+                                case 648: pwr += 30; berryType = Enums.PokemonType.Ghost; break;
+                                case 649: pwr += 30; berryType = Enums.PokemonType.Grass; break;
+                                case 650: pwr += 30; berryType = Enums.PokemonType.Ground; break;
+                                case 651: pwr += 30; berryType = Enums.PokemonType.Ice; break;
+                                case 652: pwr += 30; berryType = Enums.PokemonType.Normal; break;
+                                case 653: pwr += 30; berryType = Enums.PokemonType.Poison; break;
+                                case 654: pwr += 30; berryType = Enums.PokemonType.Psychic; break;
+                                case 655: pwr += 30; berryType = Enums.PokemonType.Rock; break;
+                                case 656: pwr += 30; berryType = Enums.PokemonType.Steel; break;
+                                case 657: pwr += 30; berryType = Enums.PokemonType.Water; break;
+                                case 767: pwr += 30; berryType = Enums.PokemonType.Bug; break;
+                                case 768: pwr += 30; berryType = Enums.PokemonType.Rock; break;
+                                case 769: pwr += 30; berryType = Enums.PokemonType.Ghost; break;
+                                case 770: pwr += 30; berryType = Enums.PokemonType.Dragon; break;
+                                case 771: pwr += 30; berryType = Enums.PokemonType.Dark; break;
+                                case 772: pwr += 30; berryType = Enums.PokemonType.Steel; break;
+                                case 773: pwr += 40; berryType = Enums.PokemonType.Fire; break;
+                                case 774: pwr += 40; berryType = Enums.PokemonType.Water; break;
+                                case 775: pwr += 40; berryType = Enums.PokemonType.Electric; break;
+                                case 776: pwr += 40; berryType = Enums.PokemonType.Grass; break;
+                                case 777: pwr += 40; berryType = Enums.PokemonType.Ice; break;
+                                case 778: pwr += 40; berryType = Enums.PokemonType.Bug; break;
+                                case 779: pwr += 40; berryType = Enums.PokemonType.Rock; break;
+                                case 780: pwr += 40; berryType = Enums.PokemonType.Ghost; break;
+                                case 781: pwr += 40; berryType = Enums.PokemonType.Flying; break;
+                                case 782: pwr += 40; berryType = Enums.PokemonType.Dragon; break;
+                                case 783: pwr += 40; berryType = Enums.PokemonType.Dark; break;
+                                case 784: pwr += 40; berryType = Enums.PokemonType.Steel; break;
+                                case 785: pwr += 50; berryType = Enums.PokemonType.Fire; break;
+                                case 786: pwr += 50; berryType = Enums.PokemonType.Water; break;
+                                case 787: pwr += 50; berryType = Enums.PokemonType.Electric; break;
+                                case 788: pwr += 50; berryType = Enums.PokemonType.Flying; break;
+                                case 789: pwr += 50; berryType = Enums.PokemonType.Dragon; break;
+                                case 790: pwr += 50; berryType = Enums.PokemonType.Dark; break;
+                                case 3: pwr += 60; berryType = Enums.PokemonType.Ice; break;
+                                case 8: pwr += 30; berryType = Enums.PokemonType.Psychic; break;
+
+                            }
+
+                            setup.Move.Element = berryType;
+                            setup.Move.Data1 = pwr;
                         }
                         break;
                 }
@@ -1309,16 +1308,16 @@ namespace Script {
                     setup.AttackerMultiplier *= 11;
                     setup.AttackerMultiplier /= 10;
                 }
-                
+
                 //power boosting items
-                 
+
                 //muscle band/wise glasses
                 if (setup.Attacker.HasActiveItem(248) && setup.Move.MoveCategory == Enums.MoveCategory.Physical ||
-                	setup.Attacker.HasActiveItem(249) && setup.Move.MoveCategory == Enums.MoveCategory.Special) {
-                	setup.AttackStat *= 11;
-                	setup.AttackStat /= 10;
+                    setup.Attacker.HasActiveItem(249) && setup.Move.MoveCategory == Enums.MoveCategory.Special) {
+                    setup.AttackStat *= 11;
+                    setup.AttackStat /= 10;
                 }
-                
+
                 point = 2;
 
                 status = setup.Attacker.VolatileStatus.GetStatus("TypeBoost");
@@ -1343,13 +1342,13 @@ namespace Script {
                     }
                 }
                 point = 3;
-                
-                
-                    
+
+
+
                 //wide lens
                 if (setup.Attacker.HasActiveItem(175) && setup.Move.Accuracy != -1) {
-                	setup.Move.Accuracy *= 11;
-                	setup.Move.Accuracy /= 10;
+                    setup.Move.Accuracy *= 11;
+                    setup.Move.Accuracy /= 10;
                 }
 
                 //Charge
@@ -1436,18 +1435,18 @@ namespace Script {
 
                 //check for attacker modifying abilities
                 CheckAttackerModAbility(setup);
-                
+
                 point = 5;
-                
+
                 bool unaware = false;
                 if (!HasAbility(setup.Attacker, "Mold Breaker")) {
-	                TargetCollection abilityTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, true, false, false);
-	                for (int i = 0; i < abilityTargets.Foes.Count; i++) {
-	                    if (HasAbility(abilityTargets.Foes[i], "Unaware")) {
-	                        unaware = true;
-	                        break;
-	                    }
-	                }
+                    TargetCollection abilityTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, true, false, false);
+                    for (int i = 0; i < abilityTargets.Foes.Count; i++) {
+                        if (HasAbility(abilityTargets.Foes[i], "Unaware")) {
+                            unaware = true;
+                            break;
+                        }
+                    }
                 }
                 if (setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
                     if (unaware) {
@@ -1461,45 +1460,45 @@ namespace Script {
                     }
                 }
                 point = 6;
-                
+
                 //pain split check
                 if (setup.Move.EffectType == Enums.MoveType.Scripted && setup.Move.Data1 == 204) {
-                	int health = setup.Attacker.HP;
-                	TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(setup.Move.RangeType,
-                	setup.Move.Range, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, setup.Attacker.Direction,
-                	BattleProcessor.HitsFoes(setup.Move.TargetType), BattleProcessor.HitsAllies(setup.Move.TargetType), false);
-                	for (int i = 0; i < checkedTargets.Count; i++) {
-                		health += checkedTargets[i].HP;
-                	}
-                	health /= (checkedTargets.Count + 1);
-                	setup.BattleTags.Add("PainSplit:" + health);
+                    int health = setup.Attacker.HP;
+                    TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(setup.Move.RangeType,
+                    setup.Move.Range, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, setup.Attacker.Direction,
+                    BattleProcessor.HitsFoes(setup.Move.TargetType), BattleProcessor.HitsAllies(setup.Move.TargetType), false);
+                    for (int i = 0; i < checkedTargets.Count; i++) {
+                        health += checkedTargets[i].HP;
+                    }
+                    health /= (checkedTargets.Count + 1);
+                    setup.BattleTags.Add("PainSplit:" + health);
                 }
-                
+
                 //stat split check
                 if (setup.Move.EffectType == Enums.MoveType.Scripted && setup.Move.Data1 == 209) {
-                	int stat = 0, special = 0;
-                	if (setup.Move.Data2 == 1) {
-                		stat = setup.Attacker.Atk;
-                		special = setup.Attacker.SpclAtk;
-                	} else if (setup.Move.Data2 == 2) {
-                		stat = setup.Attacker.Def;
-                		special = setup.Attacker.SpclDef;
-                	}
-                	TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(setup.Move.RangeType,
-                	setup.Move.Range, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, setup.Attacker.Direction,
-                	BattleProcessor.HitsFoes(setup.Move.TargetType), BattleProcessor.HitsAllies(setup.Move.TargetType), false);
-                	for (int i = 0; i < checkedTargets.Count; i++) {
-                		if (setup.Move.Data2 == 1) {
-	                		stat += checkedTargets[i].Atk;
-	                		special += checkedTargets[i].SpclAtk;
-	                	} else if (setup.Move.Data2 == 2) {
-	                		stat += checkedTargets[i].Def;
-	                		special += checkedTargets[i].SpclDef;
-	                	}
-                	}
-                	stat /= (checkedTargets.Count + 1);
-                	special /= (checkedTargets.Count + 1);
-                	setup.BattleTags.Add("StatSplit:" + stat + ":" + special);
+                    int stat = 0, special = 0;
+                    if (setup.Move.Data2 == 1) {
+                        stat = setup.Attacker.Atk;
+                        special = setup.Attacker.SpclAtk;
+                    } else if (setup.Move.Data2 == 2) {
+                        stat = setup.Attacker.Def;
+                        special = setup.Attacker.SpclDef;
+                    }
+                    TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(setup.Move.RangeType,
+                    setup.Move.Range, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, setup.Attacker.Direction,
+                    BattleProcessor.HitsFoes(setup.Move.TargetType), BattleProcessor.HitsAllies(setup.Move.TargetType), false);
+                    for (int i = 0; i < checkedTargets.Count; i++) {
+                        if (setup.Move.Data2 == 1) {
+                            stat += checkedTargets[i].Atk;
+                            special += checkedTargets[i].SpclAtk;
+                        } else if (setup.Move.Data2 == 2) {
+                            stat += checkedTargets[i].Def;
+                            special += checkedTargets[i].SpclDef;
+                        }
+                    }
+                    stat /= (checkedTargets.Count + 1);
+                    special /= (checkedTargets.Count + 1);
+                    setup.BattleTags.Add("StatSplit:" + stat + ":" + special);
                 }
 
 
@@ -1511,7 +1510,7 @@ namespace Script {
 
         public static void BeforeMoveHits(BattleSetup setup) {
             try {
-            	
+
                 ExtraStatus status;
                 //if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
                 //	if (Ranks.IsAllowed(((Recruit)setup.Attacker).Owner, Enums.Rank.Moniter)) {
@@ -1521,7 +1520,7 @@ namespace Script {
                 bool followAway = false;
 
                 if (setup.Defender != null) {
-                	
+
                     status = setup.Attacker.VolatileStatus.GetStatus("Follow");
                     if (status != null) {
                         if (status.Target == null) {
@@ -1543,18 +1542,18 @@ namespace Script {
 
                     if (setup.Move.AdditionalEffectData1 == 157) {
                         if (setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
-                        	status = setup.Attacker.VolatileStatus.GetStatus("ProxyAttack");
+                            status = setup.Attacker.VolatileStatus.GetStatus("ProxyAttack");
                             if (status != null) {
-                    			setup.AttackStat = status.Counter;
-                    		} else {
-                            	setup.AttackStat = setup.Defender.Atk;
+                                setup.AttackStat = status.Counter;
+                            } else {
+                                setup.AttackStat = setup.Defender.Atk;
                             }
                         } else if (setup.Move.MoveCategory == Enums.MoveCategory.Special) {
                             status = setup.Attacker.VolatileStatus.GetStatus("ProxySpAtk");
                             if (status != null) {
-                    			setup.AttackStat = status.Counter;
-                    		} else {
-                            	setup.AttackStat = setup.Defender.SpclAtk;
+                                setup.AttackStat = status.Counter;
+                            } else {
+                                setup.AttackStat = setup.Defender.SpclAtk;
                             }
                         }
                     }
@@ -1647,7 +1646,7 @@ namespace Script {
                             }
                             break;
                         case 80: {//revenge/payback
-                            status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
+                                status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
                                 if (status != null && status.Counter == 1) {
                                     if (status.Target == null) {
                                         setup.Attacker.VolatileStatus.Remove(status);
@@ -1658,14 +1657,14 @@ namespace Script {
                             }
                             break;
                         case 81: {//Assurance
-                            status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
+                                status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
                                 if (status != null && status.Counter == 1) {
                                     setup.Move.Data1 *= 2;
                                 }
                             }
                             break;
                         case 113: {//Uproar
-                            if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) != Enums.CharacterMatchup.Foe) {
+                                if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) != Enums.CharacterMatchup.Foe) {
                                     setup.Move.EffectType = Enums.MoveType.Scripted;
                                     setup.Move.Data1 = 0;
                                 }
@@ -1747,18 +1746,18 @@ namespace Script {
                                 }
                             }
                             break;
-	                    case 163: {//echoed voice
-                            status = setup.Defender.VolatileStatus.GetStatus("EchoedVoice");
-	                            if (status != null) {
-	                                setup.Move.Data1 *= (1 * status.Counter + 1);
-	                            }
-	
-	                        }
-	                        break;
-	                    case 197: {//sky drop
-                            	//no effect on flyers/levitators?
-	                        }
-	                        break;
+                        case 163: {//echoed voice
+                                status = setup.Defender.VolatileStatus.GetStatus("EchoedVoice");
+                                if (status != null) {
+                                    setup.Move.Data1 *= (1 * status.Counter + 1);
+                                }
+
+                            }
+                            break;
+                        case 197: {//sky drop
+                                //no effect on flyers/levitators?
+                            }
+                            break;
                         case 199: {//Fake Out
                                 if (MoveProcessor.IsInFront(2, setup.Attacker.Direction, setup.Attacker.X, setup.Attacker.Y, setup.Defender.X, setup.Defender.Y)) {
                                     setup.Move.Accuracy = 0;
@@ -1769,37 +1768,37 @@ namespace Script {
 
                     //absorb
                     if (setup.Attacker != setup.Defender && HasActiveBagItem(setup.Defender, 2, 0, (int)setup.Move.Element)) {
-                    	SetAsNeutralizedMove(setup.Move);
+                        SetAsNeutralizedMove(setup.Move);
                     }
-                    
+
                     if (HasActiveBagItem(setup.Defender, 1, (int)setup.Move.Element, 0)) {
-                    	setup.Multiplier = 0;
+                        setup.Multiplier = 0;
                     }
-                    
+
                     if (HasActiveBagItem(setup.Attacker, 20, 2, 0)) {  // Exclusive-item with Miracle-Eye Effect
-                    	AddExtraStatus(setup.Attacker, setup.AttackerMap, "MiracleEye", 0, null, "", setup.PacketStack);
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "MiracleEye", 0, null, "", setup.PacketStack);
                     }
                     if (HasActiveBagItem(setup.Attacker, 20, 9, 0) || HasActiveBagItem(setup.Attacker, 20, 6, 0)) {  // Exclusive-item with Exposed Effect
-                    	AddExtraStatus(setup.Defender, setup.DefenderMap, "Exposed", 0, null, "", setup.PacketStack);
-                    } 
-					
-					if (setup.Defender.HasActiveItem(170) && setup.Attacker != setup.Defender && (setup.Defender.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)setup.Defender).Belly > 0)) {
-						string name = setup.Defender.Name;
-						TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, true, false);
-						int lowestSpeed = -1;
+                        AddExtraStatus(setup.Defender, setup.DefenderMap, "Exposed", 0, null, "", setup.PacketStack);
+                    }
+
+                    if (setup.Defender.HasActiveItem(170) && setup.Attacker != setup.Defender && (setup.Defender.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)setup.Defender).Belly > 0)) {
+                        string name = setup.Defender.Name;
+                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, true, false);
+                        int lowestSpeed = -1;
                         ICharacter singleTarget = null;
                         for (int i = 0; i < targets.Count; i++) {
                             if (setup.Attacker != targets[i] && setup.Defender != targets[i]) {
-                            	bool eligible = true;
-                            	if (targets[i].CharacterType == Enums.CharacterType.MapNpc) {
-                            		if (NpcManager.Npcs[((MapNpc)targets[i]).Num].Behavior == Enums.NpcBehavior.Scripted
-                            		|| NpcManager.Npcs[((MapNpc)targets[i]).Num].Behavior == Enums.NpcBehavior.Friendly) {
-                            			eligible = false;
-                            		}
-                            	} else {
-                            		if (Ranks.IsAllowed(((Recruit)targets[i]).Owner, Enums.Rank.Moniter)) {
-                            				eligible = false;
-                            		}
+                                bool eligible = true;
+                                if (targets[i].CharacterType == Enums.CharacterType.MapNpc) {
+                                    if (NpcManager.Npcs[((MapNpc)targets[i]).Num].Behavior == Enums.NpcBehavior.Scripted
+                                    || NpcManager.Npcs[((MapNpc)targets[i]).Num].Behavior == Enums.NpcBehavior.Friendly) {
+                                        eligible = false;
+                                    }
+                                } else {
+                                    if (Ranks.IsAllowed(((Recruit)targets[i]).Owner, Enums.Rank.Moniter)) {
+                                        eligible = false;
+                                    }
                                 }
                                 if (eligible && (lowestSpeed == -1 || targets[i].Spd > lowestSpeed)) {
                                     singleTarget = targets[i];
@@ -1809,76 +1808,76 @@ namespace Script {
                         }
                         if (singleTarget != null) {
                             if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-                            	((Recruit)setup.Defender).Owner.Player.BellyStepCounter += 500;
-	                    		((Recruit)setup.Defender).Owner.Player.ProcessHunger(setup.PacketStack);
-	                    	}
+                                ((Recruit)setup.Defender).Owner.Player.BellyStepCounter += 500;
+                                ((Recruit)setup.Defender).Owner.Player.ProcessHunger(setup.PacketStack);
+                            }
                             setup.Defender = singleTarget;
-                            
+
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(name + "'s Pass Scarf passed the attack to " + setup.Defender.Name + "!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
                         }
-						
-						
-						
-					}
-					
-					//ring target
-		            if (setup.Attacker != setup.Defender && setup.Move.MoveCategory != Enums.MoveCategory.Status) {
-		                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
-		                int highestSpeed = 0;
-		                ICharacter singleTarget = null;
-		                for (int i = 0; i < targets.Count; i++) {
-		                	
-		                    if (targets[i].HasActiveItem(372) &&
-		                    	DamageCalculator.CalculateTypeMatchup(setup.Move.Element, targets[i].Type1) + DamageCalculator.CalculateTypeMatchup(setup.Move.Element, targets[i].Type2) > 6) {
-			                        if (targets[i].Spd > highestSpeed) {
-			                            singleTarget = targets[i];
-			                            highestSpeed = targets[i].Spd;
-			                        }
-		                        
-		                    }
-		                }
-		
-		                if (singleTarget != null) {
-		                    setup.Defender = singleTarget;
-		                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Ring Target attracted the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);;
-		                }
-		            }
-		            
-		            //fluffy tail
-		            if (setup.Attacker != setup.Defender) {
-		                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
-		                int highestSpeed = 0;
-		                ICharacter singleTarget = null;
-		                for (int i = 0; i < targets.Count; i++) {
-		                	
-		                    if (targets[i].HasActiveItem(90) && Server.Math.Rand(0,3) == 0) {
-			                        if (targets[i].Spd > highestSpeed) {
-			                            singleTarget = targets[i];
-			                            highestSpeed = targets[i].Spd;
-			                        }
-		                        
-		                    }
-		                }
-		
-		                if (singleTarget != null) {
-		                    setup.Defender = singleTarget;
-		                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " drew in the attack with a Fluffy Tail!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);;
-		                }
-		            }
-					
+
+
+
+                    }
+
+                    //ring target
+                    if (setup.Attacker != setup.Defender && setup.Move.MoveCategory != Enums.MoveCategory.Status) {
+                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
+                        int highestSpeed = 0;
+                        ICharacter singleTarget = null;
+                        for (int i = 0; i < targets.Count; i++) {
+
+                            if (targets[i].HasActiveItem(372) &&
+                                DamageCalculator.CalculateTypeMatchup(setup.Move.Element, targets[i].Type1) + DamageCalculator.CalculateTypeMatchup(setup.Move.Element, targets[i].Type2) > 6) {
+                                if (targets[i].Spd > highestSpeed) {
+                                    singleTarget = targets[i];
+                                    highestSpeed = targets[i].Spd;
+                                }
+
+                            }
+                        }
+
+                        if (singleTarget != null) {
+                            setup.Defender = singleTarget;
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Ring Target attracted the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10); ;
+                        }
+                    }
+
+                    //fluffy tail
+                    if (setup.Attacker != setup.Defender) {
+                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
+                        int highestSpeed = 0;
+                        ICharacter singleTarget = null;
+                        for (int i = 0; i < targets.Count; i++) {
+
+                            if (targets[i].HasActiveItem(90) && Server.Math.Rand(0, 3) == 0) {
+                                if (targets[i].Spd > highestSpeed) {
+                                    singleTarget = targets[i];
+                                    highestSpeed = targets[i].Spd;
+                                }
+
+                            }
+                        }
+
+                        if (singleTarget != null) {
+                            setup.Defender = singleTarget;
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " drew in the attack with a Fluffy Tail!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10); ;
+                        }
+                    }
+
                     //magic coat
                     status = setup.Defender.VolatileStatus.GetStatus("MagicCoat");
                     if (status != null) {
-                    	status.Counter--;
+                        status.Counter--;
                         if (status.Counter <= 0) {
                             RemoveExtraStatus(setup.Defender, setup.DefenderMap, "MagicCoat", setup.PacketStack);
                         } else {
-		                    if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe && setup.Move.MoveCategory == Enums.MoveCategory.Status
-		                        && !(HasAbility(setup.Attacker, "Infiltrator") || HasActiveBagItem(setup.Attacker, 7, 0, 0))) {
-		                        setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Magic Coat bounced the attack back!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
-		                        setup.Defender = setup.Attacker;
-		                    }
-	                    }
+                            if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe && setup.Move.MoveCategory == Enums.MoveCategory.Status
+                                && !(HasAbility(setup.Attacker, "Infiltrator") || HasActiveBagItem(setup.Attacker, 7, 0, 0))) {
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Magic Coat bounced the attack back!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
+                                setup.Defender = setup.Attacker;
+                            }
+                        }
                     }
 
                     //magic bounce
@@ -1909,7 +1908,7 @@ namespace Script {
 
                     //checks against ability-based immunity
                     CheckImmunityAbility(setup);
-                    
+
                     status = setup.Defender.VolatileStatus.GetStatus("TypeReduce");
                     if (status != null && status.Counter == (int)setup.Move.Element) {
                         setup.Multiplier /= 4;
@@ -1918,45 +1917,45 @@ namespace Script {
                     if (setup.Defender.VolatileStatus.GetStatus("SkullBash") != null) {
                         setup.Multiplier /= 2;
                     }
-                    
-					//eviolite
-					if (setup.Defender.HasActiveItem(113)) {
-						setup.Multiplier *= 2;
-						setup.Multiplier /= 3;
-					}
+
+                    //eviolite
+                    if (setup.Defender.HasActiveItem(113)) {
+                        setup.Multiplier *= 2;
+                        setup.Multiplier /= 3;
+                    }
 
 
                     //use the correct attack/sp.attack stats
                     bool hitAcross = false;
                     if (setup.Move.AdditionalEffectData1 == 146) {
-                    	hitAcross = true;
+                        hitAcross = true;
                     }
                     if (setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
-                    	if (hitAcross) {
-                    		if (setup.Defender.VolatileStatus.GetStatus("ProxySpDef") != null) {
-                    			setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxySpDef").Counter;
-                    		} else {
-                    			setup.DefenseStat = setup.Defender.SpclDef;
-                    		}
-                    	} else {
-                    		if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
-                    			setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
-                    		} else {
-                        		setup.DefenseStat = setup.Defender.Def;
-                        	}
+                        if (hitAcross) {
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxySpDef") != null) {
+                                setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxySpDef").Counter;
+                            } else {
+                                setup.DefenseStat = setup.Defender.SpclDef;
+                            }
+                        } else {
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
+                                setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
+                            } else {
+                                setup.DefenseStat = setup.Defender.Def;
+                            }
                         }
                     } else if (setup.Move.MoveCategory == Enums.MoveCategory.Special) {
                         if (hitAcross) {
-                        	if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
-                    			setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
-                    		} else {
-                            	setup.DefenseStat = setup.Defender.Def;
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
+                                setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
+                            } else {
+                                setup.DefenseStat = setup.Defender.Def;
                             }
                         } else {
-                        	if (setup.Defender.VolatileStatus.GetStatus("ProxySpDef") != null) {
-                    			setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxySpDef").Counter;
-                    		} else {
-                            	setup.DefenseStat = setup.Defender.SpclDef;
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxySpDef") != null) {
+                                setup.DefenseStat = setup.Defender.VolatileStatus.GetStatus("ProxySpDef").Counter;
+                            } else {
+                                setup.DefenseStat = setup.Defender.SpclDef;
                             }
                         }
                     }
@@ -2026,40 +2025,40 @@ namespace Script {
                             break;
 
                     }
-                    
+
                     //zoom lens
                     if (setup.Attacker.HasActiveItem(176)) {
-                    	status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
-	                    if (status != null && status.Counter == 1) {
-	                        if (status.Target == null) {
-	                            setup.Attacker.VolatileStatus.Remove(status);
-	                        } else if (status.Target == setup.Defender) {
-	                            setup.Move.Accuracy *= 5;
-                    			setup.Move.Accuracy /= 4;
-	                        }
-	                    }
+                        status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
+                        if (status != null && status.Counter == 1) {
+                            if (status.Target == null) {
+                                setup.Attacker.VolatileStatus.Remove(status);
+                            } else if (status.Target == setup.Defender) {
+                                setup.Move.Accuracy *= 5;
+                                setup.Move.Accuracy /= 4;
+                            }
+                        }
                     }
-                    
+
                     //detect band
                     if (setup.Defender.HasActiveItem(18)) {
-                    	setup.Move.Accuracy *= 9;
-                    	setup.Move.Accuracy /= 10;
+                        setup.Move.Accuracy *= 9;
+                        setup.Move.Accuracy /= 10;
                     }
-                    
+
                     //brightpowder
                     if (setup.Defender.HasActiveItem(16)) {
-                    	int dis = System.Math.Max(System.Math.Abs(setup.Defender.X - setup.Attacker.X), System.Math.Abs(setup.Defender.Y - setup.Attacker.Y));
-                    	if (dis > 12) dis = 12;
-                    	setup.Move.Accuracy *= (100-2*dis);
-                    	setup.Move.Accuracy /= 100;
+                        int dis = System.Math.Max(System.Math.Abs(setup.Defender.X - setup.Attacker.X), System.Math.Abs(setup.Defender.Y - setup.Attacker.Y));
+                        if (dis > 12) dis = 12;
+                        setup.Move.Accuracy *= (100 - 2 * dis);
+                        setup.Move.Accuracy /= 100;
                     }
-                    
-                    
-                
-	                //effect of gravity
-	                if (setup.Move.Accuracy != -1 && setup.AttackerMap.TempStatus.GetStatus("Gravity") != null) {
-	                	setup.Move.Accuracy *= 2;
-	                }
+
+
+
+                    //effect of gravity
+                    if (setup.Move.Accuracy != -1 && setup.AttackerMap.TempStatus.GetStatus("Gravity") != null) {
+                        setup.Move.Accuracy *= 2;
+                    }
 
 
                     if (setup.Move.Accuracy != -1) {
@@ -2116,7 +2115,7 @@ namespace Script {
                         setup.KnockedOut = false;
                     }
 
-                    
+
 
                     //npc limitations
                     if (setup.Attacker.CharacterType == Enums.CharacterType.MapNpc) {
@@ -2142,19 +2141,19 @@ namespace Script {
                         setup.Multiplier = 0;
                     }
 
-					
-		            if (setup.Defender.VolatileStatus.GetStatus("MagnetRise") != null && IsGroundImmune(setup.Defender, setup.DefenderMap) && setup.Defender != setup.Attacker) {
-		                if (setup.Move.Element == Enums.PokemonType.Ground) {
-		                    setup.Move.Accuracy = 0;
-		                }
-		            }
-		            
-		            if (setup.Defender.HasActiveItem(82) && IsGroundImmune(setup.Defender, setup.DefenderMap) && setup.Defender != setup.Attacker) {
-		                if (setup.Move.Element == Enums.PokemonType.Ground) {
-		                    setup.Move.Accuracy = 0;
-		                }
-		            }
-		            
+
+                    if (setup.Defender.VolatileStatus.GetStatus("MagnetRise") != null && IsGroundImmune(setup.Defender, setup.DefenderMap) && setup.Defender != setup.Attacker) {
+                        if (setup.Move.Element == Enums.PokemonType.Ground) {
+                            setup.Move.Accuracy = 0;
+                        }
+                    }
+
+                    if (setup.Defender.HasActiveItem(82) && IsGroundImmune(setup.Defender, setup.DefenderMap) && setup.Defender != setup.Attacker) {
+                        if (setup.Move.Element == Enums.PokemonType.Ground) {
+                            setup.Move.Accuracy = 0;
+                        }
+                    }
+
                     //scope lens
                     if (setup.Attacker.HasActiveItem(324)) {
                         criticalRate *= 2;
@@ -2187,10 +2186,10 @@ namespace Script {
                             setup.Multiplier /= 4;
                         }
                     }
-                    
+
                     if (HasActiveBagItem(setup.Defender, 18, 0, 0)) { //Exclsuive-item
-						criticalRate = 0;
-					}
+                        criticalRate = 0;
+                    }
 
 
                     if (setup.Defender.VolatileStatus.GetStatus("LuckyChant") != null) {
@@ -2259,23 +2258,23 @@ namespace Script {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " broke through the protection!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
                             RemoveExtraStatus(setup.Defender, setup.DefenderMap, "Protect", setup.PacketStack, false);
                         } else if (setup.Move.AdditionalEffectData1 == 60 && setup.Move.AdditionalEffectData2 == 9) {
-                        
+
                         } else {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " protected itself!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
                             setup.Move.Accuracy = 0;
                         }
                     }
-                    
+
                     //semi-invulnerable
                     if (setup.Attacker != setup.Defender) {
                         status = setup.Defender.VolatileStatus.GetStatus("SemiInvul");
                         if (status != null) {
                             if (status.Tag == "Bounce") {
-                            	if (setup.moveIndex == 88 || setup.moveIndex == 113) {//gust and twister
+                                if (setup.moveIndex == 88 || setup.moveIndex == 113) {//gust and twister
                                     setup.Multiplier *= 3;
                                     setup.Multiplier /= 2;
                                 } else if (setup.moveIndex == 13 || setup.moveIndex == 334 ||
-                                	setup.moveIndex == 675 || setup.moveIndex == 612) {//thunder/sky upper/hurricane/smack down
+                                    setup.moveIndex == 675 || setup.moveIndex == 612) {//thunder/sky upper/hurricane/smack down
 
                                 } else {
                                     setup.Move.Accuracy = 0;
@@ -2285,7 +2284,7 @@ namespace Script {
                                     setup.Multiplier *= 3;
                                     setup.Multiplier /= 2;
                                 } else if (setup.moveIndex == 13 || setup.moveIndex == 334 ||
-                                	setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
+                                    setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
 
                                 } else {
                                     setup.Move.Accuracy = 0;
@@ -2308,21 +2307,21 @@ namespace Script {
                                 setup.Move.Accuracy = 0;
                             }
                         }
-                        
+
                         status = setup.Defender.VolatileStatus.GetStatus("SkyDrop:0");
                         if (status != null) {
-                        	if (setup.moveIndex == 88 || setup.moveIndex == 113 || 
-                               	setup.moveIndex == 13 || setup.moveIndex == 334 ||
-                              	setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
+                            if (setup.moveIndex == 88 || setup.moveIndex == 113 ||
+                                setup.moveIndex == 13 || setup.moveIndex == 334 ||
+                                setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
                             } else {
                                 setup.Move.Accuracy = 0;
                             }
                         }
                         status = setup.Defender.VolatileStatus.GetStatus("SkyDrop:1");
                         if (status != null) {
-                        	if (setup.moveIndex == 88 || setup.moveIndex == 113 || 
-                               	setup.moveIndex == 13 || setup.moveIndex == 334 ||
-                              	setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
+                            if (setup.moveIndex == 88 || setup.moveIndex == 113 ||
+                                setup.moveIndex == 13 || setup.moveIndex == 334 ||
+                                setup.moveIndex == 675 || setup.moveIndex == 612 || setup.moveIndex == 179) {//thunder/sky upper/hurricane/smack down
                             } else {
                                 setup.Move.Accuracy = 0;
                             }
@@ -2334,51 +2333,51 @@ namespace Script {
                     //checks against ability-based avoidance
                     CheckDefenderModAbility(setup);
 
-					//AoE drawbacks
+                    //AoE drawbacks
                     if (!(BattleProcessor.HitsSelf(setup.Move.TargetType) || BattleProcessor.HitsAllies(setup.Move.TargetType)) || setup.Move.Accuracy != -1) {
-	                    if (setup.Move.RangeType == Enums.MoveRange.Room || setup.Move.RangeType == Enums.MoveRange.Floor) {
-	                        if (setup.Move.Range > 1) {
-		                        if (setup.Move.Range > 2) {
-		                        	if (setup.Move.Accuracy == -1 || setup.Move.Accuracy > 100) {
-		                            	setup.Move.Accuracy = 100;
-		                            }
-		                            setup.Move.Accuracy *= 3;
-		                            setup.Move.Accuracy /= 4;
-		                        }
-		                        setup.Multiplier *= 3;
-		                        setup.Multiplier /= 4;
-	                        }
-	                    } else if (setup.Move.RangeType == Enums.MoveRange.FrontAndSides && setup.Move.Range > 2) {
-	                    	if (setup.Move.Accuracy == -1 || setup.Move.Accuracy > 100) {
-	                    		setup.Move.Accuracy = 100;
-	                    	}
-	                    	setup.Multiplier *= 4;
-	                        setup.Multiplier /= 5;
-	                        setup.Move.Accuracy *= 4;
-	                        setup.Move.Accuracy /= 5;
-	                    }
+                        if (setup.Move.RangeType == Enums.MoveRange.Room || setup.Move.RangeType == Enums.MoveRange.Floor) {
+                            if (setup.Move.Range > 1) {
+                                if (setup.Move.Range > 2) {
+                                    if (setup.Move.Accuracy == -1 || setup.Move.Accuracy > 100) {
+                                        setup.Move.Accuracy = 100;
+                                    }
+                                    setup.Move.Accuracy *= 3;
+                                    setup.Move.Accuracy /= 4;
+                                }
+                                setup.Multiplier *= 3;
+                                setup.Multiplier /= 4;
+                            }
+                        } else if (setup.Move.RangeType == Enums.MoveRange.FrontAndSides && setup.Move.Range > 2) {
+                            if (setup.Move.Accuracy == -1 || setup.Move.Accuracy > 100) {
+                                setup.Move.Accuracy = 100;
+                            }
+                            setup.Multiplier *= 4;
+                            setup.Multiplier /= 5;
+                            setup.Move.Accuracy *= 4;
+                            setup.Move.Accuracy /= 5;
+                        }
                     }
-                    
+
                     //haze and pain split hit no matter what
                     if (setup.Move.EffectType == Enums.MoveType.Scripted &&
-                    	(setup.Move.Data1 == 103 || setup.Move.AdditionalEffectData1 == 103 || setup.Move.Data1 == 204 || setup.Move.Data1 == 209)) {
-                    	setup.Move.Accuracy = -1;
+                        (setup.Move.Data1 == 103 || setup.Move.AdditionalEffectData1 == 103 || setup.Move.Data1 == 204 || setup.Move.Data1 == 209)) {
+                        setup.Move.Accuracy = -1;
                     }
-                    
+
                     //safe zone attack-all protection
                     if (SafeZoneCheck(setup.Attacker, setup.AttackerMap, setup.Defender, setup.DefenderMap)) {
                         if (BattleProcessor.HitsAllies(setup.Move.TargetType) && setup.Move.MoveCategory != Enums.MoveCategory.Status
                             || setup.Move.EffectType == Enums.MoveType.Scripted && setup.Move.Data1 == 90) {
-                           
+
                             setup.Move.Accuracy = 0;
-                            
+
                             // Used in the snowball game - this is the snowball move
                             if (setup.moveIndex == 526) {
-                            	setup.Move.Accuracy = 100;
+                                setup.Move.Accuracy = 100;
                             }
                         }
                     }
-					
+
                     //see if it hits
                     if (setup.Move.Accuracy == -1 || Server.Math.Rand(0, 100) < setup.Move.Accuracy) {
                         setup.Hit = true;
@@ -2395,7 +2394,7 @@ namespace Script {
                             setup.Multiplier /= 2;
                             setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("A critical hit!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
                             setup.BattleTags.Add("Critical");
-                            
+
                         } else {
                             int stockpileBonus = 0;
                             status = setup.Defender.VolatileStatus.GetStatus("Stockpile");
@@ -2417,7 +2416,7 @@ namespace Script {
                                 if (!HasAbility(setup.Attacker, "Unaware") || HasAbility(setup.Defender, "Mold Breaker")) {
                                     if (setup.Move.AdditionalEffectData1 == 146) {
                                         setup.DefenseStat = DamageCalculator.ApplyDefenseBuff(setup.DefenseStat, setup.Defender.DefenseBuff + stockpileBonus) / 256;
-                                    } else if (setup.Move.AdditionalEffectData1 != 156){
+                                    } else if (setup.Move.AdditionalEffectData1 != 156) {
                                         setup.DefenseStat = DamageCalculator.ApplyDefenseBuff(setup.DefenseStat, setup.Defender.SpDefBuff + stockpileBonus) / 256;
                                     }
                                 }
@@ -2443,7 +2442,7 @@ namespace Script {
                                     effectiveness += 2;
                                 }
                             }
-                            
+
                             if (setup.Move.Element == Enums.PokemonType.Ground && !IsGroundImmune(setup.Defender, setup.DefenderMap)) {
                                 if (setup.Defender.Type1 == Enums.PokemonType.Flying) {
                                     effectiveness += 3;
@@ -2461,9 +2460,9 @@ namespace Script {
                                     effectiveness += 3;
                                 }
                             }
-                            
+
                             if (effectiveness < 6 && setup.Defender.HasActiveItem(372)) {
-                            	effectiveness = 6;
+                                effectiveness = 6;
                             }
 
 
@@ -2479,24 +2478,24 @@ namespace Script {
                                 setup.Multiplier *= 11;
                                 setup.Multiplier /= 10;
                             }
-                            
+
                             if (setup.Defender.HasActiveItem(120)) {
-                            	TargetCollection frontTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.FrontAndSides, 50, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, setup.Defender.Direction, true, true, false);
-                            	bool front = false;
-                            	for (int i = 0; i < frontTargets.Count; i++) {
-                            		if (frontTargets[i] == setup.Attacker) {
-                            			front = true;
-                            			break;
-                            		}
-                            	}
-                            	if (true) {
-			                        int damage = DamageCalculator.CalculateDamage(setup.Move.Data1, setup.AttackStat, setup.Attacker.Level, setup.DefenseStat) * setup.Multiplier / 1000;
-	                                setup.Defender.HeldItem.Tag = (setup.Defender.HeldItem.Tag.ToInt() - damage).ToString();
-			                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Pokédoll took the attack instead!", Text.BrightGreen), setup.Defender.X, setup.Defender.Y, 10);
-			                        setup.Multiplier = -1;
-		                        }
-		                        //take held item
-		                    }
+                                TargetCollection frontTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.FrontAndSides, 50, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, setup.Defender.Direction, true, true, false);
+                                bool front = false;
+                                for (int i = 0; i < frontTargets.Count; i++) {
+                                    if (frontTargets[i] == setup.Attacker) {
+                                        front = true;
+                                        break;
+                                    }
+                                }
+                                if (true) {
+                                    int damage = DamageCalculator.CalculateDamage(setup.Move.Data1, setup.AttackStat, setup.Attacker.Level, setup.DefenseStat) * setup.Multiplier / 1000;
+                                    setup.Defender.HeldItem.Tag = (setup.Defender.HeldItem.Tag.ToInt() - damage).ToString();
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Pokédoll took the attack instead!", Text.BrightGreen), setup.Defender.X, setup.Defender.Y, 10);
+                                    setup.Multiplier = -1;
+                                }
+                                //take held item
+                            }
 
                             //substitute
                             status = setup.Defender.VolatileStatus.GetStatus("Substitute");
@@ -2528,26 +2527,26 @@ namespace Script {
             try {
                 ExtraStatus status;
                 switch (setup.Move.Data1) {
-                	case -6: {
-                			if (setup.AttackerMap.MapType == Enums.MapType.Instanced && ((InstancedMap)setup.AttackerMap).MapBase == 1945
-                				&& setup.DefenderMap.MapType == Enums.MapType.Instanced && ((InstancedMap)setup.DefenderMap).MapBase == 1945) {
-	                			if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
-	                                setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-	
-	                                Client attacker = ((Recruit)setup.Attacker).Owner;
-	                                Client defender = ((Recruit)setup.Defender).Owner;
-									
-									SnowballGame attackerInstance = exPlayer.Get(attacker).SnowballGameInstance;
-									SnowballGame defenderInstance = exPlayer.Get(defender).SnowballGameInstance;
-									if (attackerInstance != null && defenderInstance != null
-										&& attackerInstance == defenderInstance) {
-										
-										attackerInstance.HandleHit(attacker, defender);
-	                                }
-	                            }
-	                    	}
-                		}
-                		break;
+                    case -6: {
+                            if (setup.AttackerMap.MapType == Enums.MapType.Instanced && ((InstancedMap)setup.AttackerMap).MapBase == 1945
+                                && setup.DefenderMap.MapType == Enums.MapType.Instanced && ((InstancedMap)setup.DefenderMap).MapBase == 1945) {
+                                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
+                                    setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
+
+                                    Client attacker = ((Recruit)setup.Attacker).Owner;
+                                    Client defender = ((Recruit)setup.Defender).Owner;
+
+                                    SnowballGame attackerInstance = exPlayer.Get(attacker).SnowballGameInstance;
+                                    SnowballGame defenderInstance = exPlayer.Get(defender).SnowballGameInstance;
+                                    if (attackerInstance != null && defenderInstance != null
+                                        && attackerInstance == defenderInstance) {
+
+                                        attackerInstance.HandleHit(attacker, defender);
+                                    }
+                                }
+                            }
+                        }
+                        break;
                     case -5: {//laser tag
                             if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit &&
                                 setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
@@ -2606,7 +2605,7 @@ namespace Script {
                         }
                         break;
                     case 7: {//flinch
-							if (Server.Math.Rand(0, 100) < setup.Move.Data2) {
+                            if (Server.Math.Rand(0, 100) < setup.Move.Data2) {
                                 Flinch(setup.Defender, setup.Attacker, setup.DefenderMap, setup.PacketStack);
                             }
                         }
@@ -2709,42 +2708,42 @@ namespace Script {
                         }
                         break;
                     case 36: {//sleep talk
-                    		if (setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep && GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
-								List<int> slots = new List<int>();
-	                	
-			                	for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
-			                		if (setup.Attacker.Moves[i].MoveNum > 0 && setup.moveSlot != i) {
-			                			slots.Add(i);
-			                		}
-			                	}
-			                	
-			                	if (slots.Count > 0) {
-				                	BattleSetup subSetup = new BattleSetup();
-				                    subSetup.Attacker = setup.Attacker;
-				                    subSetup.moveSlot = -1;
-				                    subSetup.moveIndex = setup.Attacker.Moves[slots[Server.Math.Rand(0, slots.Count)]].MoveNum;
-				                    
-									subSetup.BattleTags.Add("InvokedMove");
-									BattleProcessor.HandleAttack(subSetup);
-				
-				
-				                    BattleProcessor.FinalizeAction(subSetup, setup.PacketStack);
-				                	
-				                    setup.Cancel = true;
-				                    return;
-			                    } else {
-			                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " couldn't pick a move!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-			                    }
-		                    } else {
-		                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " isn't asleep!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-		                    }
+                            if (setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep && GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
+                                List<int> slots = new List<int>();
+
+                                for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
+                                    if (setup.Attacker.Moves[i].MoveNum > 0 && setup.moveSlot != i) {
+                                        slots.Add(i);
+                                    }
+                                }
+
+                                if (slots.Count > 0) {
+                                    BattleSetup subSetup = new BattleSetup();
+                                    subSetup.Attacker = setup.Attacker;
+                                    subSetup.moveSlot = -1;
+                                    subSetup.moveIndex = setup.Attacker.Moves[slots[Server.Math.Rand(0, slots.Count)]].MoveNum;
+
+                                    subSetup.BattleTags.Add("InvokedMove");
+                                    BattleProcessor.HandleAttack(subSetup);
+
+
+                                    BattleProcessor.FinalizeAction(subSetup, setup.PacketStack);
+
+                                    setup.Cancel = true;
+                                    return;
+                                } else {
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " couldn't pick a move!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                }
+                            } else {
+                                setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " isn't asleep!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            }
                         }
                         break;
                     case 39: {//OHKO
                             if (DamageCalculator.CalculateTypeMatchup(setup.Move.Element, setup.Defender.Type1) == 0 || DamageCalculator.CalculateTypeMatchup(setup.Move.Element, setup.Defender.Type2) == 0) {
                                 setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Poor type match-up!  " + setup.Defender.Name + " took no damage!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             } else {
-                            	int damage = setup.Defender.HP;
+                                int damage = setup.Defender.HP;
                                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
                                     DamageCharacter(setup.Defender, setup.DefenderMap, damage, Enums.KillType.Player, setup.PacketStack, false);
                                 } else {
@@ -2797,7 +2796,7 @@ namespace Script {
                                     }
                                     break;
                                 case 4: {//Stockpile-dependent
-                                    status = setup.Defender.VolatileStatus.GetStatus("Stockpile");
+                                        status = setup.Defender.VolatileStatus.GetStatus("Stockpile");
                                         if (status == null) {
                                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("But there was nothing to swallow!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                                         } else {
@@ -3054,7 +3053,7 @@ namespace Script {
                         }
                         break;
                     case 69: {//stockpile
-                        status = setup.Defender.VolatileStatus.GetStatus("Stockpile");
+                            status = setup.Defender.VolatileStatus.GetStatus("Stockpile");
                             if (status != null) {
                                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Stockpile", status.Counter + 1, null, "", setup.PacketStack);
                             } else {
@@ -3284,7 +3283,7 @@ namespace Script {
                         }
                         break;
                     case 97: {//Disable
-                        status = setup.Defender.VolatileStatus.GetStatus("LastUsedMoveSlot");
+                            status = setup.Defender.VolatileStatus.GetStatus("LastUsedMoveSlot");
                             if (status != null) {
                                 //AddExtraStatus(i, "MoveSeal:" + rand, -1, 0, null, hitlist);
                                 AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Disable", status.Counter, null, "", setup.PacketStack, true);
@@ -3340,31 +3339,31 @@ namespace Script {
                         }
                         break;
                     case 108: {//Safeguard
-                    		int duration = setup.Move.Data2;
-                        	if (setup.Attacker.HasActiveItem(84)) {
-                        	    duration *= 2;
-                        	}
+                            int duration = setup.Move.Data2;
+                            if (setup.Attacker.HasActiveItem(84)) {
+                                duration *= 2;
+                            }
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "Safeguard", duration, null, "", setup.PacketStack);
                         }
                         break;
                     case 109: {//Mist
-                    		int duration = setup.Move.Data2;
-                        	if (setup.Attacker.HasActiveItem(84)) {
-                        	    duration *= 2;
-                        	}
+                            int duration = setup.Move.Data2;
+                            if (setup.Attacker.HasActiveItem(84)) {
+                                duration *= 2;
+                            }
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "Mist", duration, null, "", setup.PacketStack);
                         }
                         break;
                     case 110: {//Reflect
-                        	int duration = setup.Move.Data2;
-                        	if (setup.Attacker.HasActiveItem(84)) {
-                        	    duration *= 2;
-                        	}
-                        	AddExtraStatus(setup.Defender, setup.DefenderMap, "Reflect", duration, null, "", setup.PacketStack);
+                            int duration = setup.Move.Data2;
+                            if (setup.Attacker.HasActiveItem(84)) {
+                                duration *= 2;
+                            }
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "Reflect", duration, null, "", setup.PacketStack);
                         }
                         break;
                     case 111: {//Light Screen
-                    		int duration = setup.Move.Data2;
+                            int duration = setup.Move.Data2;
                             if (setup.Attacker.HasActiveItem(84)) {
                                 duration *= 2;
                             }
@@ -3400,7 +3399,7 @@ namespace Script {
                         }
                         break;
                     case 120: {//Spite (deduct PP)
-                        status = setup.Defender.VolatileStatus.GetStatus("LastUsedMoveSlot");
+                            status = setup.Defender.VolatileStatus.GetStatus("LastUsedMoveSlot");
                             if (status != null) {
 
                                 setup.Defender.Moves[status.Counter].CurrentPP -= setup.Move.Data2;
@@ -3470,10 +3469,10 @@ namespace Script {
                         }
                         break;
                     case 137: {//Neutralized move effects
-                    		if (HasActiveBagItem(setup.Defender, 2, 0, (int)setup.Move.Element)) {
-		                    	HealCharacter(setup.Defender, setup.DefenderMap, setup.Defender.MaxHP / 4, setup.PacketStack);
-		                    }
-                    		
+                            if (HasActiveBagItem(setup.Defender, 2, 0, (int)setup.Move.Element)) {
+                                HealCharacter(setup.Defender, setup.DefenderMap, setup.Defender.MaxHP / 4, setup.PacketStack);
+                            }
+
                             if (HasAbility(setup.Defender, "Dry Skin")) {
                                 if (setup.Move.Element == Enums.PokemonType.Water) {
                                     HealCharacter(setup.Defender, setup.DefenderMap, setup.Defender.MaxHP / 4, setup.PacketStack);
@@ -3551,7 +3550,7 @@ namespace Script {
                         }
                         break;
                     case 147: {//swagger/flatter
-                            
+
                             //Confuse(setup.Defender, setup.Attacker, setup.DefenderMap, Server.Math.Rand(5, 11), setup.PacketStack);
                             AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Confusion", Server.Math.Rand(5, 11), null, "", setup.PacketStack, true);
                             switch (setup.Move.Data2) {
@@ -3635,10 +3634,10 @@ namespace Script {
                         }
                         break;
                     case 158: {//lock on/mind reader
-                    		if (setup.Defender == setup.Attacker) {
-                            	AddExtraStatus(setup.Defender, setup.DefenderMap, "SureShot", setup.Move.Data2 + 1, null, "", setup.PacketStack);
+                            if (setup.Defender == setup.Attacker) {
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "SureShot", setup.Move.Data2 + 1, null, "", setup.PacketStack);
                             } else {
-                            	AddExtraStatus(setup.Defender, setup.DefenderMap, "SureShot", setup.Move.Data2, null, "", setup.PacketStack);
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "SureShot", setup.Move.Data2, null, "", setup.PacketStack);
                             }
                         }
                         break;
@@ -3661,7 +3660,7 @@ namespace Script {
                         }
                         break;
                     case 161: {//movement speed
-                        status = setup.Defender.VolatileStatus.GetStatus("MovementSpeed");
+                            status = setup.Defender.VolatileStatus.GetStatus("MovementSpeed");
                             if (status != null) {
                                 AddExtraStatus(setup.Defender, setup.DefenderMap, "MovementSpeed", status.Counter + setup.Move.Data2, null, "", setup.PacketStack);
                             } else {
@@ -3750,7 +3749,7 @@ namespace Script {
                                         } else {
 
                                             setup.BattleTags.Add("HeartSwap:" + setup.Defender.Name + ":" + setup.Defender.AttackBuff + ":" + setup.Defender.SpAtkBuff + ":" +
-                                            	setup.Defender.DefenseBuff + ":" + setup.Defender.SpDefBuff + ":" + setup.Defender.SpeedBuff + ":" + setup.Defender.AccuracyBuff + ":" + setup.Defender.EvasionBuff);
+                                                setup.Defender.DefenseBuff + ":" + setup.Defender.SpDefBuff + ":" + setup.Defender.SpeedBuff + ":" + setup.Defender.AccuracyBuff + ":" + setup.Defender.EvasionBuff);
                                             setup.Defender.AttackBuff = setup.Attacker.AttackBuff;
                                             setup.Defender.SpAtkBuff = setup.Attacker.SpAtkBuff;
                                             setup.Defender.DefenseBuff = setup.Attacker.DefenseBuff;
@@ -3896,7 +3895,7 @@ namespace Script {
                     case 185: {//Gravity
                             if (setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y].Type == Enums.TileType.Arena || setup.AttackerMap.Moral == Enums.MapMoral.None || setup.AttackerMap.Moral == Enums.MapMoral.NoPenalty) {
                                 if (setup.AttackerMap.TempStatus.GetStatus("Gravity") != null) {
-                                    
+
                                 } else {
                                     AddMapStatus(setup.AttackerMap, "Gravity", setup.Move.Data2, "", -1, setup.PacketStack);
                                 }
@@ -3920,474 +3919,471 @@ namespace Script {
                         break;
                     case 189: {//baton pass
                             setup.Defender.AttackBuff = setup.Attacker.AttackBuff;
-				            setup.Defender.DefenseBuff = setup.Attacker.DefenseBuff;
-				            setup.Defender.SpeedBuff = setup.Attacker.SpeedBuff;
-				            setup.Defender.SpAtkBuff = setup.Attacker.SpAtkBuff;
-				            setup.Defender.SpDefBuff = setup.Attacker.SpDefBuff;
-				            setup.Defender.AccuracyBuff = setup.Attacker.AccuracyBuff;
-				            setup.Defender.EvasionBuff = setup.Attacker.EvasionBuff;
-				            
-				            RemoveAllBondedExtraStatus(setup.Defender, setup.DefenderMap, setup.PacketStack, false);
-				            
-				            List<ExtraStatus> passedStatus = GetTeamStatus(setup.Defender);
-				            
-				            setup.Defender.VolatileStatus.Clear();
-				            
-				            foreach (ExtraStatus extraStatus in passedStatus) {
-				                setup.Defender.VolatileStatus.Add(extraStatus);
-				            }
+                            setup.Defender.DefenseBuff = setup.Attacker.DefenseBuff;
+                            setup.Defender.SpeedBuff = setup.Attacker.SpeedBuff;
+                            setup.Defender.SpAtkBuff = setup.Attacker.SpAtkBuff;
+                            setup.Defender.SpDefBuff = setup.Attacker.SpDefBuff;
+                            setup.Defender.AccuracyBuff = setup.Attacker.AccuracyBuff;
+                            setup.Defender.EvasionBuff = setup.Attacker.EvasionBuff;
 
-                            for (int i = 0; i < setup.Attacker.VolatileStatus.Count; i++ ) {
+                            RemoveAllBondedExtraStatus(setup.Defender, setup.DefenderMap, setup.PacketStack, false);
+
+                            List<ExtraStatus> passedStatus = GetTeamStatus(setup.Defender);
+
+                            setup.Defender.VolatileStatus.Clear();
+
+                            foreach (ExtraStatus extraStatus in passedStatus) {
+                                setup.Defender.VolatileStatus.Add(extraStatus);
+                            }
+
+                            for (int i = 0; i < setup.Attacker.VolatileStatus.Count; i++) {
                                 if (!IsBondedStatus(setup.Attacker.VolatileStatus[i].Name) && !IsTeamStatus(setup.Attacker.VolatileStatus[i].Name)) {
                                     setup.Defender.VolatileStatus.Add(setup.Attacker.VolatileStatus[i]);
                                 }
                             }
-				            
-				            RefreshCharacterTraits(setup.Defender, setup.DefenderMap, setup.PacketStack);
-				            
-				            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " passed its stat changes and special effects to " + setup.Defender.Name + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+
+                            RefreshCharacterTraits(setup.Defender, setup.DefenderMap, setup.PacketStack);
+
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " passed its stat changes and special effects to " + setup.Defender.Name + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
                         }
                         break;
                     case 190: {//move-invoking moves
-                    		if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
-								int moveIndex = -1;
-				                	
-				                switch (setup.Move.Data2) {
-				                   	case 1: {//mirror move/copycat
-                                        status = setup.Attacker.VolatileStatus.GetStatus("LastMoveHitBy");
-                                        
-				                    		if (status != null) {
-				                    			moveIndex = status.Counter;
-				                    		}
-				                   		}
-				                   		break;
-				                   	case 2: {//assist - calls a move from the party
-				                    		if (GetBattleTagArg(setup.BattleTags, "Assist", 1) != null) {
-				                    			//Messenger.AdminMsg(GetBattleTagArg(setup.BattleTags, "Assist", 1), Text.Black);
-				                    			string[] possibleMoves = GetBattleTagArg(setup.BattleTags, "Assist", 1).Split(',');
-				                    			moveIndex = possibleMoves[Server.Math.Rand(0, possibleMoves.Length)].ToInt();
-				                    		}
-				                   		}
-				                   		break;
-				                   	case 3: {//me first - calls a move from the enemies
-				                    		if (GetBattleTagArg(setup.BattleTags, "MeFirst", 1) != null) {
-				                    			//Messenger.AdminMsg(GetBattleTagArg(setup.BattleTags, "Assist", 1), Text.Black);
-				                    			string[] possibleMoves = GetBattleTagArg(setup.BattleTags, "MeFirst", 1).Split(',');
-				                    			moveIndex = possibleMoves[Server.Math.Rand(0, possibleMoves.Length)].ToInt();
-				                    		}
-				                   		}
-				                   		break;
-				                   	case 4: {//nature power
-				                    		Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
+                            if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
+                                int moveIndex = -1;
 
-			                                int type1 = 0;
-			                                int type2 = 0;
-			                                if (tile.Data2 > 0) {
-			                                    if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway) {
-			                                        //set to first type
-			                                        type1 = tile.Data2;
-			                                    }
-			                                } else if (tile.Type == Enums.TileType.MobileBlock) {
-			                                    Enums.PokemonType terrainType = GetMobileBlockTerrainType(tile.Data1);
-			                                    if (terrainType != Enums.PokemonType.None) {
-			                                        type1 = (int)terrainType;
-			                                    }
-			                                }
-			
-			                                if (tile.String2.IsNumeric() && tile.String2.ToInt() > 0) {
-			                                    //set to second type
-			                                    if (type1 != 0) {
-			                                        type2 = tile.String2.ToInt();
-			                                    } else {
-			                                        type1 = tile.String2.ToInt();
-			                                    }
-			                                }
-		                                
-		                                    switch ((Enums.PokemonType)type1) {
-		                                        case Enums.PokemonType.Bug: {
-		                                                moveIndex = 616; //quiver dance
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Dark: {
-		                                        		moveIndex = 672; //night daze
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Dragon: {
-		                                                moveIndex = 457; //draco meteor
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Electric: {
-		                                                moveIndex = 13; //thunder
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Fighting: {
-		                                                moveIndex = 70; //aura sphere
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Fire: {
-		                                                moveIndex = 95; //fire blast
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Flying: {
-		                                                moveIndex = 675; //hurricane
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Ghost: {
-		                                                moveIndex = 162; //night shade
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Grass: {
-		                                                moveIndex = 416; //spore
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Ground: {
-		                                                moveIndex = 15; //earthquake
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Ice: {
-		                                                moveIndex = 74; //blizzard
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Normal: {
-		                                                moveIndex = 49; //tri attack
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Poison: {
-		                                                moveIndex = 622; //coil
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Psychic: {
-		                                                moveIndex = 110; //light screen
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Rock: {
-		                                                moveIndex = 374; //rock slide
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Steel: {
-		                                                moveIndex = 319; //metal burst
-		                                            }
-		                                            break;
-		                                        case Enums.PokemonType.Water: {
-		                                                moveIndex = 205; //hydro pump
-		                                            }
-		                                            break;
-		                                        default: {
-		                                                moveIndex = 46; //swift
-		                                            }
-		                                            break;
-		                                    }
-		                                
-				                   		}
-				                   		break;
-				                    
-				                }
-				                
-				                    
-				                if (moveIndex > 0 && IsInvokableMove(moveIndex)) {
-				                    BattleSetup subSetup = new BattleSetup();
-				                    subSetup.Attacker = setup.Attacker;
-				                    subSetup.moveSlot = -1;
-				                    
-				                    subSetup.moveIndex = moveIndex;
-				                    
-									subSetup.BattleTags.Add("InvokedMove");
-									BattleProcessor.HandleAttack(subSetup);
-				
-				
-				                    BattleProcessor.FinalizeAction(subSetup, setup.PacketStack);
-				                	
-				                    setup.Cancel = true;
-				                    return;
-			                    } else {
-			                    	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But it failed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-			                    }
-		                    } else {
-			                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But it failed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-			                }
-                    
-                    	}
-                    	break;
+                                switch (setup.Move.Data2) {
+                                    case 1: {//mirror move/copycat
+                                            status = setup.Attacker.VolatileStatus.GetStatus("LastMoveHitBy");
+
+                                            if (status != null) {
+                                                moveIndex = status.Counter;
+                                            }
+                                        }
+                                        break;
+                                    case 2: {//assist - calls a move from the party
+                                            if (GetBattleTagArg(setup.BattleTags, "Assist", 1) != null) {
+                                                //Messenger.AdminMsg(GetBattleTagArg(setup.BattleTags, "Assist", 1), Text.Black);
+                                                string[] possibleMoves = GetBattleTagArg(setup.BattleTags, "Assist", 1).Split(',');
+                                                moveIndex = possibleMoves[Server.Math.Rand(0, possibleMoves.Length)].ToInt();
+                                            }
+                                        }
+                                        break;
+                                    case 3: {//me first - calls a move from the enemies
+                                            if (GetBattleTagArg(setup.BattleTags, "MeFirst", 1) != null) {
+                                                //Messenger.AdminMsg(GetBattleTagArg(setup.BattleTags, "Assist", 1), Text.Black);
+                                                string[] possibleMoves = GetBattleTagArg(setup.BattleTags, "MeFirst", 1).Split(',');
+                                                moveIndex = possibleMoves[Server.Math.Rand(0, possibleMoves.Length)].ToInt();
+                                            }
+                                        }
+                                        break;
+                                    case 4: {//nature power
+                                            Tile tile = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y];
+
+                                            int type1 = 0;
+                                            int type2 = 0;
+                                            if (tile.Data2 > 0) {
+                                                if (tile.Type == Enums.TileType.Walkable || tile.Type == Enums.TileType.Hallway) {
+                                                    //set to first type
+                                                    type1 = tile.Data2;
+                                                }
+                                            } else if (tile.Type == Enums.TileType.MobileBlock) {
+                                                Enums.PokemonType terrainType = GetMobileBlockTerrainType(tile.Data1);
+                                                if (terrainType != Enums.PokemonType.None) {
+                                                    type1 = (int)terrainType;
+                                                }
+                                            }
+
+                                            if (tile.String2.IsNumeric() && tile.String2.ToInt() > 0) {
+                                                //set to second type
+                                                if (type1 != 0) {
+                                                    type2 = tile.String2.ToInt();
+                                                } else {
+                                                    type1 = tile.String2.ToInt();
+                                                }
+                                            }
+
+                                            switch ((Enums.PokemonType)type1) {
+                                                case Enums.PokemonType.Bug: {
+                                                        moveIndex = 616; //quiver dance
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Dark: {
+                                                        moveIndex = 672; //night daze
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Dragon: {
+                                                        moveIndex = 457; //draco meteor
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Electric: {
+                                                        moveIndex = 13; //thunder
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Fighting: {
+                                                        moveIndex = 70; //aura sphere
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Fire: {
+                                                        moveIndex = 95; //fire blast
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Flying: {
+                                                        moveIndex = 675; //hurricane
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Ghost: {
+                                                        moveIndex = 162; //night shade
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Grass: {
+                                                        moveIndex = 416; //spore
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Ground: {
+                                                        moveIndex = 15; //earthquake
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Ice: {
+                                                        moveIndex = 74; //blizzard
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Normal: {
+                                                        moveIndex = 49; //tri attack
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Poison: {
+                                                        moveIndex = 622; //coil
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Psychic: {
+                                                        moveIndex = 110; //light screen
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Rock: {
+                                                        moveIndex = 374; //rock slide
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Steel: {
+                                                        moveIndex = 319; //metal burst
+                                                    }
+                                                    break;
+                                                case Enums.PokemonType.Water: {
+                                                        moveIndex = 205; //hydro pump
+                                                    }
+                                                    break;
+                                                default: {
+                                                        moveIndex = 46; //swift
+                                                    }
+                                                    break;
+                                            }
+
+                                        }
+                                        break;
+
+                                }
+
+
+                                if (moveIndex > 0 && IsInvokableMove(moveIndex)) {
+                                    BattleSetup subSetup = new BattleSetup();
+                                    subSetup.Attacker = setup.Attacker;
+                                    subSetup.moveSlot = -1;
+
+                                    subSetup.moveIndex = moveIndex;
+
+                                    subSetup.BattleTags.Add("InvokedMove");
+                                    BattleProcessor.HandleAttack(subSetup);
+
+
+                                    BattleProcessor.FinalizeAction(subSetup, setup.PacketStack);
+
+                                    setup.Cancel = true;
+                                    return;
+                                } else {
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But it failed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                }
+                            } else {
+                                setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("But it failed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            }
+
+                        }
+                        break;
                     case 191: {//invisible
-                            
+
                             AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Invisible", setup.Move.Data2, null, "", setup.PacketStack, true);
-                            
+
                         }
                         break;
                     case 194: {//HP to 1
-                    		if (setup.Defender.Level > setup.Attacker.Level) {
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s level is too high to be affected!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		} else {
-	                    		int dmg = setup.Defender.HP - 1;
-	                            if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                                DamageCharacter(setup.Defender, setup.DefenderMap, dmg, Enums.KillType.Player, setup.PacketStack, false);
-	                            } else {
-	                                DamageCharacter(setup.Defender, setup.DefenderMap, dmg, Enums.KillType.Npc, setup.PacketStack, false);
-	                            }
-	                            setup.Damage = dmg;
+                            if (setup.Defender.Level > setup.Attacker.Level) {
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s level is too high to be affected!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            } else {
+                                int dmg = setup.Defender.HP - 1;
+                                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                    DamageCharacter(setup.Defender, setup.DefenderMap, dmg, Enums.KillType.Player, setup.PacketStack, false);
+                                } else {
+                                    DamageCharacter(setup.Defender, setup.DefenderMap, dmg, Enums.KillType.Npc, setup.PacketStack, false);
+                                }
+                                setup.Damage = dmg;
                             }
                         }
                         break;
                     case 195: {//pounce
-                    		if (setup.AttackerMap.Moral == Enums.MapMoral.None || setup.Attacker == setup.Defender) {
-	                    		if (GetBattleTagArg(setup.BattleTags, "Pounce", 1) != null) {
-	                                PointWarp(setup.Defender, setup.DefenderMap, setup.PacketStack, GetBattleTagArg(setup.BattleTags, "Pounce", 1).ToInt(), GetBattleTagArg(setup.BattleTags, "Pounce", 2).ToInt());
-	                            }
-	                            Pounce(setup.Defender, setup.DefenderMap, setup.Attacker.Direction, true, false, setup.PacketStack);
+                            if (setup.AttackerMap.Moral == Enums.MapMoral.None || setup.Attacker == setup.Defender) {
+                                if (GetBattleTagArg(setup.BattleTags, "Pounce", 1) != null) {
+                                    PointWarp(setup.Defender, setup.DefenderMap, setup.PacketStack, GetBattleTagArg(setup.BattleTags, "Pounce", 1).ToInt(), GetBattleTagArg(setup.BattleTags, "Pounce", 2).ToInt());
+                                }
+                                Pounce(setup.Defender, setup.DefenderMap, setup.Attacker.Direction, true, false, setup.PacketStack);
                             }
                         }
                         break;
                     case 197: {//sky drop kidnapping phase
-                    		if (setup.Attacker.VolatileStatus.GetStatus("SkyDrop:1") == null && setup.Defender.VolatileStatus.GetStatus("SkyDrop:0") == null) {
+                            if (setup.Attacker.VolatileStatus.GetStatus("SkyDrop:1") == null && setup.Defender.VolatileStatus.GetStatus("SkyDrop:0") == null) {
                                 AddExtraStatus(setup.Defender, setup.DefenderMap, "SkyDrop:0", 5, setup.Attacker, "", setup.PacketStack);
                                 AddExtraStatus(setup.Attacker, setup.AttackerMap, "SkyDrop:1", -1, setup.Defender, "", setup.PacketStack);
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 200: {//quash
-                    		if (setup.Defender.AttackTimer == null || setup.Defender.AttackTimer.Tick < Core.GetTickCount().Tick) {
-			                    setup.Defender.AttackTimer = new TickCount(Core.GetTickCount().Tick);
-			                }
-			                setup.Defender.AttackTimer = new TickCount(setup.Defender.AttackTimer.Tick + 4000);
-			                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s attacks were postponed!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    	}
-                    	break;
+                            if (setup.Defender.AttackTimer == null || setup.Defender.AttackTimer.Tick < Core.GetTickCount().Tick) {
+                                setup.Defender.AttackTimer = new TickCount(Core.GetTickCount().Tick);
+                            }
+                            setup.Defender.AttackTimer = new TickCount(setup.Defender.AttackTimer.Tick + 4000);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s attacks were postponed!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                        }
+                        break;
                     case 201: {//after you
-				                    
-				                    List<int> moves = new List<int>();
-				                    
-				                    for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
-				                    	if (IsInvokableMove(setup.Defender.Moves[i].MoveNum)) {
-				                    		moves.Add(setup.Defender.Moves[i].MoveNum);
-				                    	}
-				                    }
-					                BattleSetup groupSetup = new BattleSetup();
-                                    groupSetup.Attacker = setup.Defender;
-                                    groupSetup.moveSlot = -1;
-                                    
-					                if (moves.Count > 0) {
-					                	int rand = Server.Math.Rand(0, moves.Count);
-					                    
-					                    groupSetup.moveIndex = moves[rand];
-					                } else {
-                                    	groupSetup.moveIndex = 466;
-                                    }
-					                
-                        			
-					                    
-					                    
-										groupSetup.BattleTags.Add("OrderedMove");
-	
-	
-	
-	                                    BattleProcessor.HandleAttack(groupSetup);
-	
-	
-	                                    BattleProcessor.FinalizeAction(groupSetup, setup.PacketStack);
-                                    
+
+                            List<int> moves = new List<int>();
+
+                            for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
+                                if (IsInvokableMove(setup.Defender.Moves[i].MoveNum)) {
+                                    moves.Add(setup.Defender.Moves[i].MoveNum);
+                                }
+                            }
+                            BattleSetup groupSetup = new BattleSetup();
+                            groupSetup.Attacker = setup.Defender;
+                            groupSetup.moveSlot = -1;
+
+                            if (moves.Count > 0) {
+                                int rand = Server.Math.Rand(0, moves.Count);
+
+                                groupSetup.moveIndex = moves[rand];
+                            } else {
+                                groupSetup.moveIndex = 466;
+                            }
+
+
+
+
+                            groupSetup.BattleTags.Add("OrderedMove");
+
+
+
+                            BattleProcessor.HandleAttack(groupSetup);
+
+
+                            BattleProcessor.FinalizeAction(groupSetup, setup.PacketStack);
+
 
                         }
                         break;
                     case 204: {//pain split
-                    		if (GetBattleTagArg(setup.BattleTags, "PainSplit", 1) != null) {
-                    			int hp = GetBattleTagArg(setup.BattleTags, "PainSplit", 1).ToInt();
-                    			if (hp >= setup.Defender.HP) {
-                    				HealCharacter(setup.Defender, setup.DefenderMap, hp - setup.Defender.HP, setup.PacketStack);
-                    			} else {
-                    				DamageCharacter(setup.Defender, setup.DefenderMap, setup.Defender.HP - hp, Enums.KillType.Player, setup.PacketStack, true);
-                    			}
-                    		}
-                    	}
-                    	break;
+                            if (GetBattleTagArg(setup.BattleTags, "PainSplit", 1) != null) {
+                                int hp = GetBattleTagArg(setup.BattleTags, "PainSplit", 1).ToInt();
+                                if (hp >= setup.Defender.HP) {
+                                    HealCharacter(setup.Defender, setup.DefenderMap, hp - setup.Defender.HP, setup.PacketStack);
+                                } else {
+                                    DamageCharacter(setup.Defender, setup.DefenderMap, setup.Defender.HP - hp, Enums.KillType.Player, setup.PacketStack, true);
+                                }
+                            }
+                        }
+                        break;
                     case 206: {//conversion
-                    		if (setup.Move.Data2 == 1) {
-                    			AddExtraStatus(setup.Defender, setup.DefenderMap, "Conversion", 0, null, "", setup.PacketStack);
-                    			setup.BattleTags.Add("Conversion");
-                    		} else if (setup.Move.Data2 == 2) {
-                    			AddExtraStatus(setup.Defender, setup.DefenderMap, "Conversion2", 0, null, "", setup.PacketStack);
-                    		}
-                    	}
-                    	break;
+                            if (setup.Move.Data2 == 1) {
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "Conversion", 0, null, "", setup.PacketStack);
+                                setup.BattleTags.Add("Conversion");
+                            } else if (setup.Move.Data2 == 2) {
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "Conversion2", 0, null, "", setup.PacketStack);
+                            }
+                        }
+                        break;
                     case 207: {//rebound
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "Rebound", 10, null, "", setup.PacketStack);
                         }
                         break;
                     case 208: {//Power Trick
-                    		int atk, def;
-			                if (setup.Defender.VolatileStatus.GetStatus("ProxyAttack") != null) {
-			                	atk = setup.Defender.VolatileStatus.GetStatus("ProxyAttack").Counter;
-			                } else {
-			                    atk = setup.Defender.Atk;
-			                }
-			                if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
-                    			def = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
-                    		} else {
-                        		def = setup.Defender.Def;
-                        	}
-			                
+                            int atk, def;
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxyAttack") != null) {
+                                atk = setup.Defender.VolatileStatus.GetStatus("ProxyAttack").Counter;
+                            } else {
+                                atk = setup.Defender.Atk;
+                            }
+                            if (setup.Defender.VolatileStatus.GetStatus("ProxyDefense") != null) {
+                                def = setup.Defender.VolatileStatus.GetStatus("ProxyDefense").Counter;
+                            } else {
+                                def = setup.Defender.Def;
+                            }
+
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyAttack", def, null, "", setup.PacketStack);
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyDefense", atk, null, "", setup.PacketStack);
-                            
+
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " swapped its Attack and Defense!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                            
+
                         }
                         break;
                     case 209: {//stat split
-                    		int stat = 0, special = 0;
-                    		if (GetBattleTagArg(setup.BattleTags, "StatSplit", 0) != null) {
-                    			stat = GetBattleTagArg(setup.BattleTags, "StatSplit", 1).ToInt();
-                    			special = GetBattleTagArg(setup.BattleTags, "StatSplit", 2).ToInt();
-                    		}
-                    		if (setup.Move.Data2 == 1) {
-                    			AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyAttack", stat, null, "", setup.PacketStack);
-                            	AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxySpAtk", special, null, "", setup.PacketStack);
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Attack and Sp. Attack was shared!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		} else if (setup.Move.Data2 == 2) {
-                    			AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyDefense", stat, null, "", setup.PacketStack);
-                            	AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxySpDef", special, null, "", setup.PacketStack);
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Defense and Sp. Defense was shared!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		}
+                            int stat = 0, special = 0;
+                            if (GetBattleTagArg(setup.BattleTags, "StatSplit", 0) != null) {
+                                stat = GetBattleTagArg(setup.BattleTags, "StatSplit", 1).ToInt();
+                                special = GetBattleTagArg(setup.BattleTags, "StatSplit", 2).ToInt();
+                            }
+                            if (setup.Move.Data2 == 1) {
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyAttack", stat, null, "", setup.PacketStack);
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxySpAtk", special, null, "", setup.PacketStack);
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Attack and Sp. Attack was shared!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            } else if (setup.Move.Data2 == 2) {
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxyDefense", stat, null, "", setup.PacketStack);
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "ProxySpDef", special, null, "", setup.PacketStack);
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Defense and Sp. Defense was shared!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            }
                         }
                         break;
                     case 210: {//nonvolatile status cure with immunity
-                    		if (setup.Defender.StatusAilment == (Enums.StatusAilment)setup.Move.Data2) {
+                            if (setup.Defender.StatusAilment == (Enums.StatusAilment)setup.Move.Data2) {
                                 SetStatusAilment(setup.Defender, setup.DefenderMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
                             } else {
                                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Status Guard", 10, null, setup.Move.Data2.ToString(), setup.PacketStack);
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 212: {//sketch
-                    		if (setup.moveSlot >= 0 && setup.moveSlot < Constants.MAX_PLAYER_MOVES) {
-	                    		if (setup.Attacker.Moves[setup.moveSlot].MoveNum == 435) {
-	                    			for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
-	                    				int moveNum = setup.Defender.Moves[i].MoveNum;
-	                    				if (moveNum <= 0 || moveNum == 435) {
-	                    					setup.Attacker.Moves[i].MoveNum = -1;
-						                    setup.Attacker.Moves[i].MaxPP = -1;
-						                    setup.Attacker.Moves[i].CurrentPP = -1;
-						                    setup.Attacker.Moves[i].Sealed = false;
-	                    				} else {
-		                    				setup.Attacker.Moves[i].MoveNum = moveNum;
-						                    setup.Attacker.Moves[i].MaxPP = MoveManager.Moves[moveNum].MaxPP;
-						                    setup.Attacker.Moves[i].CurrentPP = setup.Attacker.Moves[i].MaxPP;
-						                    setup.Attacker.Moves[i].Sealed = false;
-					                    }
-					                }
-					                setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " sketched " + setup.Defender.Name + "'s moves!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
-					                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-		                    			RefreshCharacterMoves(setup.Attacker, setup.AttackerMap, setup.PacketStack);
-		                    		}
-	                    		}
-	                    	}
-                    	}
-                    	break;
+                            if (setup.moveSlot >= 0 && setup.moveSlot < Constants.MAX_PLAYER_MOVES) {
+                                if (setup.Attacker.Moves[setup.moveSlot].MoveNum == 435) {
+                                    for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
+                                        int moveNum = setup.Defender.Moves[i].MoveNum;
+                                        if (moveNum <= 0 || moveNum == 435) {
+                                            setup.Attacker.Moves[i].MoveNum = -1;
+                                            setup.Attacker.Moves[i].MaxPP = -1;
+                                            setup.Attacker.Moves[i].CurrentPP = -1;
+                                            setup.Attacker.Moves[i].Sealed = false;
+                                        } else {
+                                            setup.Attacker.Moves[i].MoveNum = moveNum;
+                                            setup.Attacker.Moves[i].MaxPP = MoveManager.Moves[moveNum].MaxPP;
+                                            setup.Attacker.Moves[i].CurrentPP = setup.Attacker.Moves[i].MaxPP;
+                                            setup.Attacker.Moves[i].Sealed = false;
+                                        }
+                                    }
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " sketched " + setup.Defender.Name + "'s moves!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
+                                    if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
+                                        RefreshCharacterMoves(setup.Attacker, setup.AttackerMap, setup.PacketStack);
+                                    }
+                                }
+                            }
+                        }
+                        break;
                     case 213: {//shocker
-                    		AddExtraStatus(setup.Defender, setup.DefenderMap, "Shocker", 10, null, "", setup.PacketStack);
-                    	}
-                    	break;
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "Shocker", 10, null, "", setup.PacketStack);
+                        }
+                        break;
                     case 214: {//pierce
-                    		AddExtraStatus(setup.Defender, setup.DefenderMap, "Pierce", 0, null, "", setup.PacketStack);
-                    	}
-                    	break;
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "Pierce", 0, null, "", setup.PacketStack);
+                        }
+                        break;
                     case 215: {//longtoss
-                    		AddExtraStatus(setup.Defender, setup.DefenderMap, "Longtoss", 0, null, "", setup.PacketStack);
-                    	}
-                    	break;
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "Longtoss", 0, null, "", setup.PacketStack);
+                        }
+                        break;
                     case 216: {//stayaway
                             AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Immobilize", Server.Math.Rand(5, 8), null, "", setup.PacketStack, true);
                             WarpToStairs(setup.Defender, setup.DefenderMap, setup.PacketStack, 1);
                         }
                         break;
                     case 218: {//bestow
-                    		//check to see if there's room in players' inventory to accept item
-                    		bool willAccept = true;
-                    		if (setup.Defender.HeldItem != null) {
-                    			willAccept = false;
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name+" is already holding something!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		}
-                    		if (setup.Attacker.HeldItem == null) {
-                    			willAccept = false;
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name+" isn't holding anything to bestow!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		}
-                    		if (willAccept && ItemManager.Items[setup.Attacker.HeldItem.Num].Bound) {
-                    			willAccept = false;
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name+" can't bestow its item!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    		}
-                    		if (willAccept && setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-                    			if (((Recruit)setup.Defender).Owner.Player.FindInvSlot(setup.Attacker.HeldItem.Num, setup.Attacker.HeldItem.Amount) == -1) {
-                    				willAccept = false;
-                    				setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name+" has no more room to accept the item!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    			}
-                    		}
-                    		if (willAccept) {
-                    			setup.Defender.GiveHeldItem(setup.Attacker.HeldItem.Num, setup.Attacker.HeldItem.Amount, setup.Attacker.HeldItem.Tag, setup.Attacker.HeldItem.Sticky);
-                    			setup.Attacker.TakeHeldItem(setup.Attacker.HeldItem.Amount);
-                    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " received " + setup.Attacker.Name + "'s " + ItemManager.Items[setup.Defender.HeldItem.Num].Name + "!", Text.BrightGreen), setup.Defender.X, setup.Defender.Y, 10);
-                    		}
+                            //check to see if there's room in players' inventory to accept item
+                            bool willAccept = true;
+                            if (setup.Defender.HeldItem != null) {
+                                willAccept = false;
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " is already holding something!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            }
+                            if (setup.Attacker.HeldItem == null) {
+                                willAccept = false;
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " isn't holding anything to bestow!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            }
+                            if (willAccept && ItemManager.Items[setup.Attacker.HeldItem.Num].Bound) {
+                                willAccept = false;
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " can't bestow its item!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            }
+                            if (willAccept && setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
+                                if (((Recruit)setup.Defender).Owner.Player.FindInvSlot(setup.Attacker.HeldItem.Num, setup.Attacker.HeldItem.Amount) == -1) {
+                                    willAccept = false;
+                                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " has no more room to accept the item!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                                }
+                            }
+                            if (willAccept) {
+                                setup.Defender.GiveHeldItem(setup.Attacker.HeldItem.Num, setup.Attacker.HeldItem.Amount, setup.Attacker.HeldItem.Tag, setup.Attacker.HeldItem.Sticky);
+                                setup.Attacker.TakeHeldItem(setup.Attacker.HeldItem.Amount);
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " received " + setup.Attacker.Name + "'s " + ItemManager.Items[setup.Defender.HeldItem.Num].Name + "!", Text.BrightGreen), setup.Defender.X, setup.Defender.Y, 10);
+                            }
                         }
                         break;
                     case 219: {//nonvolatile status cure
-                    		if (setup.Defender.StatusAilment == (Enums.StatusAilment)setup.Move.Data2) {
+                            if (setup.Defender.StatusAilment == (Enums.StatusAilment)setup.Move.Data2) {
                                 SetStatusAilment(setup.Defender, setup.DefenderMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 220: {//Increases Atk and SpAtk by 2 (all power up orb)
                             ChangeAttackBuff(setup.Defender, setup.Attacker, setup.DefenderMap, 2, setup.PacketStack);
                             ChangeSpAtkBuff(setup.Defender, setup.Attacker, setup.DefenderMap, 2, setup.PacketStack);
                         }
                         break;
                     case 221: {//health orb
-                    		int duration = setup.Move.Data2;
-                        	if (setup.Attacker.HasActiveItem(84)) {
-                        	    duration *= 2;
-                        	}
-                        	AddExtraStatus(setup.Defender, setup.DefenderMap, "Safeguard", duration, null, "", setup.PacketStack);
+                            int duration = setup.Move.Data2;
+                            if (setup.Attacker.HasActiveItem(84)) {
+                                duration *= 2;
+                            }
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "Safeguard", duration, null, "", setup.PacketStack);
                             AddExtraStatus(setup.Defender, setup.DefenderMap, "Mist", duration, null, "", setup.PacketStack);
-                    	}
-                    	break;
+                        }
+                        break;
                     case 222: {//recovery orb
-                    		SetStatusAilment(setup.Defender, setup.DefenderMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
-                    		RemoveBuffs(setup.Defender);
+                            SetStatusAilment(setup.Defender, setup.DefenderMap, Enums.StatusAilment.OK, 0, setup.PacketStack);
+                            RemoveBuffs(setup.Defender);
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s stat changes were removed!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-                    	}
-                    	break;
+                        }
+                        break;
                     case 227: {//gift
                             if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit && setup.Defender.CharacterType == Enums.CharacterType.MapNpc) {
                                 Recruit recruit = (Recruit)setup.Attacker;
                                 MapNpc npc = (MapNpc)setup.Defender;
-                                
+
                                 bool skipRecruit = false;
-                                
-		                        if (!setup.DefenderMap.RecruitEnabled) {
-		                            skipRecruit = true;
-		                        }
-		                        if (NpcManager.Npcs[npc.Num].RecruitRate == 0) skipRecruit = true;
-		
-		                        if (recruit.Owner.Player.RequestedRecruit != null) skipRecruit = true;
-		
-		                        if (setup.Attacker.Level <= npc.Level) skipRecruit = true;
-                                
+
+                                if (!setup.DefenderMap.RecruitEnabled) {
+                                    skipRecruit = true;
+                                }
+                                if (NpcManager.Npcs[npc.Num].RecruitRate == 0) skipRecruit = true;
+
+                                if (recruit.Owner.Player.RequestedRecruit != null) skipRecruit = true;
+
+                                if (setup.Attacker.Level <= npc.Level) skipRecruit = true;
+
                                 int openSlot = recruit.Owner.Player.FindOpenTeamSlot();
-	                        	if (openSlot == -1) 
-	                        		skipRecruit = true;
-                                
-	                            	int bonus = recruit.Owner.Player.GetRecruitBonus(npc);
-	                            	int recruitRate = NpcManager.Npcs[npc.Num].RecruitRate;
-	                            	                               
-                                if (!skipRecruit && (recruitRate + bonus) > 0)
-                                {
-	                            	
-		                            setup.DefenderMap.ActiveNpc[npc.MapSlot] = new MapNpc(npc.MapID, npc.MapSlot);
-		                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, TcpPacket.CreatePacket("npcdead", npc.MapSlot));
-		                            recruit.Owner.Player.AddToRequested(npc);
-		                            recruit.Owner.Player.TakeItem(setup.Move.Data2, 1);
-		                        }
-		                        else
-		                        {
-		                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " can't be recruited here!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-		                        }
+                                if (openSlot == -1)
+                                    skipRecruit = true;
+
+                                int bonus = recruit.Owner.Player.GetRecruitBonus(npc);
+                                int recruitRate = NpcManager.Npcs[npc.Num].RecruitRate;
+
+                                if (!skipRecruit && (recruitRate + bonus) > 0) {
+
+                                    setup.DefenderMap.ActiveNpc[npc.MapSlot] = new MapNpc(npc.MapID, npc.MapSlot);
+                                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, TcpPacket.CreatePacket("npcdead", npc.MapSlot));
+                                    recruit.Owner.Player.AddToRequested(npc);
+                                    recruit.Owner.Player.TakeItem(setup.Move.Data2, 1);
+                                } else {
+                                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " can't be recruited here!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                                }
                             }
 
                         }
@@ -4590,7 +4586,7 @@ namespace Script {
                                 int newHP = setup.Defender.HP;
                                 if (newHP < 0) newHP = 0;
                                 int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - newHP) / (setup.Move.AdditionalEffectData2 * 2);
-                    			if (recoil < 0) recoil = 0;
+                                if (recoil < 0) recoil = 0;
                                 if (recoil >= setup.Attacker.HP) {
                                     DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                     setup.Cancel = true;
@@ -4615,9 +4611,9 @@ namespace Script {
                                 //big root
                                 if (setup.Attacker.HasActiveItem(194)) heal += 20;
                                 //pokemon-specific item
-			                    if (HasActiveBagItem(setup.Attacker, 5, 0, 0)) {
-			                    	heal += 30;
-			                    }
+                                if (HasActiveBagItem(setup.Attacker, 5, 0, 0)) {
+                                    heal += 30;
+                                }
                                 if (HasAbility(setup.Defender, "Liquid Ooze")) {
                                     setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " sucked up the Liquid Ooze!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                                     DamageCharacter(setup.Attacker, setup.AttackerMap, setup.Damage * heal / 100, Enums.KillType.Other, setup.PacketStack, true);
@@ -4654,17 +4650,17 @@ namespace Script {
                                     }
                                 }
                                 if (!HasAbility(setup.Attacker, "Rock Head") && !HasAbility(setup.Attacker, "Magic Guard")) {
-                                	setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " was hit with recoil!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                int newHP = setup.Defender.HP;
-	                                if (newHP < 0) newHP = 0;
-	                                int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - newHP) / (setup.Move.AdditionalEffectData3 * 2);
-	                    			if (recoil < 0) recoil = 0;
-	                                if (recoil >= setup.Attacker.HP) {
-	                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
-	                                    setup.Cancel = true;
-	                                } else {
-	                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
-	                                }
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " was hit with recoil!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                    int newHP = setup.Defender.HP;
+                                    if (newHP < 0) newHP = 0;
+                                    int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - newHP) / (setup.Move.AdditionalEffectData3 * 2);
+                                    if (recoil < 0) recoil = 0;
+                                    if (recoil >= setup.Attacker.HP) {
+                                        DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                        setup.Cancel = true;
+                                    } else {
+                                        DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                    }
                                 }
                             }
                         }
@@ -4739,16 +4735,16 @@ namespace Script {
                                     }
                                 }
                                 setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " was hit with recoil!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                int newHP = setup.Defender.HP;
-	                                if (newHP < 0) newHP = 0;
-                                	int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - newHP) / (setup.Move.AdditionalEffectData3 * 2);
-	                    			if (recoil < 0) recoil = 0;
-	                                if (recoil >= setup.Attacker.HP) {
-	                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
-	                                    setup.Cancel = true;
-	                                } else {
-	                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
-	                                }
+                                int newHP = setup.Defender.HP;
+                                if (newHP < 0) newHP = 0;
+                                int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - newHP) / (setup.Move.AdditionalEffectData3 * 2);
+                                if (recoil < 0) recoil = 0;
+                                if (recoil >= setup.Attacker.HP) {
+                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                    setup.Cancel = true;
+                                } else {
+                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                }
                             }
                         }
                         break;
@@ -4802,7 +4798,7 @@ namespace Script {
                                 }
                                 string intensity = "";
                                 if (setup.Attacker.HasActiveItem(481)) {
-                                	intensity = "1";
+                                    intensity = "1";
                                 }
                                 switch (setup.Move.AdditionalEffectData2) {
                                     case 1: {//Bind
@@ -4986,7 +4982,7 @@ namespace Script {
                         }
                         break;
                     case 160: {//round
-                        if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Friend) {
+                            if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Friend) {
                                 int roundSlot = -1;
 
                                 for (int i = 0; i < Constants.MAX_PLAYER_MOVES; i++) {
@@ -5029,31 +5025,31 @@ namespace Script {
                         }
                         break;
                     case 163: {//echoed voice
-                    		if (setup.Hit && (!setup.KnockedOut || setup.Defender.HP > 0)) {
+                            if (setup.Hit && (!setup.KnockedOut || setup.Defender.HP > 0)) {
                                 status = setup.Defender.VolatileStatus.GetStatus("EchoedVoice");
-	                    		if (status != null) {
+                                if (status != null) {
                                     status.Counter++;
-	                            } else {
-	                                AddExtraStatus(setup.Defender, setup.DefenderMap, "EchoedVoice", 1, null, "", setup.PacketStack);
-	                            }
-                    		}
-                    	}
-                    	break;
+                                } else {
+                                    AddExtraStatus(setup.Defender, setup.DefenderMap, "EchoedVoice", 1, null, "", setup.PacketStack);
+                                }
+                            }
+                        }
+                        break;
                     case 165: {//flame burst
-                    		if (setup.Hit) {
-	                            if (GetBattleTagArg(setup.BattleTags, "FlameBurst", 0) == null) {
-	                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("magic215.wav"), setup.Defender.X, setup.Defender.Y, 10);
-	                                for (int i = setup.Defender.X - 2; i <= setup.Defender.X + 2; i++) {
-	                                    for (int j = setup.Defender.Y - 2; j <= setup.Defender.Y + 2; j++) {
-	                                        if (i < 0 || j < 0 || i > setup.DefenderMap.MaxX || j > setup.DefenderMap.MaxY
-	                                            || (i == setup.Defender.X && j == setup.Defender.Y)) {
-	
-	                                        } else {
-	                                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(506, i, j));
-	                                        }
-	                                    }
-	                                }
-	                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, true, true);
+                            if (setup.Hit) {
+                                if (GetBattleTagArg(setup.BattleTags, "FlameBurst", 0) == null) {
+                                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("magic215.wav"), setup.Defender.X, setup.Defender.Y, 10);
+                                    for (int i = setup.Defender.X - 2; i <= setup.Defender.X + 2; i++) {
+                                        for (int j = setup.Defender.Y - 2; j <= setup.Defender.Y + 2; j++) {
+                                            if (i < 0 || j < 0 || i > setup.DefenderMap.MaxX || j > setup.DefenderMap.MaxY
+                                                || (i == setup.Defender.X && j == setup.Defender.Y)) {
+
+                                            } else {
+                                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(506, i, j));
+                                            }
+                                        }
+                                    }
+                                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 2, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, true, true);
                                     for (int i = 0; i < targets.Count; i++) {
                                         if (!(targets[i].X == setup.Defender.X && targets[i].Y == setup.Defender.Y)) {
                                             if (!SafeZoneCheck(setup.Attacker, setup.AttackerMap, targets[i], setup.DefenderMap)) {
@@ -5061,9 +5057,9 @@ namespace Script {
                                             }
                                         }
                                     }
-	                                setup.BattleTags.Add("FlameBurst");
-	                            }
-							}
+                                    setup.BattleTags.Add("FlameBurst");
+                                }
+                            }
                         }
                         break;
                     case 166: {//Stat Swap
@@ -5093,7 +5089,7 @@ namespace Script {
                                     }
                                     break;
                                 case 3: {//heart swap
-										if (GetBattleTagArg(setup.BattleTags, "HeartSwap", 1) != null) {
+                                        if (GetBattleTagArg(setup.BattleTags, "HeartSwap", 1) != null) {
                                             setup.Attacker.AttackBuff = GetBattleTagArg(setup.BattleTags, "HeartSwap", 2).ToInt();
                                             setup.Attacker.SpAtkBuff = GetBattleTagArg(setup.BattleTags, "HeartSwap", 3).ToInt();
                                             setup.Attacker.DefenseBuff = GetBattleTagArg(setup.BattleTags, "HeartSwap", 4).ToInt();
@@ -5105,7 +5101,7 @@ namespace Script {
                                             RemoveBattleTag(setup.BattleTags, "HeartSwap");
 
                                         } else {
-                                        
+
                                         }
                                     }
                                     break;
@@ -5113,68 +5109,68 @@ namespace Script {
                         }
                         break;
                     case 171: {//Bug Bite/Pluck
-                    		if (setup.Hit) {
-	                            BattleSetup itemSetup = new BattleSetup();
-	                            itemSetup.Attacker = setup.Attacker;
-	                            //itemSetup.PacketStack = setup.PacketStack;
-	                            if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-	                                Client client = ((Recruit)setup.Defender).Owner;
-	                                List<int> itemsToRemove = new List<int>();
-	                                for (int i = 1; i <= client.Player.MaxInv; i++) {
-	                                    if (CheckItemEdibility(client.Player.Inventory[i].Num) > 0) {
-	                                        itemsToRemove.Add(i);
-	                                    }
-	                                }
-	                                if (itemsToRemove.Count > 0) {
-	                                    int randomItem = itemsToRemove[Server.Math.Rand(0, itemsToRemove.Count)];
-	                                    if (CanUseItem(setup, client.Player.Inventory[randomItem])) {
-	                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " took the " + ItemManager.Items[client.Player.Inventory[randomItem].Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                        BattleProcessor.HandleItemUse(client.Player.Inventory[randomItem], -1, itemSetup);
-	                                        client.Player.TakeItemSlot(randomItem, 1, true);
-	                                    }
-	                                    Messenger.SendInventory(client);
-	                                }
-	                            } else {
-	                                MapNpc npc = (MapNpc)setup.Defender;
-	                                if (npc.HeldItem != null && CheckItemEdibility(npc.HeldItem.Num) > 0) {
-	                                    if (CanUseItem(setup, npc.HeldItem)) {
-	                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " took the " + ItemManager.Items[npc.HeldItem.Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                        BattleProcessor.HandleItemUse(npc.HeldItem, -1, itemSetup);
-	                                        npc.TakeHeldItem(1);
-	                                    }
-	                                }
-	                            }
-	                            setup.PacketStack.AddHitList(itemSetup.PacketStack);
+                            if (setup.Hit) {
+                                BattleSetup itemSetup = new BattleSetup();
+                                itemSetup.Attacker = setup.Attacker;
+                                //itemSetup.PacketStack = setup.PacketStack;
+                                if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
+                                    Client client = ((Recruit)setup.Defender).Owner;
+                                    List<int> itemsToRemove = new List<int>();
+                                    for (int i = 1; i <= client.Player.MaxInv; i++) {
+                                        if (CheckItemEdibility(client.Player.Inventory[i].Num) > 0) {
+                                            itemsToRemove.Add(i);
+                                        }
+                                    }
+                                    if (itemsToRemove.Count > 0) {
+                                        int randomItem = itemsToRemove[Server.Math.Rand(0, itemsToRemove.Count)];
+                                        if (CanUseItem(setup, client.Player.Inventory[randomItem])) {
+                                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " took the " + ItemManager.Items[client.Player.Inventory[randomItem].Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                            BattleProcessor.HandleItemUse(client.Player.Inventory[randomItem], -1, itemSetup);
+                                            client.Player.TakeItemSlot(randomItem, 1, true);
+                                        }
+                                        Messenger.SendInventory(client);
+                                    }
+                                } else {
+                                    MapNpc npc = (MapNpc)setup.Defender;
+                                    if (npc.HeldItem != null && CheckItemEdibility(npc.HeldItem.Num) > 0) {
+                                        if (CanUseItem(setup, npc.HeldItem)) {
+                                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " took the " + ItemManager.Items[npc.HeldItem.Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                            BattleProcessor.HandleItemUse(npc.HeldItem, -1, itemSetup);
+                                            npc.TakeHeldItem(1);
+                                        }
+                                    }
+                                }
+                                setup.PacketStack.AddHitList(itemSetup.PacketStack);
                             }
                         }
                         break;
                     case 172: {//Incinerate
-                    		if (setup.Hit) {
-	                            if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-	                                Client client = ((Recruit)setup.Defender).Owner;
-	                                List<int> itemsToRemove = new List<int>();
-	                                for (int i = 1; i <= client.Player.MaxInv; i++) {
-	                                    if (CheckItemEdibility(client.Player.Inventory[i].Num) > 0) {
-	                                        itemsToRemove.Add(i);
-	                                    }
-	                                }
-	                                if (itemsToRemove.Count > 0) {
-	                                    int randomItem = itemsToRemove[Server.Math.Rand(0, itemsToRemove.Count)];
-	                                    if (CanUseItem(setup, client.Player.Inventory[randomItem])) {
-	                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " incinerated the " + ItemManager.Items[client.Player.Inventory[randomItem].Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                        client.Player.TakeItemSlot(randomItem, 1, true);
-	                                    }
-	                                    Messenger.SendInventory(client);
-	                                }
-	                            } else {
-	                                MapNpc npc = (MapNpc)setup.Defender;
-	                                if (npc.HeldItem != null && CheckItemEdibility(npc.HeldItem.Num) > 0) {
-	                                    if (CanUseItem(setup, npc.HeldItem)) {
-	                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " incinerated the " + ItemManager.Items[npc.HeldItem.Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                                        npc.TakeHeldItem(1);
-	                                    }
-	                                }
-	                            }
+                            if (setup.Hit) {
+                                if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
+                                    Client client = ((Recruit)setup.Defender).Owner;
+                                    List<int> itemsToRemove = new List<int>();
+                                    for (int i = 1; i <= client.Player.MaxInv; i++) {
+                                        if (CheckItemEdibility(client.Player.Inventory[i].Num) > 0) {
+                                            itemsToRemove.Add(i);
+                                        }
+                                    }
+                                    if (itemsToRemove.Count > 0) {
+                                        int randomItem = itemsToRemove[Server.Math.Rand(0, itemsToRemove.Count)];
+                                        if (CanUseItem(setup, client.Player.Inventory[randomItem])) {
+                                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " incinerated the " + ItemManager.Items[client.Player.Inventory[randomItem].Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                            client.Player.TakeItemSlot(randomItem, 1, true);
+                                        }
+                                        Messenger.SendInventory(client);
+                                    }
+                                } else {
+                                    MapNpc npc = (MapNpc)setup.Defender;
+                                    if (npc.HeldItem != null && CheckItemEdibility(npc.HeldItem.Num) > 0) {
+                                        if (CanUseItem(setup, npc.HeldItem)) {
+                                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " incinerated the " + ItemManager.Items[npc.HeldItem.Num].Name + "!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                                            npc.TakeHeldItem(1);
+                                        }
+                                    }
+                                }
                             }
                         }
                         break;
@@ -5425,24 +5421,24 @@ namespace Script {
                         }
                         break;
                     case 192: {//flash lighting up the room
-                    		if (setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y].Type == Enums.TileType.Arena || setup.AttackerMap.Moral == Enums.MapMoral.None || setup.AttackerMap.Moral == Enums.MapMoral.NoPenalty) {
-                               	AddMapStatus(setup.AttackerMap, "Flash", setup.Move.AdditionalEffectData2, "", -1, setup.PacketStack);
+                            if (setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y].Type == Enums.TileType.Arena || setup.AttackerMap.Moral == Enums.MapMoral.None || setup.AttackerMap.Moral == Enums.MapMoral.NoPenalty) {
+                                AddMapStatus(setup.AttackerMap, "Flash", setup.Move.AdditionalEffectData2, "", -1, setup.PacketStack);
                             }
-                    
-                    	}
-                    	break;
+
+                        }
+                        break;
                     case 193: {//halve the user's HP
-                    		if (setup.BattleTags.Contains("HitSomething")) {
-                               	int fraction = setup.Attacker.MaxHP / 2;
-                               	DamageCharacter(setup.Attacker, setup.AttackerMap, fraction, Enums.KillType.Other, setup.PacketStack, false);
-                    		}
-                    	}
-                    	break;
+                            if (setup.BattleTags.Contains("HitSomething")) {
+                                int fraction = setup.Attacker.MaxHP / 2;
+                                DamageCharacter(setup.Attacker, setup.AttackerMap, fraction, Enums.KillType.Other, setup.PacketStack, false);
+                            }
+                        }
+                        break;
                     case 196: { //jump kick/hi jump kick recoil
-                    		if (!setup.BattleTags.Contains("HitSomething")) {
+                            if (!setup.BattleTags.Contains("HitSomething")) {
                                 setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " kept going and crashed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                                 int recoil = setup.Attacker.MaxHP / 4;
-                    			if (recoil < 0) recoil = 0;
+                                if (recoil < 0) recoil = 0;
                                 if (recoil >= setup.Attacker.HP) {
                                     DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                     setup.Cancel = true;
@@ -5450,14 +5446,14 @@ namespace Script {
                                     DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 }
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 198: { //smack down
-                    		if (setup.Hit && (!setup.KnockedOut || setup.Defender.HP > 0)) {
+                            if (setup.Hit && (!setup.KnockedOut || setup.Defender.HP > 0)) {
                                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Grounded", 0, null, "", setup.PacketStack);
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 199: {//fake out flinch
                             if (setup.Hit && (!setup.KnockedOut || setup.Defender.HP > 0)) {
                                 Flinch(setup.Defender, setup.Attacker, setup.DefenderMap, setup.PacketStack);
@@ -5468,7 +5464,7 @@ namespace Script {
                             if (setup.Hit) {
                                 setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " was hit with recoil!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
                                 int recoil = setup.Attacker.MaxHP / 8;
-                    			if (recoil < 0) recoil = 0;
+                                if (recoil < 0) recoil = 0;
                                 if (recoil >= setup.Attacker.HP) {
                                     DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                     setup.Cancel = true;
@@ -5481,16 +5477,16 @@ namespace Script {
                     case 205: {//pay day payout
                             if (setup.Hit && setup.KnockedOut && setup.Defender.HP <= 0) {
                                 if (setup.Defender.CharacterType == Enums.CharacterType.MapNpc && setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-	                                int payout = setup.Attacker.Level + setup.Defender.Level;
-	                                setup.DefenderMap.SpawnItem(1, payout, false, false, "", setup.Defender.X, setup.Defender.Y, ((Recruit)setup.Attacker).Owner);
+                                    int payout = setup.Attacker.Level + setup.Defender.Level;
+                                    setup.DefenderMap.SpawnItem(1, payout, false, false, "", setup.Defender.X, setup.Defender.Y, ((Recruit)setup.Attacker).Owner);
                                 }
                             }
                         }
                         break;
                     case 223: {//surf effect
-                    		AddExtraStatus(setup.Attacker, setup.AttackerMap, "Slip", 0, null, "", setup.PacketStack);
-                    	}
-                    	break;
+                            AddExtraStatus(setup.Attacker, setup.AttackerMap, "Slip", 0, null, "", setup.PacketStack);
+                        }
+                        break;
                     case 225: {//fell stinger
                             if (setup.Hit && setup.KnockedOut && setup.Defender.HP <= 0) {
                                 ChangeAttackBuff(setup.Attacker, setup.Attacker, setup.DefenderMap, 2, setup.PacketStack);
@@ -5515,7 +5511,7 @@ namespace Script {
         }
 
         public static void AfterMoveHits(BattleSetup setup) {
-        	int point = 0;
+            int point = 0;
             try {
                 ExtraStatus status;
                 //if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
@@ -5524,69 +5520,69 @@ namespace Script {
                 //	}
                 //}
                 if (setup.Hit && setup.Defender != null) {
-                    
-					for (int i = 1; i < 6; i++) {
-						if (Server.Math.Rand(0, 5) == 0) {
-							if (HasActiveBagItem(setup.Defender, 10, 0, i) && setup.Attacker.CharacterType != setup.Defender.CharacterType) {
-								if (i == 5) {
-			                        SetStatusAilment(setup.Attacker, setup.AttackerMap, (Enums.StatusAilment)i, Server.Math.Rand(2, 4), setup.PacketStack);
-			                    } else {
-			                        SetStatusAilment(setup.Attacker, setup.AttackerMap, (Enums.StatusAilment)i, 1, setup.PacketStack);
-			                    }
-							}
-						}
-					}
-					
-					for (int i = 1; i < 11; i++) {
-						if (Server.Math.Rand(0, 5) == 0) {
-							if (HasActiveBagItem(setup.Defender, 11, 0, i) && setup.Attacker.CharacterType != setup.Defender.CharacterType) {
-								switch (i) {
-									case 1:
-										AddExtraStatus(setup.Attacker, setup.AttackerMap, "Immobilize", 5, null, "", setup.PacketStack);
-										break;
-									case 2:
-										AddExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", 10, null, "", setup.PacketStack);
-										break;
-									case 3:
-										if (setup.moveSlot > -1 && setup.moveSlot < 4) {
-						                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "MoveSeal:" + setup.moveSlot, 0, null, "", setup.PacketStack);
-						                }
-										break;
-									case 4:
-										ExtraStatus exStatus = setup.Attacker.VolatileStatus.GetStatus("MovementSpeed");
-		                                if (exStatus != null) {
-		                                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "MovementSpeed", exStatus.Counter - 1, null, "", setup.PacketStack);
-			                            } else {
-		                                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "MovementSpeed", -1, null, "", setup.PacketStack);
-			                            }
-										break;
-									case 5:
-										AddExtraStatus(setup.Attacker, setup.AttackerMap, "Blind", 15, null, "", setup.PacketStack);
-										break;
-									case 6:
-										Flinch(setup.Attacker, null, setup.AttackerMap, setup.PacketStack);
-										break;
-									case 7:
-										AddExtraStatus(setup.Attacker, setup.AttackerMap, "PerishCount", 4, null, "", setup.PacketStack);
-										break;
-									case 8:
-										if (setup.Attacker.Sex == Enums.Sex.Genderless && setup.Defender.Sex == Enums.Sex.Genderless
-						                    || setup.Attacker.Sex == Enums.Sex.Male && setup.Defender.Sex == Enums.Sex.Female
-						                    || setup.Defender.Sex == Enums.Sex.Male && setup.Attacker.Sex == Enums.Sex.Female) {
-					                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Attract", 10, null, "", setup.PacketStack);
-						                }
-										break;
-									case 9:
-										AddExtraStatus(setup.Defender, setup.DefenderMap, "Invisible", 10, null, "", setup.PacketStack);
-										break;
-									case 10:
-										AddExtraStatus(setup.Attacker, setup.AttackerMap, "Nightmare", 0, null, "", setup.PacketStack);
-										break;
-								}
-							}
-						}
-					}
-					
+
+                    for (int i = 1; i < 6; i++) {
+                        if (Server.Math.Rand(0, 5) == 0) {
+                            if (HasActiveBagItem(setup.Defender, 10, 0, i) && setup.Attacker.CharacterType != setup.Defender.CharacterType) {
+                                if (i == 5) {
+                                    SetStatusAilment(setup.Attacker, setup.AttackerMap, (Enums.StatusAilment)i, Server.Math.Rand(2, 4), setup.PacketStack);
+                                } else {
+                                    SetStatusAilment(setup.Attacker, setup.AttackerMap, (Enums.StatusAilment)i, 1, setup.PacketStack);
+                                }
+                            }
+                        }
+                    }
+
+                    for (int i = 1; i < 11; i++) {
+                        if (Server.Math.Rand(0, 5) == 0) {
+                            if (HasActiveBagItem(setup.Defender, 11, 0, i) && setup.Attacker.CharacterType != setup.Defender.CharacterType) {
+                                switch (i) {
+                                    case 1:
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Immobilize", 5, null, "", setup.PacketStack);
+                                        break;
+                                    case 2:
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", 10, null, "", setup.PacketStack);
+                                        break;
+                                    case 3:
+                                        if (setup.moveSlot > -1 && setup.moveSlot < 4) {
+                                            AddExtraStatus(setup.Attacker, setup.AttackerMap, "MoveSeal:" + setup.moveSlot, 0, null, "", setup.PacketStack);
+                                        }
+                                        break;
+                                    case 4:
+                                        ExtraStatus exStatus = setup.Attacker.VolatileStatus.GetStatus("MovementSpeed");
+                                        if (exStatus != null) {
+                                            AddExtraStatus(setup.Attacker, setup.AttackerMap, "MovementSpeed", exStatus.Counter - 1, null, "", setup.PacketStack);
+                                        } else {
+                                            AddExtraStatus(setup.Attacker, setup.AttackerMap, "MovementSpeed", -1, null, "", setup.PacketStack);
+                                        }
+                                        break;
+                                    case 5:
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Blind", 15, null, "", setup.PacketStack);
+                                        break;
+                                    case 6:
+                                        Flinch(setup.Attacker, null, setup.AttackerMap, setup.PacketStack);
+                                        break;
+                                    case 7:
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "PerishCount", 4, null, "", setup.PacketStack);
+                                        break;
+                                    case 8:
+                                        if (setup.Attacker.Sex == Enums.Sex.Genderless && setup.Defender.Sex == Enums.Sex.Genderless
+                                            || setup.Attacker.Sex == Enums.Sex.Male && setup.Defender.Sex == Enums.Sex.Female
+                                            || setup.Defender.Sex == Enums.Sex.Male && setup.Attacker.Sex == Enums.Sex.Female) {
+                                            AddExtraStatus(setup.Attacker, setup.AttackerMap, "Attract", 10, null, "", setup.PacketStack);
+                                        }
+                                        break;
+                                    case 9:
+                                        AddExtraStatus(setup.Defender, setup.DefenderMap, "Invisible", 10, null, "", setup.PacketStack);
+                                        break;
+                                    case 10:
+                                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Nightmare", 0, null, "", setup.PacketStack);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
                     //move hit consequences like static, shadow tag, etc.
                     CheckAfterMoveHitAbility(setup);
 
@@ -5602,7 +5598,7 @@ namespace Script {
                             || setup.Defender.HasActiveItem(178) && setup.Move.Element != Enums.PokemonType.None && setup.Move.MoveCategory == Enums.MoveCategory.Special) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5610,33 +5606,33 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-                        
+
                         //Jaboca/Rowap
                         status = setup.Defender.VolatileStatus.GetStatus("AttackReturn");
                         if (status != null) {
-	                        if (setup.Move.MoveCategory == Enums.MoveCategory.Physical && status.Counter == 0
-	                            || setup.Move.MoveCategory == Enums.MoveCategory.Special && status.Counter == 1) {
-	                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded to everyone!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                            int dmg = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
-                            
-                            TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 6, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, false, false);
+                            if (setup.Move.MoveCategory == Enums.MoveCategory.Physical && status.Counter == 0
+                                || setup.Move.MoveCategory == Enums.MoveCategory.Special && status.Counter == 1) {
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded to everyone!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                                int dmg = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
 
-                            for (int i = 0; i < targets.Foes.Count; i++) {
-                                if (dmg >= targets.Foes[i].HP) {
-                                    DamageCharacter(targets.Foes[i], MapManager.RetrieveActiveMap(targets.Foes[i].MapID), dmg, Enums.KillType.Other, setup.PacketStack, true);
-                                    setup.Cancel = true;
-                                } else {
-                                    DamageCharacter(targets.Foes[i], MapManager.RetrieveActiveMap(targets.Foes[i].MapID), dmg, Enums.KillType.Other, setup.PacketStack, true);
+                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 6, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, true, false, false);
+
+                                for (int i = 0; i < targets.Foes.Count; i++) {
+                                    if (dmg >= targets.Foes[i].HP) {
+                                        DamageCharacter(targets.Foes[i], MapManager.RetrieveActiveMap(targets.Foes[i].MapID), dmg, Enums.KillType.Other, setup.PacketStack, true);
+                                        setup.Cancel = true;
+                                    } else {
+                                        DamageCharacter(targets.Foes[i], MapManager.RetrieveActiveMap(targets.Foes[i].MapID), dmg, Enums.KillType.Other, setup.PacketStack, true);
+                                    }
                                 }
                             }
-	                        }
                         }
-                        
+
                         //rocky helmet
                         if (setup.Defender.HasActiveItem(482) && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " was jurt by the Rocky Helmet!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 4;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5644,13 +5640,13 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-                        
+
                         //sticky barb
                         if (MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y) &&
-                        	(setup.Defender.HasActiveItem(134) || setup.Attacker.HasActiveItem(134))) {
+                            (setup.Defender.HasActiveItem(134) || setup.Attacker.HasActiveItem(134))) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " was hurt by the Sticky Barb!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = setup.Attacker.HP / 16;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5680,7 +5676,7 @@ namespace Script {
                             || setup.Defender.HasActiveItem(841) && setup.Move.Element == Enums.PokemonType.Fairy) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP);
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5694,7 +5690,7 @@ namespace Script {
                             || setup.Move.MoveCategory == Enums.MoveCategory.Special && setup.Defender.VolatileStatus.GetStatus("MirrorCoat") != null) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) * 2;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5702,8 +5698,8 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-						
-						//metal burst
+
+                        //metal burst
                         if (setup.Move.MoveCategory != Enums.MoveCategory.Status && setup.Defender.VolatileStatus.GetStatus("MetalBurst") != null) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded to everyone!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int dmg = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) * 3 / 2;
@@ -5728,14 +5724,14 @@ namespace Script {
                                 }
                             }
                         }
-                        
-                        
+
+
 
                         //destiny bond
                         if (setup.Defender.VolatileStatus.GetStatus("DestinyBond") != null) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " is trying to take its foe with it!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP);
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5743,12 +5739,12 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-                        
+
                         //rebound
                         if (setup.Defender.VolatileStatus.GetStatus("Rebound") != null) {
                             setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5756,12 +5752,12 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-                        
+
                         //mini counter item
                         if (HasActiveBagItem(setup.Defender, 8, 0, 0)) {
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                             int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 4;
-                    		if (recoil < 0) recoil = 0;
+                            if (recoil < 0) recoil = 0;
                             if (recoil >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
@@ -5769,28 +5765,28 @@ namespace Script {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-                        
+
                         //full counter item
                         if (HasActiveBagItem(setup.Defender, 23, 0, 0)) {
-                         if (Server.Math.Rand(0, 4) == 0) {
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                            int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP);
-                    		if (recoil < 0) recoil = 0;
-                            if (recoil >= setup.Attacker.HP) {
-                                DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
-                                setup.Cancel = true;
-                            } else {
-                                DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                            if (Server.Math.Rand(0, 4) == 0) {
+                                setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Its power rebounded!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                                int recoil = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP);
+                                if (recoil < 0) recoil = 0;
+                                if (recoil >= setup.Attacker.HP) {
+                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                    setup.Cancel = true;
+                                } else {
+                                    DamageCharacter(setup.Attacker, setup.AttackerMap, recoil, Enums.KillType.Other, setup.PacketStack, true);
+                                }
                             }
                         }
-                        }
-                        
+
                         //random PP restoration when hurt
                         if (HasActiveBagItem(setup.Defender, 17, 0, 0) && Server.Math.Rand(0, 9) <= 0) {
-			    			int i = Server.Math.Rand(1, 3);
-			    			setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " randomly restored PP!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-			    			HealCharacterPP(setup.Defender, setup.DefenderMap, i, setup.PacketStack);
-			    		}
+                            int i = Server.Math.Rand(1, 3);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " randomly restored PP!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                            HealCharacterPP(setup.Defender, setup.DefenderMap, i, setup.PacketStack);
+                        }
 
                         //grudge
                         status = setup.Attacker.VolatileStatus.GetStatus("LastUsedMoveSlot");
@@ -5821,26 +5817,26 @@ namespace Script {
                         status.Counter += setup.Damage;
                         setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " is storing energy!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                     }
-                    
+
                     if (setup.Defender.VolatileStatus.GetStatus("Avalanche") != null) {
-                       	BattleSetup counterSetup = new BattleSetup();
-                       	if (setup.Damage > 0) {
-                       		counterSetup.BattleTags.Add("Avalanche");
-                       	}
-                        	
-                       	counterSetup.Attacker = setup.Defender;
+                        BattleSetup counterSetup = new BattleSetup();
+                        if (setup.Damage > 0) {
+                            counterSetup.BattleTags.Add("Avalanche");
+                        }
+
+                        counterSetup.Attacker = setup.Defender;
                         counterSetup.moveSlot = -1;
 
                         BattleProcessor.HandleAttack(counterSetup);
 
                         BattleProcessor.FinalizeAction(counterSetup, setup.PacketStack);
                     }
-                    
+
                     if (setup.Defender.VolatileStatus.GetStatus("VitalThrow") != null) {
-                       	BattleSetup counterSetup = new BattleSetup();
-                       	counterSetup.BattleTags.Add("VitalThrow");
-                        	
-                       	counterSetup.Attacker = setup.Defender;
+                        BattleSetup counterSetup = new BattleSetup();
+                        counterSetup.BattleTags.Add("VitalThrow");
+
+                        counterSetup.Attacker = setup.Defender;
                         counterSetup.moveSlot = -1;
 
                         BattleProcessor.HandleAttack(counterSetup);
@@ -5859,86 +5855,86 @@ namespace Script {
 
                     //joy ribbon
                     if (GetBattleTagArg(setup.BattleTags, "PrevHP", 1) != null) {
-                    	if (HasActiveBagItem(setup.Defender, 19, 0, 0) || setup.Defender.HasActiveItem(139) && setup.Defender.CharacterType == Enums.CharacterType.Recruit && (!setup.KnockedOut || setup.Defender.HP > 0) && setup.Damage > 0
-                    		&& setup.Attacker != null && setup.Attacker.CharacterType != Enums.CharacterType.Recruit) {
-                    		int damageChange = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
-                    		if (damageChange < 0) damageChange = 0;
-                    		
-	                        ((Recruit)setup.Defender).Exp += (ulong)damageChange / 2;
-	                        setup.PacketStack.AddPacket(((Recruit)setup.Defender).Owner, PacketBuilder.CreateBattleMsg("You gained " + damageChange + " experience.", Text.BrightCyan));
-	                        BattleProcessor.CheckPlayerLevelUp(setup.PacketStack, ((Recruit)setup.Defender).Owner);
-	                        
-	                        
+                        if (HasActiveBagItem(setup.Defender, 19, 0, 0) || setup.Defender.HasActiveItem(139) && setup.Defender.CharacterType == Enums.CharacterType.Recruit && (!setup.KnockedOut || setup.Defender.HP > 0) && setup.Damage > 0
+                            && setup.Attacker != null && setup.Attacker.CharacterType != Enums.CharacterType.Recruit) {
+                            int damageChange = (GetBattleTagArg(setup.BattleTags, "PrevHP", 1).ToInt() - setup.Defender.HP) / 2;
+                            if (damageChange < 0) damageChange = 0;
+
+                            ((Recruit)setup.Defender).Exp += (ulong)damageChange / 2;
+                            setup.PacketStack.AddPacket(((Recruit)setup.Defender).Owner, PacketBuilder.CreateBattleMsg("You gained " + damageChange + " experience.", Text.BrightCyan));
+                            BattleProcessor.CheckPlayerLevelUp(setup.PacketStack, ((Recruit)setup.Defender).Owner);
+
+
                         }
                     }
-                    
+
                     if (setup.Attacker.HasActiveItem(174) && setup.Damage > 0) {
-                    
+
                         int heal = setup.Damage / 20;
                         if (heal > 0) {
-                        	HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
+                            HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
                         }
                     }
-					//setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "/"+setup.Hit+"" + setup.moveSlot + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-					if (setup.Hit) {
-	                    if (setup.Damage > 0) {
-	                    	point = 1;
-	                        AddExtraStatus(setup.Defender, setup.DefenderMap, "LastHitBy", 1, setup.Attacker, "", setup.PacketStack);
-	                    } else {
-	                    	point = 2;
-	                        AddExtraStatus(setup.Defender, setup.DefenderMap, "LastHitBy", 0, setup.Attacker, "", setup.PacketStack);
-	                    }
-	                    point = 3;
-	                    if (setup.moveSlot >= 0) {
-	                    	//setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " Hit by " + setup.moveIndex + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-		                    AddExtraStatus(setup.Defender, setup.DefenderMap, "LastMoveHitBy", setup.moveIndex, null, "", setup.PacketStack);
-		                    if (setup.Attacker != setup.Defender) {
-		                    	point = 4;
-		                    	AddExtraStatus(setup.Defender, setup.DefenderMap, "LastMoveHitByOther", setup.moveIndex, null, "", setup.PacketStack);
-		                    }
-	                    }
+                    //setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "/"+setup.Hit+"" + setup.moveSlot + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                    if (setup.Hit) {
+                        if (setup.Damage > 0) {
+                            point = 1;
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "LastHitBy", 1, setup.Attacker, "", setup.PacketStack);
+                        } else {
+                            point = 2;
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "LastHitBy", 0, setup.Attacker, "", setup.PacketStack);
+                        }
+                        point = 3;
+                        if (setup.moveSlot >= 0) {
+                            //setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " Hit by " + setup.moveIndex + "!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                            AddExtraStatus(setup.Defender, setup.DefenderMap, "LastMoveHitBy", setup.moveIndex, null, "", setup.PacketStack);
+                            if (setup.Attacker != setup.Defender) {
+                                point = 4;
+                                AddExtraStatus(setup.Defender, setup.DefenderMap, "LastMoveHitByOther", setup.moveIndex, null, "", setup.PacketStack);
+                            }
+                        }
                     }
 
 
                     if (setup.Hit && setup.Damage > 0) {
-                    	if (setup.Defender.VolatileStatus.GetStatus("Illusion") != null) {
-                        	RemoveExtraStatus(setup.Defender, setup.DefenderMap, "Illusion", setup.PacketStack);
+                        if (setup.Defender.VolatileStatus.GetStatus("Illusion") != null) {
+                            RemoveExtraStatus(setup.Defender, setup.DefenderMap, "Illusion", setup.PacketStack);
                         }
                         if (setup.Defender.HasActiveItem(82)) {
-                        	setup.Defender.TakeHeldItem(1);
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s balloon popped!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(503, setup.Defender.X, setup.Defender.Y));
+                            setup.Defender.TakeHeldItem(1);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s balloon popped!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(503, setup.Defender.X, setup.Defender.Y));
                         }
-                        
+
                         if (setup.Defender.HasActiveItem(711) || setup.Defender.HasActiveItem(715) ||
-                        	setup.Defender.HasActiveItem(716) || setup.Defender.HasActiveItem(717)) {
-                        	setup.Defender.TakeHeldItem(1);
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(540, setup.Defender.X, setup.Defender.Y));
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("Magic6.wav"), setup.Defender.X, setup.Defender.Y, 50);
-                        	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Oh no!  " + setup.Defender.Name + "'s artifact shattered!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 50);
+                            setup.Defender.HasActiveItem(716) || setup.Defender.HasActiveItem(717)) {
+                            setup.Defender.TakeHeldItem(1);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(540, setup.Defender.X, setup.Defender.Y));
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("Magic6.wav"), setup.Defender.X, setup.Defender.Y, 50);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg("Oh no!  " + setup.Defender.Name + "'s artifact shattered!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 50);
                         }
                     }
-                    
+
                     if (setup.Hit && (setup.Defender.HP > 0 || !setup.KnockedOut) &&
-                    	(setup.Defender.HasActiveItem(807) && setup.Move.Element == Enums.PokemonType.Water ||
-                    	setup.Defender.HasActiveItem(808) && setup.Move.Element == Enums.PokemonType.Electric)) {
-                    	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s item absorbed the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-                    	ChangeAttackBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
+                        (setup.Defender.HasActiveItem(807) && setup.Move.Element == Enums.PokemonType.Water ||
+                        setup.Defender.HasActiveItem(808) && setup.Move.Element == Enums.PokemonType.Electric)) {
+                        setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s item absorbed the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                        ChangeAttackBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeDefenseBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeSpAtkBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeSpDefBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeSpeedBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeAccuracyBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
                         ChangeEvasionBuff(setup.Defender, null, setup.DefenderMap, 1, setup.PacketStack);
-                    	setup.Defender.TakeHeldItem(1);
+                        setup.Defender.TakeHeldItem(1);
                     }
-                    
+
                     if (setup.Defender.HasActiveItem(120)) {
-                    	if (setup.Defender.HeldItem.Tag.ToInt() <= 0) {
-                    		setup.Defender.TakeHeldItem(1);
-                    		setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Pokédoll turned into a pile of fluff...", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
-                    	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(503, setup.Defender.X, setup.Defender.Y));
-                    	}
+                        if (setup.Defender.HeldItem.Tag.ToInt() <= 0) {
+                            setup.Defender.TakeHeldItem(1);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Pokédoll turned into a pile of fluff...", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSpellAnim(503, setup.Defender.X, setup.Defender.Y));
+                        }
                     }
 
                 } else {
@@ -5950,10 +5946,10 @@ namespace Script {
 
                     //effects of moves that wear off after a certain amount of hits
                     if (GetBattleTagArg(setup.BattleTags, "Snatch", 0) == null) {
-                        
+
                         if (setup.Attacker != setup.Defender) {
-                        	//statuses that kick in when the attacker is not the defender
-                        	
+                            //statuses that kick in when the attacker is not the defender
+
                             status = setup.Defender.VolatileStatus.GetStatus("Wish");
                             if (status != null) {
                                 status.Counter--;
@@ -6025,8 +6021,8 @@ namespace Script {
                                     RemoveExtraStatus(setup.Defender, setup.DefenderMap, "DestinyBond", setup.PacketStack);
                                 }
                             }
-							
-							//rebound
+
+                            //rebound
                             status = setup.Defender.VolatileStatus.GetStatus("Rebound");
                             if (status != null) {
                                 status.Counter--;
@@ -6045,38 +6041,38 @@ namespace Script {
                                     RemoveExtraStatus(setup.Defender, setup.DefenderMap, "Rage", setup.PacketStack);
                                 }
                             }
-                            
+
                             //conversion 2
-			                status = setup.Defender.VolatileStatus.GetStatus("Conversion2");
-			                if (status != null) {
-			                	List<Enums.PokemonType> elements = new List<Enums.PokemonType>();
-			                	Enums.PokemonType element = Enums.PokemonType.None;
-			                	for (int i = 0; i < 19; i++) {
-			                		int effectiveness = DamageCalculator.CalculateTypeMatchup(setup.Move.Element, (Enums.PokemonType)i);
-			                		if (effectiveness == 0) {
-			                			element = (Enums.PokemonType)i;
-			                			break;
-			                		} else if (effectiveness < 3) {
-			                			elements.Add((Enums.PokemonType)i);
-			                		}
-			                	}
-			                	//Messenger.AdminMsg(element.ToString(), Text.WhiteSmoke);
-			                	if (element == Enums.PokemonType.None && elements.Count > 0) {
-			                		element = elements[Server.Math.Rand(0, elements.Count)];
-			                	}
-			                	
-			                	if (element != Enums.PokemonType.None) {
-				                	if (setup.Defender.Type1 != element) {
-				                		AddExtraStatus(setup.Defender, setup.DefenderMap, "Type1", (int)element, null, "", setup.PacketStack);
-				                	}
-				                	if (setup.Defender.Type2 != Enums.PokemonType.None) {
-				                		AddExtraStatus(setup.Defender, setup.DefenderMap, "Type2", 0, null, "", setup.PacketStack, false);
-				                	}
-			                	}
-			                }
+                            status = setup.Defender.VolatileStatus.GetStatus("Conversion2");
+                            if (status != null) {
+                                List<Enums.PokemonType> elements = new List<Enums.PokemonType>();
+                                Enums.PokemonType element = Enums.PokemonType.None;
+                                for (int i = 0; i < 19; i++) {
+                                    int effectiveness = DamageCalculator.CalculateTypeMatchup(setup.Move.Element, (Enums.PokemonType)i);
+                                    if (effectiveness == 0) {
+                                        element = (Enums.PokemonType)i;
+                                        break;
+                                    } else if (effectiveness < 3) {
+                                        elements.Add((Enums.PokemonType)i);
+                                    }
+                                }
+                                //Messenger.AdminMsg(element.ToString(), Text.WhiteSmoke);
+                                if (element == Enums.PokemonType.None && elements.Count > 0) {
+                                    element = elements[Server.Math.Rand(0, elements.Count)];
+                                }
+
+                                if (element != Enums.PokemonType.None) {
+                                    if (setup.Defender.Type1 != element) {
+                                        AddExtraStatus(setup.Defender, setup.DefenderMap, "Type1", (int)element, null, "", setup.PacketStack);
+                                    }
+                                    if (setup.Defender.Type2 != Enums.PokemonType.None) {
+                                        AddExtraStatus(setup.Defender, setup.DefenderMap, "Type2", 0, null, "", setup.PacketStack, false);
+                                    }
+                                }
+                            }
                         }
                         if (MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe) {
-                        //statuses that kick in when the attacker is explicitly on a different side
+                            //statuses that kick in when the attacker is explicitly on a different side
                             status = setup.Defender.VolatileStatus.GetStatus("Safeguard");
                             if (status != null) {
                                 status.Counter--;
@@ -6131,18 +6127,18 @@ namespace Script {
                                 }
                             }
                         }
-                        
-                        
+
+
                     }
 
                     status = setup.Defender.VolatileStatus.GetStatus("Substitute");
                     if (status != null && status.Counter <= 0) {
                         RemoveExtraStatus(setup.Defender, setup.DefenderMap, "Substitute", setup.PacketStack);
                     }
-                    
-                    
+
+
                 }
-                
+
                 if (setup.Hit && setup.Defender != null) {
                     int attackerSpeed = setup.Attacker.Spd;
                     int defenderSpeed = setup.Defender.Spd;
@@ -6171,38 +6167,38 @@ namespace Script {
                     if (defenderSpeed < 1) defenderSpeed = 1;
 
                     if (setup.AttackerMap.TempStatus.GetStatus("TrickRoom") != null) {
-                    	int temp = attackerSpeed;
-                    	attackerSpeed = defenderSpeed;
-                    	defenderSpeed = temp;
-                        
+                        int temp = attackerSpeed;
+                        attackerSpeed = defenderSpeed;
+                        defenderSpeed = temp;
+
                     }
                     if (defenderSpeed < attackerSpeed) {
-                    	setup.Defender.AttackTimer = new TickCount(setup.Defender.AttackTimer.Tick + 200 * defenderSpeed / attackerSpeed);
+                        setup.Defender.AttackTimer = new TickCount(setup.Defender.AttackTimer.Tick + 200 * defenderSpeed / attackerSpeed);
                     }
                 }
-                
+
                 if (setup.Hit && setup.Defender != null) {
                     if (setup.Damage > 0 && setup.Defender.HasActiveItem(480)) {//eject button
-                    	if (setup.DefenderMap.MapType == Enums.MapType.RDungeonMap) {
-                    		setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("magic256.wav"), setup.Defender.X, setup.Defender.Y, 10);
-                    		RandomWarp(setup.Defender, setup.DefenderMap, false, setup.PacketStack);
-                    	}
+                        if (setup.DefenderMap.MapType == Enums.MapType.RDungeonMap) {
+                            setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateSoundPacket("magic256.wav"), setup.Defender.X, setup.Defender.Y, 10);
+                            RandomWarp(setup.Defender, setup.DefenderMap, false, setup.PacketStack);
+                        }
                     }
                     if (setup.Damage > 0 &&
-                    	MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)
-                    	&& setup.Defender.HasActiveItem(240)) {//red card
-                    	BlowBack(setup.Attacker, setup.AttackerMap, (Enums.Direction)(((int)setup.Attacker.Direction + 1) % 2 + (int)setup.Attacker.Direction / 2 * 2), setup.PacketStack);
+                        MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)
+                        && setup.Defender.HasActiveItem(240)) {//red card
+                        BlowBack(setup.Attacker, setup.AttackerMap, (Enums.Direction)(((int)setup.Attacker.Direction + 1) % 2 + (int)setup.Attacker.Direction / 2 * 2), setup.PacketStack);
                     }
                 }
 
                 if (setup.BattleTags.Contains("Critical")) setup.BattleTags.Remove("Critical");
-                
+
                 if (setup.Defender != null && setup.DefenderMap != null && setup.DefenderMap.MapType == Enums.MapType.Instanced && ((InstancedMap)setup.DefenderMap).MapBase == 1945) {
-					setup.Defender.AttackTimer = null;
-					// Snowball game attack timer override
-				}
-				
-				RemoveBattleTag(setup.BattleTags, "PrevHP");
+                    setup.Defender.AttackTimer = null;
+                    // Snowball game attack timer override
+                }
+
+                RemoveBattleTag(setup.BattleTags, "PrevHP");
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: AfterMoveHits", Text.Black);
                 //Messenger.AdminMsg(ex.ToString(), Text.Black);
@@ -6211,7 +6207,7 @@ namespace Script {
         }
 
         public static void AfterMoveUsed(BattleSetup setup) {
-        	
+
             try {
                 ExtraStatus status;
 
@@ -6242,43 +6238,43 @@ namespace Script {
                         if (x >= 0 && x <= setup.AttackerMap.MaxX && y >= 0 && y <= setup.AttackerMap.MaxY) {
                             Tile tile = setup.AttackerMap.Tile[x, y];
                             if (tile.Type == Enums.TileType.Scripted && GetTrapItem(tile.Data1) > 0 && tile.Data2 > 0) {
-                            	//if the trap is revealed, destroy it
-                            	if (setup.Attacker.HasActiveItem(116) && WillTrapActivate(setup.Attacker, setup.AttackerMap, x, y)) {
-                            		//spawn item
-                            		setup.AttackerMap.SpawnItem(GetTrapItem(tile.Data1), 1, false, false, "", x, y, null);
-                            		setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("Magic22.wav"), setup.Attacker.X, setup.Attacker.Y, 10);
-                            		setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(505, x, y));
-                            		//delete trap
-                            		RemoveTrap(setup.AttackerMap, x, y, setup.PacketStack);
-                            	}
+                                //if the trap is revealed, destroy it
+                                if (setup.Attacker.HasActiveItem(116) && WillTrapActivate(setup.Attacker, setup.AttackerMap, x, y)) {
+                                    //spawn item
+                                    setup.AttackerMap.SpawnItem(GetTrapItem(tile.Data1), 1, false, false, "", x, y, null);
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("Magic22.wav"), setup.Attacker.X, setup.Attacker.Y, 10);
+                                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(505, x, y));
+                                    //delete trap
+                                    RemoveTrap(setup.AttackerMap, x, y, setup.PacketStack);
+                                }
                             } else if (tile.Type == Enums.TileType.Scripted && GetTrapType(tile.Data1) != null && tile.Data3 != 1) {
-                            //if the trap is hidden, reveal it
+                                //if the trap is hidden, reveal it
                                 RevealTrap(setup.AttackerMap, x, y, setup.PacketStack);
                             }
-                            
+
                             for (int i = 0; i < Server.Constants.MAX_MAP_ITEMS; i++) {
-	                        	if (setup.AttackerMap.ActiveItem[i].Num != 0 && setup.AttackerMap.ActiveItem[i].Hidden) {
-	                        		if (setup.AttackerMap.ActiveItem[i].X == x && setup.AttackerMap.ActiveItem[i].Y == y) {
-	                        			setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(491, x, y));
-	                        			setup.AttackerMap.SpawnItemSlot(i, setup.AttackerMap.ActiveItem[i].Num, setup.AttackerMap.ActiveItem[i].Value,
-	                            		setup.AttackerMap.ActiveItem[i].Sticky, false, setup.AttackerMap.ActiveItem[i].Tag,
-	                            		setup.AttackerMap.ActiveItem[i].X, setup.AttackerMap.ActiveItem[i].Y, null);
-	                        		}
-	                        	}
-	                        }
+                                if (setup.AttackerMap.ActiveItem[i].Num != 0 && setup.AttackerMap.ActiveItem[i].Hidden) {
+                                    if (setup.AttackerMap.ActiveItem[i].X == x && setup.AttackerMap.ActiveItem[i].Y == y) {
+                                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(491, x, y));
+                                        setup.AttackerMap.SpawnItemSlot(i, setup.AttackerMap.ActiveItem[i].Num, setup.AttackerMap.ActiveItem[i].Value,
+                                        setup.AttackerMap.ActiveItem[i].Sticky, false, setup.AttackerMap.ActiveItem[i].Tag,
+                                        setup.AttackerMap.ActiveItem[i].X, setup.AttackerMap.ActiveItem[i].Y, null);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                
+
                 //conversion
                 status = setup.Attacker.VolatileStatus.GetStatus("Conversion");
                 if (status != null && GetBattleTagArg(setup.BattleTags, "Conversion", 0) == null && setup.Move.Element != Enums.PokemonType.None) {
-                	if (setup.Attacker.Type1 != setup.Move.Element) {
-                		AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type1", (int)setup.Move.Element, null, "", setup.PacketStack);
-                	}
-                	if (setup.Attacker.Type2 != Enums.PokemonType.None) {
-                		AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type2", 0, null, "", setup.PacketStack, false);
-                	}
+                    if (setup.Attacker.Type1 != setup.Move.Element) {
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type1", (int)setup.Move.Element, null, "", setup.PacketStack);
+                    }
+                    if (setup.Attacker.Type2 != Enums.PokemonType.None) {
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Type2", 0, null, "", setup.PacketStack, false);
+                    }
                 }
 
                 //trap destruction on Rapid Spin
@@ -6324,7 +6320,7 @@ namespace Script {
                         setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("All revealed traps on the floor were destroyed!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
                     }
                 }
-				
+
                 //Final Gambit backlash
                 if (setup.Move.EffectType == Enums.MoveType.Scripted && setup.Hit && setup.Move.Data1 == 170) {
                     setup.Attacker.HP = 1;
@@ -6349,156 +6345,156 @@ namespace Script {
                 }
 
                 status = setup.Attacker.VolatileStatus.GetStatus("Rampage");
-							if (status != null) {
-                                status.Counter--;
-                                if (status.Counter <= 0) {
-                                    RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rampage", setup.PacketStack);
-                                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", Server.Math.Rand(5, 11), null, "", setup.PacketStack, true);
-                                }
-                            }
-                            status = setup.Attacker.VolatileStatus.GetStatus("Rolling");
-							if (status != null) {
-								if (setup.BattleTags.Contains("HitSomething")) {
-                                
-                                    status.Counter++;
-                                    if (status.Counter >= 5) {
-                                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rolling", setup.PacketStack);
-                                    }
-                                } else {
-									RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rolling", setup.PacketStack);
-								}
-                            }
-                            status = setup.Attacker.VolatileStatus.GetStatus("FuryCutter");
-							if (status != null) {
-								if (setup.BattleTags.Contains("HitSomething")) {
-                                    if (status.Counter < 5) {
-                                        status.Counter++;
-                                    }
-                                } else {
-									RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FuryCutter", setup.PacketStack);
-								}
-                            }
+                if (status != null) {
+                    status.Counter--;
+                    if (status.Counter <= 0) {
+                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rampage", setup.PacketStack);
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "Confusion", Server.Math.Rand(5, 11), null, "", setup.PacketStack, true);
+                    }
+                }
+                status = setup.Attacker.VolatileStatus.GetStatus("Rolling");
+                if (status != null) {
+                    if (setup.BattleTags.Contains("HitSomething")) {
+
+                        status.Counter++;
+                        if (status.Counter >= 5) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rolling", setup.PacketStack);
+                        }
+                    } else {
+                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Rolling", setup.PacketStack);
+                    }
+                }
+                status = setup.Attacker.VolatileStatus.GetStatus("FuryCutter");
+                if (status != null) {
+                    if (setup.BattleTags.Contains("HitSomething")) {
+                        if (status.Counter < 5) {
+                            status.Counter++;
+                        }
+                    } else {
+                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FuryCutter", setup.PacketStack);
+                    }
+                }
 
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: AfterMoveUsed", Text.Black);
                 Messenger.AdminMsg(ex.ToString(), Text.Black);
                 if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit) {
-                	Messenger.AdminMsg("Attacker: " + ((Recruit)setup.Attacker).Owner.Player.Name, Text.Black);
+                    Messenger.AdminMsg("Attacker: " + ((Recruit)setup.Attacker).Owner.Player.Name, Text.Black);
                 }
                 if (setup.Defender.CharacterType == Enums.CharacterType.Recruit) {
-                	Messenger.AdminMsg("Defender: " + ((Recruit)setup.Defender).Owner.Player.Name, Text.Black);
+                    Messenger.AdminMsg("Defender: " + ((Recruit)setup.Defender).Owner.Player.Name, Text.Black);
                 }
-                
+
             }
         }
 
         public static void AfterActionTaken(BattleSetup setup) {
-        int pointReached = 0;
+            int pointReached = 0;
             try {
                 ExtraStatus status;
-            	if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
-	            	pointReached = 1;
-	            	if (setup.Attacker.AttackTimer == null || setup.Attacker.AttackTimer.Tick < Core.GetTickCount().Tick) {
-	
-	                    setup.Attacker.AttackTimer = new TickCount(Core.GetTickCount().Tick);
-	
-	                }
-	                pointReached = 2;
-	                if (setup.Attacker.PauseTimer == null || setup.Attacker.PauseTimer.Tick < Core.GetTickCount().Tick) {
-	                    setup.Attacker.PauseTimer = new TickCount(Core.GetTickCount().Tick);
-	                }
-	                
-	                pointReached = 3;
-	            
-	                //gluttony rewards
-	                if (GetBattleTagArg(setup.BattleTags, "Gluttony", 1) != null) {
-	                    HealCharacter(setup.Attacker, setup.AttackerMap, GetBattleTagArg(setup.BattleTags, "Gluttony", 1).ToInt(), setup.PacketStack);
-	                }
-	                
-	                
-	
-	
-	                //magic coat
+                if (GetBattleTagArg(setup.BattleTags, "InvokedMove", 0) == null) {
+                    pointReached = 1;
+                    if (setup.Attacker.AttackTimer == null || setup.Attacker.AttackTimer.Tick < Core.GetTickCount().Tick) {
+
+                        setup.Attacker.AttackTimer = new TickCount(Core.GetTickCount().Tick);
+
+                    }
+                    pointReached = 2;
+                    if (setup.Attacker.PauseTimer == null || setup.Attacker.PauseTimer.Tick < Core.GetTickCount().Tick) {
+                        setup.Attacker.PauseTimer = new TickCount(Core.GetTickCount().Tick);
+                    }
+
+                    pointReached = 3;
+
+                    //gluttony rewards
+                    if (GetBattleTagArg(setup.BattleTags, "Gluttony", 1) != null) {
+                        HealCharacter(setup.Attacker, setup.AttackerMap, GetBattleTagArg(setup.BattleTags, "Gluttony", 1).ToInt(), setup.PacketStack);
+                    }
+
+
+
+
+                    //magic coat
                     status = setup.Attacker.VolatileStatus.GetStatus("MagicCoat");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MagicCoat", setup.PacketStack);
-	                    }
-	                }
-	                
-	                //mirror coat
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MagicCoat", setup.PacketStack);
+                        }
+                    }
+
+                    //mirror coat
                     status = setup.Attacker.VolatileStatus.GetStatus("MirrorCoat");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MirrorCoat", setup.PacketStack);
-	                    }
-	                }
-	                
-	                //counter
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MirrorCoat", setup.PacketStack);
+                        }
+                    }
+
+                    //counter
                     status = setup.Attacker.VolatileStatus.GetStatus("Counter");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Counter", setup.PacketStack);
-	                    }
-	                }
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Counter", setup.PacketStack);
+                        }
+                    }
 
 
                     status = setup.Attacker.VolatileStatus.GetStatus("Charge");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Charge", setup.PacketStack);
-	                    }
-	                }
-					pointReached = 4;
-	
-	                //yawn
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Charge", setup.PacketStack);
+                        }
+                    }
+                    pointReached = 4;
+
+                    //yawn
                     status = setup.Attacker.VolatileStatus.GetStatus("Yawn");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Yawn", setup.PacketStack);
-	                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Sleep, Server.Math.Rand(2, 4), setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 5;
-	
-	                //nightmare
-	                if (setup.Attacker.VolatileStatus.GetStatus("Nightmare") != null && setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
-	                    if (setup.Attacker.HasActiveItem(498)) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Lunar Wing dispelled the nightmare!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Nightmare", setup.PacketStack);
-	                    } else {
-	                        int dmg = setup.Attacker.MaxHP / 8;
-	                        if (dmg < 1) dmg = 1;
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is having nightmares!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (dmg >= setup.Attacker.HP) {
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Yawn", setup.PacketStack);
+                            SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Sleep, Server.Math.Rand(2, 4), setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 5;
+
+                    //nightmare
+                    if (setup.Attacker.VolatileStatus.GetStatus("Nightmare") != null && setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
+                        if (setup.Attacker.HasActiveItem(498)) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Lunar Wing dispelled the nightmare!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Nightmare", setup.PacketStack);
+                        } else {
+                            int dmg = setup.Attacker.MaxHP / 8;
+                            if (dmg < 1) dmg = 1;
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is having nightmares!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (dmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, dmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, dmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                }
-	                
-	                //lunar wing
-	                if (setup.Attacker.HasActiveItem(498) && setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
-	                    int heal = setup.Attacker.MaxHP / 32;
-	                    if (heal < 1) heal = 1;
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s health is restored by the Lunar Wing!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
-	                }
-	                
-	                pointReached = 6;
-	
-	                //Leech Seed Damage
+                        }
+                    }
+
+                    //lunar wing
+                    if (setup.Attacker.HasActiveItem(498) && setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
+                        int heal = setup.Attacker.MaxHP / 32;
+                        if (heal < 1) heal = 1;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s health is restored by the Lunar Wing!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
+                        HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
+                    }
+
+                    pointReached = 6;
+
+                    //Leech Seed Damage
                     status = setup.Attacker.VolatileStatus.GetStatus("LeechSeed:0");
-	                if (!HasAbility(setup.Attacker, "Magic Guard") && status != null) {
+                    if (!HasAbility(setup.Attacker, "Magic Guard") && status != null) {
                         if (status.Target == null) {
                             setup.Attacker.VolatileStatus.Remove(status);
                         } else {
@@ -6508,157 +6504,157 @@ namespace Script {
                             int heal = 5;
                             if (status.Target.HasActiveItem(194)) heal = 6;
                             setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s health is sapped by Leech Seed!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (seeddmg >= setup.Attacker.HP) {
+                            if (seeddmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, seeddmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            	return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, seeddmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
                             //HealCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg * heal / 5, setup.PacketStack);
                             if (HasAbility(setup.Attacker, "Liquid Ooze")) {
                                 setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(status.Target.Name + " sucked up the Liquid Ooze!", Text.BrightRed), status.Target.X, status.Target.Y, 10);
-                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);    
-		                        if (seeddmg >= status.Target.HP) {
-	                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);    
-	                                setup.Cancel = true;
-                            return;
-	                            } else {
-	                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);    
-	                            }
+                                DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);
+                                if (seeddmg >= status.Target.HP) {
+                                    DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);
+                                    setup.Cancel = true;
+                                    return;
+                                } else {
+                                    DamageCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg, Enums.KillType.Other, setup.PacketStack, true);
+                                }
                             } else {
                                 HealCharacter(status.Target, MapManager.RetrieveActiveMap(status.Target.MapID), seeddmg * heal / 5, setup.PacketStack);
                             }
                         }
-	                }
-	                
-	                pointReached = 8;
-	
-	                //sure shot
+                    }
+
+                    pointReached = 8;
+
+                    //sure shot
                     status = setup.Attacker.VolatileStatus.GetStatus("SureShot");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SureShot", setup.PacketStack);
-	                    }
-	                }
-	                
-	
-	                //taunt
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SureShot", setup.PacketStack);
+                        }
+                    }
+
+
+                    //taunt
                     status = setup.Attacker.VolatileStatus.GetStatus("Taunt");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Taunt", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 9;
-	
-	                //Snatch
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Taunt", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 9;
+
+                    //Snatch
                     status = setup.Attacker.VolatileStatus.GetStatus("Snatch");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Snatch", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 10;
-	
-	                //encore
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Snatch", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 10;
+
+                    //encore
                     status = setup.Attacker.VolatileStatus.GetStatus("Encore");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Encore", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 11;
-	
-	
-	                //follow
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Encore", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 11;
+
+
+                    //follow
                     status = setup.Attacker.VolatileStatus.GetStatus("Follow");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Follow", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 12;
-	
-	                //torment
-	                //if (setup.Attacker.VolatileStatus.GetStatus("Torment") != null) {
-	                //	setup.Attacker.VolatileStatus.GetStatus("Torment").Counter--;
-	                //	if (setup.Attacker.VolatileStatus.GetStatus("Torment").Counter <= 0) {
-	                //		RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Torment", setup.PacketStack);
-	                //	}
-	                //}
-	
-	                //embargo
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Follow", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 12;
+
+                    //torment
+                    //if (setup.Attacker.VolatileStatus.GetStatus("Torment") != null) {
+                    //	setup.Attacker.VolatileStatus.GetStatus("Torment").Counter--;
+                    //	if (setup.Attacker.VolatileStatus.GetStatus("Torment").Counter <= 0) {
+                    //		RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Torment", setup.PacketStack);
+                    //	}
+                    //}
+
+                    //embargo
                     status = setup.Attacker.VolatileStatus.GetStatus("Embargo");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Embargo", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 13;
-	
-	                //heal block
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Embargo", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 13;
+
+                    //heal block
                     status = setup.Attacker.VolatileStatus.GetStatus("HealBlock");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "HealBlock", setup.PacketStack);
-	                    }
-	                }
-	                
-	                pointReached = 14;
-	                
-	                //Burn Damage
-	                if (setup.Attacker.StatusAilment == Enums.StatusAilment.Burn
-	                	&& !HasAbility(setup.Attacker, "Heatproof")
-	                	&& !(HasAbility(setup.Attacker, "Water Veil") && HasAbility(setup.Attacker, "Flare Boost"))
-	                	&& !HasAbility(setup.Attacker, "Magic Guard")) {
-	                    int burndmg = setup.Attacker.MaxHP / 16;
-	                    if (burndmg < 1) burndmg = 1;
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by the burn!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    if (burndmg >= setup.Attacker.HP) {
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "HealBlock", setup.PacketStack);
+                        }
+                    }
+
+                    pointReached = 14;
+
+                    //Burn Damage
+                    if (setup.Attacker.StatusAilment == Enums.StatusAilment.Burn
+                        && !HasAbility(setup.Attacker, "Heatproof")
+                        && !(HasAbility(setup.Attacker, "Water Veil") && HasAbility(setup.Attacker, "Flare Boost"))
+                        && !HasAbility(setup.Attacker, "Magic Guard")) {
+                        int burndmg = setup.Attacker.MaxHP / 16;
+                        if (burndmg < 1) burndmg = 1;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by the burn!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        if (burndmg >= setup.Attacker.HP) {
                             DamageCharacter(setup.Attacker, setup.AttackerMap, burndmg, Enums.KillType.Other, setup.PacketStack, true);
                             setup.Cancel = true;
                             return;
                         } else {
                             DamageCharacter(setup.Attacker, setup.AttackerMap, burndmg, Enums.KillType.Other, setup.PacketStack, true);
                         }
-	                }
-	                
-	                pointReached = 15;
-	
-	                //future sight
+                    }
+
+                    pointReached = 15;
+
+                    //future sight
                     status = setup.Attacker.VolatileStatus.GetStatus("FutureSight");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FutureSight", setup.PacketStack);
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic118.wav"));
-	                        if (50 >= setup.Attacker.HP) {
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FutureSight", setup.PacketStack);
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic118.wav"));
+                            if (50 >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, 50, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, 50, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                }
-	                
-	                pointReached = 16;
-	
-	                //Curse Damage
-	                if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                        }
+                    }
+
+                    pointReached = 16;
+
+                    //Curse Damage
+                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
                         status = setup.Attacker.VolatileStatus.GetStatus("Curse");
                         if (status != null) {
                             setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is haunted by the curse...", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
@@ -6666,239 +6662,239 @@ namespace Script {
                             if (status.Counter >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, status.Counter, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, status.Counter, Enums.KillType.Other, setup.PacketStack, true);
                             }
                         }
-	                }
-	                
-	                pointReached = 17;
-	
-	                //Immobilization struggling
-                    status = setup.Attacker.VolatileStatus.GetStatus("Immobilize");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Immobilize", setup.PacketStack, true);
-	                    }
-	                }
-	                
-	                pointReached = 19;
-	
-	                //Telekinesis struggling
-                    status = setup.Attacker.VolatileStatus.GetStatus("Telekinesis");
-	                if (status != null) {
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Telekinesis", setup.PacketStack, true);
-	                    }
-	                }
-	                
-	                pointReached = 20;
-	
-	                //Ingrain timer
-                    status = setup.Attacker.VolatileStatus.GetStatus("Ingrain");
-	                if (status != null) {
-	                    status.Counter--;
-	                    HealCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.MaxHP / 6, setup.PacketStack);
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Ingrain", setup.PacketStack, true);
-	                    }
-	                }
-	                
-	                pointReached = 21;
-	                
-	                //Aqua Ring
-	                if ((setup.Attacker.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)setup.Attacker).Belly > 0) &&
-                        setup.Attacker.VolatileStatus.GetStatus("AquaRing") != null) {
-	                    int heal = setup.Attacker.MaxHP / 32;
-	                    if (heal < 1) heal = 1;
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s health is restored by Aqua Ring!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
-	                }
-	                
-	                pointReached = 22;
+                    }
 
-                    status = setup.Attacker.VolatileStatus.GetStatus("Invisible");
-	                if (status != null) {
-                    	status.Counter -= 2;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Invisible", setup.PacketStack, true);
-	                    }
-	                }
-	                
-	                pointReached = 23;
-	
-	                int trapdmg = 0;
-	                if (trapdmg < 1) trapdmg = 1;
-                    status = setup.Attacker.VolatileStatus.GetStatus("FireSpin");
-	                if (status != null) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(206, setup.Attacker.X, setup.Attacker.Y));
-	                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Fire Spin!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = setup.Attacker.MaxHP / 12;
-                            } else {
-                            	trapdmg = setup.Attacker.MaxHP / 16;
-                            }
-	                        if (trapdmg >= setup.Attacker.HP) {
-                                DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
-                                setup.Cancel = true;
-                            return;
-                            } else {
-                                DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
-                            }
-	                    }
+                    pointReached = 17;
+
+                    //Immobilization struggling
+                    status = setup.Attacker.VolatileStatus.GetStatus("Immobilize");
+                    if (status != null) {
                         status.Counter--;
                         if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FireSpin", setup.PacketStack, true);
-	                    }
-	                }
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Immobilize", setup.PacketStack, true);
+                        }
+                    }
+
+                    pointReached = 19;
+
+                    //Telekinesis struggling
+                    status = setup.Attacker.VolatileStatus.GetStatus("Telekinesis");
+                    if (status != null) {
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Telekinesis", setup.PacketStack, true);
+                        }
+                    }
+
+                    pointReached = 20;
+
+                    //Ingrain timer
+                    status = setup.Attacker.VolatileStatus.GetStatus("Ingrain");
+                    if (status != null) {
+                        status.Counter--;
+                        HealCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.MaxHP / 6, setup.PacketStack);
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Ingrain", setup.PacketStack, true);
+                        }
+                    }
+
+                    pointReached = 21;
+
+                    //Aqua Ring
+                    if ((setup.Attacker.CharacterType == Enums.CharacterType.MapNpc || ((Recruit)setup.Attacker).Belly > 0) &&
+                        setup.Attacker.VolatileStatus.GetStatus("AquaRing") != null) {
+                        int heal = setup.Attacker.MaxHP / 32;
+                        if (heal < 1) heal = 1;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + "'s health is restored by Aqua Ring!", Text.BrightGreen), setup.Attacker.X, setup.Attacker.Y, 10);
+                        HealCharacter(setup.Attacker, setup.AttackerMap, heal, setup.PacketStack);
+                    }
+
+                    pointReached = 22;
+
+                    status = setup.Attacker.VolatileStatus.GetStatus("Invisible");
+                    if (status != null) {
+                        status.Counter -= 2;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Invisible", setup.PacketStack, true);
+                        }
+                    }
+
+                    pointReached = 23;
+
+                    int trapdmg = 0;
+                    if (trapdmg < 1) trapdmg = 1;
+                    status = setup.Attacker.VolatileStatus.GetStatus("FireSpin");
+                    if (status != null) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(206, setup.Attacker.X, setup.Attacker.Y));
+                        if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Fire Spin!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = setup.Attacker.MaxHP / 12;
+                            } else {
+                                trapdmg = setup.Attacker.MaxHP / 16;
+                            }
+                            if (trapdmg >= setup.Attacker.HP) {
+                                DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
+                                setup.Cancel = true;
+                                return;
+                            } else {
+                                DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
+                            }
+                        }
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "FireSpin", setup.PacketStack, true);
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("Whirlpool");
-	                if (status != null) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(203, setup.Attacker.X, setup.Attacker.Y));
-	                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Whirlpool!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = setup.Attacker.MaxHP / 12;
+                    if (status != null) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(203, setup.Attacker.X, setup.Attacker.Y));
+                        if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Whirlpool!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = setup.Attacker.MaxHP / 12;
                             } else {
-                            	trapdmg = setup.Attacker.MaxHP / 16;
+                                trapdmg = setup.Attacker.MaxHP / 16;
                             }
-	                        if (trapdmg >= setup.Attacker.HP) {
+                            if (trapdmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Whirlpool", setup.PacketStack, true);
-	                    }
-	                }
-	                status = setup.Attacker.VolatileStatus.GetStatus("Infestation");
-	                if (status != null) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(213, setup.Attacker.X, setup.Attacker.Y));
-	                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by an Infestation!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = setup.Attacker.MaxHP / 12;
+                        }
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Whirlpool", setup.PacketStack, true);
+                        }
+                    }
+                    status = setup.Attacker.VolatileStatus.GetStatus("Infestation");
+                    if (status != null) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(213, setup.Attacker.X, setup.Attacker.Y));
+                        if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by an Infestation!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = setup.Attacker.MaxHP / 12;
                             } else {
-                            	trapdmg = setup.Attacker.MaxHP / 16;
+                                trapdmg = setup.Attacker.MaxHP / 16;
                             }
-	                        if (trapdmg >= setup.Attacker.HP) {
+                            if (trapdmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Infestation", setup.PacketStack, true);
-	                    }
-	                }
+                        }
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "Infestation", setup.PacketStack, true);
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("SandTomb");
-	                if (status != null) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(148, setup.Attacker.X, setup.Attacker.Y));
-	                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Sand Tomb!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = setup.Attacker.MaxHP / 12;
+                    if (status != null) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(148, setup.Attacker.X, setup.Attacker.Y));
+                        if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Sand Tomb!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = setup.Attacker.MaxHP / 12;
                             } else {
-                            	trapdmg = setup.Attacker.MaxHP / 16;
+                                trapdmg = setup.Attacker.MaxHP / 16;
                             }
-	                        if (trapdmg >= setup.Attacker.HP) {
+                            if (trapdmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SandTomb", setup.PacketStack, true);
-	                    }
-	                }
+                        }
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "SandTomb", setup.PacketStack, true);
+                        }
+                    }
                     status = setup.Attacker.VolatileStatus.GetStatus("MagmaStorm");
-	                if (status != null) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(94, setup.Attacker.X, setup.Attacker.Y));
-	                    if (!HasAbility(setup.Attacker, "Magic Guard")) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Magma Storm!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                        if (status.Tag == "1") {
-                            	trapdmg = setup.Attacker.MaxHP / 12;
+                    if (status != null) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSpellAnim(94, setup.Attacker.X, setup.Attacker.Y));
+                        if (!HasAbility(setup.Attacker, "Magic Guard")) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Attacker.Name + " is hurt by Magma Storm!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                            if (status.Tag == "1") {
+                                trapdmg = setup.Attacker.MaxHP / 12;
                             } else {
-                            	trapdmg = setup.Attacker.MaxHP / 16;
+                                trapdmg = setup.Attacker.MaxHP / 16;
                             }
-	                        if (trapdmg >= setup.Attacker.HP) {
+                            if (trapdmg >= setup.Attacker.HP) {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                                 setup.Cancel = true;
-                            return;
+                                return;
                             } else {
                                 DamageCharacter(setup.Attacker, setup.AttackerMap, trapdmg, Enums.KillType.Other, setup.PacketStack, true);
                             }
-	                    }
-	                    status.Counter--;
-	                    if (status.Counter <= 0) {
-	                        RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MagmaStorm", setup.PacketStack, true);
-	                    }
-	                }
-	                
-	                pointReached = 24;
-	
-	                //Life Orb
-	                if (setup.Attacker.HasActiveItem(143) && setup.BattleTags.Contains("HitSomething") && !HasAbility(setup.Attacker, "Magic Guard")) {
-	                	if (setup.Attacker.MaxHP / 32 >= setup.Attacker.HP) {
+                        }
+                        status.Counter--;
+                        if (status.Counter <= 0) {
+                            RemoveExtraStatus(setup.Attacker, setup.AttackerMap, "MagmaStorm", setup.PacketStack, true);
+                        }
+                    }
+
+                    pointReached = 24;
+
+                    //Life Orb
+                    if (setup.Attacker.HasActiveItem(143) && setup.BattleTags.Contains("HitSomething") && !HasAbility(setup.Attacker, "Magic Guard")) {
+                        if (setup.Attacker.MaxHP / 32 >= setup.Attacker.HP) {
                             DamageCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.MaxHP / 32, Enums.KillType.Other, setup.PacketStack, true);
                             setup.Cancel = true;
                             return;
                         } else {
                             DamageCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.MaxHP / 32, Enums.KillType.Other, setup.PacketStack, true);
                         }
-	                }
-	                
-	                pointReached = 25;
-	
-	                //Orb Damage
-	                if (setup.Attacker.HasActiveItem(169) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Poison.ToString() + ":2", false, setup.PacketStack)) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Toxic Orb activated!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Poison, 2, setup.PacketStack);
-	                } else if (setup.Attacker.HasActiveItem(163) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Burn.ToString(), false, setup.PacketStack)) {
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Flame Orb activated!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
-	                    SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Burn, 1, setup.PacketStack);
-	                }
-	                
-	                pointReached = 26;
-	
-	                //check ability
-	                CheckAfterActionTakenAbility(setup);
-	                
-	                pointReached = 27;
-	
-	                //Perish Song
+                    }
+
+                    pointReached = 25;
+
+                    //Orb Damage
+                    if (setup.Attacker.HasActiveItem(169) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Poison.ToString() + ":2", false, setup.PacketStack)) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Toxic Orb activated!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Poison, 2, setup.PacketStack);
+                    } else if (setup.Attacker.HasActiveItem(163) && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Burn.ToString(), false, setup.PacketStack)) {
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The Flame Orb activated!", Text.BrightRed), setup.Attacker.X, setup.Attacker.Y, 10);
+                        SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Burn, 1, setup.PacketStack);
+                    }
+
+                    pointReached = 26;
+
+                    //check ability
+                    CheckAfterActionTakenAbility(setup);
+
+                    pointReached = 27;
+
+                    //Perish Song
                     status = setup.Attacker.VolatileStatus.GetStatus("PerishCount");
-	                if (setup.Attacker.VolatileStatus.GetStatus("PerishCount") != null) {
-	                    AddExtraStatus(setup.Attacker, setup.AttackerMap, "PerishCount", status.Counter - 1, null, "", setup.PacketStack);
-	
-	                    if (status.Counter <= 1) {
-	                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic118.wav"));
-	                        DamageCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.HP, Enums.KillType.Other, setup.PacketStack, true);
+                    if (setup.Attacker.VolatileStatus.GetStatus("PerishCount") != null) {
+                        AddExtraStatus(setup.Attacker, setup.AttackerMap, "PerishCount", status.Counter - 1, null, "", setup.PacketStack);
+
+                        if (status.Counter <= 1) {
+                            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateSoundPacket("magic118.wav"));
+                            DamageCharacter(setup.Attacker, setup.AttackerMap, setup.Attacker.HP, Enums.KillType.Other, setup.PacketStack, true);
                             setup.Cancel = true;
                             return;
-	                    }
-	                }
-	                
-	                pointReached = 28;
+                        }
+                    }
+
+                    pointReached = 28;
 
 
                     if (setup.Attacker.MapID == setup.AttackerMap.MapID) {
-                    	if (setup.AttackerMap.MapType != Enums.MapType.RDungeonMap) {
+                        if (setup.AttackerMap.MapType != Enums.MapType.RDungeonMap) {
                         } else if (setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y].Type == Enums.TileType.MobileBlock) {
-                            
+
                             int mobilityList = setup.AttackerMap.Tile[setup.Attacker.X, setup.Attacker.Y].Data1;
                             bool blocked = false;
                             for (int i = 0; i < 16; i++) {
@@ -6921,43 +6917,43 @@ namespace Script {
                             }
                         }
                     }
-	                
-	                pointReached = 29;
-	
-	                if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit && setup.AttackerMap.HungerEnabled) {
-	                	if (setup.Attacker.HasActiveItem(103)) {
-            	
-		            	} else if (setup.Attacker.HasActiveItem(151)) {
-			            	if (setup.moveIndex > 0) {
-			            	((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 25;
-			            	} else {
-			            		((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 5;
-			            	}
-		            	} else {
-			            	if (setup.moveIndex > 0) {
-			            	((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 50;
-			            	} else {
-			            		((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 10;
-			            	}
-		            	}
-		            	if (setup.Attacker.HasActiveItem(144)) {
-            				((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 50;
-		            	}
-	                    ((Recruit)setup.Attacker).Owner.Player.ProcessHunger(setup.PacketStack);
-	                }
+
+                    pointReached = 29;
+
+                    if (setup.Attacker.CharacterType == Enums.CharacterType.Recruit && setup.AttackerMap.HungerEnabled) {
+                        if (setup.Attacker.HasActiveItem(103)) {
+
+                        } else if (setup.Attacker.HasActiveItem(151)) {
+                            if (setup.moveIndex > 0) {
+                                ((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 25;
+                            } else {
+                                ((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 5;
+                            }
+                        } else {
+                            if (setup.moveIndex > 0) {
+                                ((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 50;
+                            } else {
+                                ((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 10;
+                            }
+                        }
+                        if (setup.Attacker.HasActiveItem(144)) {
+                            ((Recruit)setup.Attacker).Owner.Player.BellyStepCounter += 50;
+                        }
+                        ((Recruit)setup.Attacker).Owner.Player.ProcessHunger(setup.PacketStack);
+                    }
                 }
                 pointReached = 30;
             } catch (Exception ex) {
-            	Messenger.AdminMsg("Error: AfterActionTaken", Text.Black);
+                Messenger.AdminMsg("Error: AfterActionTaken", Text.Black);
                 Messenger.AdminMsg(pointReached.ToString(), Text.Black);
                 if (setup.AttackerMap != null) {
-                	Messenger.AdminMsg(setup.AttackerMap.Name, Text.Black);
+                    Messenger.AdminMsg(setup.AttackerMap.Name, Text.Black);
                 }
                 if (setup.Attacker != null) {
-                	Messenger.AdminMsg(setup.Attacker.Name, Text.Black);
+                    Messenger.AdminMsg(setup.Attacker.Name, Text.Black);
                 }
                 if (setup.Defender != null) {
-                	Messenger.AdminMsg(setup.Defender.Name, Text.Black);
+                    Messenger.AdminMsg(setup.Defender.Name, Text.Black);
                 }
                 Messenger.AdminMsg(ex.ToString(), Text.Black);
             }
@@ -6982,92 +6978,92 @@ namespace Script {
                 }
             }
         }
-        
+
         public static void ReviveCharacter(ICharacter character, IMap map, bool fullHeal, PacketHitList hitlist) {
-        	try {
-        	PacketHitList.MethodStart(ref hitlist);
-        	if (fullHeal) {
-        		character.HP = character.MaxHP;
-	            for (int i = 0; i < character.Moves.Length; i++) {
-	                character.Moves[i].CurrentPP = character.Moves[i].MaxPP;
-	            }
-	            if (character.CharacterType == Enums.CharacterType.Recruit) {
-        			((Recruit)character).RestoreBelly();
-        		}
-        		hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was fully revived!", Text.BrightGreen));
-        	} else {
-        		int hp = character.MaxHP / 2;
-        		if (hp < 1) hp = 1;
-        		character.HP = hp;
-        		//restore belly to 20
-        		if (character.CharacterType == Enums.CharacterType.Recruit) {
-        			Recruit recruit = character as Recruit;
-					if (recruit.Belly < 25) {
-						recruit.Belly = 25;
-						PacketBuilder.AppendBelly(recruit.Owner, hitlist);
-					}
-        		}
-        		hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was revived!", Text.BrightGreen));
-        	}
-        	
-        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic682.wav"), character.X, character.Y, 10);
-        	hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(509, character.X, character.Y));
-        	
-        	if (character.CharacterType == Enums.CharacterType.Recruit) {
-        		((Recruit)character).Owner.Player.Dead = false;
-        		PacketBuilder.AppendDead(((Recruit)character).Owner, hitlist);
-        		Messenger.ForceEndStoryTo(((Recruit)character).Owner);
-        	}
-        	
-        	RefreshCharacterMoves(character, map, hitlist);
-        	
-        	PacketHitList.MethodEnded(ref hitlist);
-        	} catch (Exception ex) {
-        		Messenger.AdminMsg(ex.ToString(), Text.Black);
-        	}
+            try {
+                PacketHitList.MethodStart(ref hitlist);
+                if (fullHeal) {
+                    character.HP = character.MaxHP;
+                    for (int i = 0; i < character.Moves.Length; i++) {
+                        character.Moves[i].CurrentPP = character.Moves[i].MaxPP;
+                    }
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+                        ((Recruit)character).RestoreBelly();
+                    }
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was fully revived!", Text.BrightGreen));
+                } else {
+                    int hp = character.MaxHP / 2;
+                    if (hp < 1) hp = 1;
+                    character.HP = hp;
+                    //restore belly to 20
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+                        Recruit recruit = character as Recruit;
+                        if (recruit.Belly < 25) {
+                            recruit.Belly = 25;
+                            PacketBuilder.AppendBelly(recruit.Owner, hitlist);
+                        }
+                    }
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was revived!", Text.BrightGreen));
+                }
+
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateSoundPacket("magic682.wav"), character.X, character.Y, 10);
+                hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(509, character.X, character.Y));
+
+                if (character.CharacterType == Enums.CharacterType.Recruit) {
+                    ((Recruit)character).Owner.Player.Dead = false;
+                    PacketBuilder.AppendDead(((Recruit)character).Owner, hitlist);
+                    Messenger.ForceEndStoryTo(((Recruit)character).Owner);
+                }
+
+                RefreshCharacterMoves(character, map, hitlist);
+
+                PacketHitList.MethodEnded(ref hitlist);
+            } catch (Exception ex) {
+                Messenger.AdminMsg(ex.ToString(), Text.Black);
+            }
         }
 
         public static void HandleGameOver(Client client, Enums.KillType killType) {
             bool pointReached = false;
             try {
-	            Messenger.ForceEndStoryTo(client);
-	            
-	            //if (Ranks.IsAllowed(client, Enums.Rank.Developer)) {
-	            //    //RemoveInvOnDeath(index);
-	            //} else 
-	            if (client.Player.Map.Moral == Enums.MapMoral.None) {
-	                RemoveInvOnDeath(client);
-	            }
-				
-	            try {
-	                client.Player.EndTempStatMode();
-	                client.Player.GetActiveRecruit().RestoreVitals();
-	            } catch (Exception ex) {
-	            }
-	            if (client.Player.MapID != MapManager.GenerateMapID(660)) {
+                Messenger.ForceEndStoryTo(client);
+
+                //if (Ranks.IsAllowed(client, Enums.Rank.Developer)) {
+                //    //RemoveInvOnDeath(index);
+                //} else 
+                if (client.Player.Map.Moral == Enums.MapMoral.None) {
+                    RemoveInvOnDeath(client);
+                }
+
+                try {
+                    client.Player.EndTempStatMode();
+                    client.Player.GetActiveRecruit().RestoreVitals();
+                } catch (Exception ex) {
+                }
+                if (client.Player.MapID != MapManager.GenerateMapID(660)) {
                     if (exPlayer.Get(client) != null && exPlayer.Get(client).VerifySpawnPoint() == true) {
-						DungeonRules.ExitDungeon(client, -1, 0, 0);
+                        DungeonRules.ExitDungeon(client, -1, 0, 0);
                     } else {
-                    	exPlayer.Get(client).SpawnMap = Crossroads;
-                            exPlayer.Get(client).SpawnX = 25;
-                            exPlayer.Get(client).SpawnY = 25;
-						DungeonRules.ExitDungeon(client, -1, 0, 0);
+                        exPlayer.Get(client).SpawnMap = Crossroads;
+                        exPlayer.Get(client).SpawnX = 25;
+                        exPlayer.Get(client).SpawnY = 25;
+                        DungeonRules.ExitDungeon(client, -1, 0, 0);
                     }
-	            } else {
-	                Messenger.PlayerWarp(client, 660, 15, 4);
-	                Messenger.MapMsg(client.Player.MapID, client.Player.Name + " was eliminated from the arena!", Text.Black);
-	            }
-				
-	            client.Player.Dead = false;
-	            PacketHitList hitlist = null;
-	            PacketHitList.MethodStart(ref hitlist);
-	            PacketBuilder.AppendDead(client, hitlist);
-	            PacketHitList.MethodEnded(ref hitlist);
-	        } catch (Exception ex) {
-	        	Messenger.AdminMsg("Error: OnGameOver", Text.Black);
-	        	Messenger.AdminMsg(pointReached.ToString(), Text.Black);
-	        	Messenger.AdminMsg(ex.ToString(), Text.Black);
-	        }
+                } else {
+                    Messenger.PlayerWarp(client, 660, 15, 4);
+                    Messenger.MapMsg(client.Player.MapID, client.Player.Name + " was eliminated from the arena!", Text.Black);
+                }
+
+                client.Player.Dead = false;
+                PacketHitList hitlist = null;
+                PacketHitList.MethodStart(ref hitlist);
+                PacketBuilder.AppendDead(client, hitlist);
+                PacketHitList.MethodEnded(ref hitlist);
+            } catch (Exception ex) {
+                Messenger.AdminMsg("Error: OnGameOver", Text.Black);
+                Messenger.AdminMsg(pointReached.ToString(), Text.Black);
+                Messenger.AdminMsg(ex.ToString(), Text.Black);
+            }
         }
 
         public static void HandleDeath(PacketHitList hitlist, Client client, Enums.KillType killType, bool autoSwitch) {
@@ -7076,13 +7072,13 @@ namespace Script {
             //aftermath
             if (HasAbility(client.Player.GetActiveRecruit(), "Aftermath")) {
                 bool explode = true;
-				if (!HasAbility(client.Player.GetActiveRecruit(), "Mold Breaker")) {
-	                TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, client.Player.Map, null, 0, 0, Enums.Direction.Up, true, true, false);
-	                for (int i = 0; i < checkedTargets.Count; i++) {
-	                    if (HasAbility(checkedTargets[i], "Damp")) {
-	                        explode = false;
-	                    }
-	                }
+                if (!HasAbility(client.Player.GetActiveRecruit(), "Mold Breaker")) {
+                    TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, client.Player.Map, null, 0, 0, Enums.Direction.Up, true, true, false);
+                    for (int i = 0; i < checkedTargets.Count; i++) {
+                        if (HasAbility(checkedTargets[i], "Damp")) {
+                            explode = false;
+                        }
+                    }
                 }
 
                 if (explode) {
@@ -7097,33 +7093,33 @@ namespace Script {
                             }
                         }
                     }
-                    
-	                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, client.Player.Map, client.Player.GetActiveRecruit(), client.Player.X, client.Player.Y, Enums.Direction.Up, true, true, true);
-	                    for (int i = 0; i < targets.Count; i++) {
-	                    if (client.Player.Map.Moral == Enums.MapMoral.None) {
-	                        if (targets[i].HP > 0) {
-	                        	if (HasActiveBagItem(targets[i], 6, 0, 0)) {
-	                        		DamageCharacter(targets[i], client.Player.Map, 1, Enums.KillType.Tile, hitlist, true);
-	                        	} else {
-	                            	DamageCharacter(targets[i], client.Player.Map, targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
-	                            }
-	                        }
-	                        }
-	                    }
-                    
+
+                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, client.Player.Map, client.Player.GetActiveRecruit(), client.Player.X, client.Player.Y, Enums.Direction.Up, true, true, true);
+                    for (int i = 0; i < targets.Count; i++) {
+                        if (client.Player.Map.Moral == Enums.MapMoral.None) {
+                            if (targets[i].HP > 0) {
+                                if (HasActiveBagItem(targets[i], 6, 0, 0)) {
+                                    DamageCharacter(targets[i], client.Player.Map, 1, Enums.KillType.Tile, hitlist, true);
+                                } else {
+                                    DamageCharacter(targets[i], client.Player.Map, targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
+                                }
+                            }
+                        }
+                    }
+
                 } else {
                     hitlist.AddPacketToMap(client.Player.Map, PacketBuilder.CreateSoundPacket("magic320.wav"), client.Player.X, client.Player.Y, 10);
                     hitlist.AddPacketToMap(client.Player.Map, PacketBuilder.CreateSpellAnim(505, client.Player.X, client.Player.Y));
                     hitlist.AddPacketToMap(client.Player.Map, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), client.Player.X, client.Player.Y, 10);
                 }
             }
-            
+
             //death flag
             TargetCollection witnesses = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, client.Player.Map, client.Player.GetActiveRecruit(), 0, 0, Enums.Direction.Up, false, true, false);
-			for (int i = 0; i < witnesses.Count; i++) {
+            for (int i = 0; i < witnesses.Count; i++) {
                 AddExtraStatus(witnesses[i], client.Player.Map, "SawAllyFaint", 0, null, "", hitlist);
             }
-			
+
             // Remove status
             client.Player.GetActiveRecruit().StatusAilment = Enums.StatusAilment.OK;
             client.Player.GetActiveRecruit().StatusAilmentCounter = 0;
@@ -7143,10 +7139,10 @@ namespace Script {
             PacketBuilder.AppendStatusAilment(client, hitlist);
 
             RemoveBuffs(client.Player.GetActiveRecruit());
-            
-			if (Ranks.IsDisallowed(client, Enums.Rank.Moniter)) {
-	            client.Player.Hunted = false;
-	            PacketBuilder.AppendHunted(client, hitlist);
+
+            if (Ranks.IsDisallowed(client, Enums.Rank.Moniter)) {
+                client.Player.Hunted = false;
+                PacketBuilder.AppendHunted(client, hitlist);
             }
             client.Player.Dead = true;
             PacketBuilder.AppendDead(client, hitlist);
@@ -7267,7 +7263,7 @@ namespace Script {
 
         public static void OnDeath(PacketHitList hitlist, Client client, Enums.KillType killType) {
             try {
-            HandleDeath(hitlist, client, killType, true);
+                HandleDeath(hitlist, client, killType, true);
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: OnDeath", Text.Black);
             }
@@ -7297,29 +7293,29 @@ namespace Script {
             List<int> itemsToRemove = new List<int>();
             for (int i = 1; i <= client.Player.MaxInv; i++) {
                 if (client.Player.Inventory[i].Num > 0) {
-                	if (ItemManager.Items[client.Player.Inventory[i].Num].StackCap > 0) {
-                		client.Player.TakeItem(client.Player.Inventory[i].Num, client.Player.Inventory[i].Amount);
-                	} else {
-                    	itemsToRemove.Add(i);
+                    if (ItemManager.Items[client.Player.Inventory[i].Num].StackCap > 0) {
+                        client.Player.TakeItem(client.Player.Inventory[i].Num, client.Player.Inventory[i].Amount);
+                    } else {
+                        itemsToRemove.Add(i);
                     }
                 }
             }
-            
-                int count = itemsToRemove.Count;
-                if (itemsToRemove.Count == 1) count = 1;
-                for (int i = 0; i < count; i++) {
-                	int rand = Server.Math.Rand(0,itemsToRemove.Count);
-                    if (client.Player.Inventory[itemsToRemove[rand]].Num > 0) {
-                        if (ItemManager.Items[client.Player.Inventory[itemsToRemove[rand]].Num].Loseable == false) {
-                        } else {
-                            client.Player.TakeItem(client.Player.Inventory[itemsToRemove[rand]].Num, 1);
-                        }
+
+            int count = itemsToRemove.Count;
+            if (itemsToRemove.Count == 1) count = 1;
+            for (int i = 0; i < count; i++) {
+                int rand = Server.Math.Rand(0, itemsToRemove.Count);
+                if (client.Player.Inventory[itemsToRemove[rand]].Num > 0) {
+                    if (ItemManager.Items[client.Player.Inventory[itemsToRemove[rand]].Num].Loseable == false) {
+                    } else {
+                        client.Player.TakeItem(client.Player.Inventory[itemsToRemove[rand]].Num, 1);
                     }
-                    itemsToRemove.RemoveAt(rand);
                 }
-                Messenger.SendInventory(client);
-                Messenger.PlayerMsg(client, "You dropped some of the items in your inventory!", Text.BrightRed);
-            
+                itemsToRemove.RemoveAt(rand);
+            }
+            Messenger.SendInventory(client);
+            Messenger.PlayerMsg(client, "You dropped some of the items in your inventory!", Text.BrightRed);
+
         }
 
         public static void OnNpcDeath(PacketHitList hitlist, ICharacter attacker, MapNpc npc) {
@@ -7332,13 +7328,13 @@ namespace Script {
                 //aftermath
                 if (HasAbility(npc, "Aftermath")) {
                     bool explode = true;
-					if (!HasAbility(npc, "Mold Breaker")) {
-	                    TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, MapManager.RetrieveActiveMap(npc.MapID), null, 0, 0, Enums.Direction.Up, true, true, false);
-	                    for (int i = 0; i < checkedTargets.Count; i++) {
-	                        if (HasAbility(checkedTargets[i], "Damp")) {
-	                            explode = false;
-	                        }
-	                    }
+                    if (!HasAbility(npc, "Mold Breaker")) {
+                        TargetCollection checkedTargets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, MapManager.RetrieveActiveMap(npc.MapID), null, 0, 0, Enums.Direction.Up, true, true, false);
+                        for (int i = 0; i < checkedTargets.Count; i++) {
+                            if (HasAbility(checkedTargets[i], "Damp")) {
+                                explode = false;
+                            }
+                        }
                     }
 
                     if (explode) {
@@ -7353,68 +7349,68 @@ namespace Script {
                                 }
                             }
                         }
-                        
-	                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, MapManager.RetrieveActiveMap(npc.MapID), npc, npc.X, npc.Y, Enums.Direction.Up, true, true, false);
-	                        for (int i = 0; i < targets.Count; i++) {
-	                            if (MapManager.RetrieveActiveMap(npc.MapID).Moral == Enums.MapMoral.None) {
-	                            if (targets[i].HP > 0) {
-	                            	if (HasActiveBagItem(targets[i], 6, 0, 0)) {
-		                        		DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
-		                        	} else {
-	                                	DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
-	                                }
-	                            }
-	                            }
-	                        }
-                        
+
+                        TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 1, MapManager.RetrieveActiveMap(npc.MapID), npc, npc.X, npc.Y, Enums.Direction.Up, true, true, false);
+                        for (int i = 0; i < targets.Count; i++) {
+                            if (MapManager.RetrieveActiveMap(npc.MapID).Moral == Enums.MapMoral.None) {
+                                if (targets[i].HP > 0) {
+                                    if (HasActiveBagItem(targets[i], 6, 0, 0)) {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), 1, Enums.KillType.Tile, hitlist, true);
+                                    } else {
+                                        DamageCharacter(targets[i], MapManager.RetrieveActiveMap(targets[i].MapID), targets[i].MaxHP / 4, Enums.KillType.Tile, hitlist, true);
+                                    }
+                                }
+                            }
+                        }
+
                     } else {
                         hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(npc.MapID), PacketBuilder.CreateSoundPacket("magic320.wav"), npc.X, npc.Y, 10);
                         hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(npc.MapID), PacketBuilder.CreateSpellAnim(505, npc.X, npc.Y));
                         hitlist.AddPacketToMap(MapManager.RetrieveActiveMap(npc.MapID), PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), npc.X, npc.Y, 10);
                     }
                 }
-                
+
                 //death flag
-	            TargetCollection witnesses = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, MapManager.RetrieveActiveMap(npc.MapID), npc, 0, 0, Enums.Direction.Up, false, true, false);
-				for (int i = 0; i < witnesses.Count; i++) {
-	                AddExtraStatus(witnesses[i], MapManager.RetrieveActiveMap(npc.MapID), "SawAllyFaint", 0, null, "", hitlist);
-	            }
+                TargetCollection witnesses = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, MapManager.RetrieveActiveMap(npc.MapID), npc, 0, 0, Enums.Direction.Up, false, true, false);
+                for (int i = 0; i < witnesses.Count; i++) {
+                    AddExtraStatus(witnesses[i], MapManager.RetrieveActiveMap(npc.MapID), "SawAllyFaint", 0, null, "", hitlist);
+                }
 
                 RemoveAllBondedExtraStatus(npc, MapManager.RetrieveActiveMap(npc.MapID), hitlist, false);
-				IMap map = MapManager.RetrieveActiveMap(npc.MapID);
-				Client client = null;
-				foreach (Client n in map.GetClients()) {
-                				client = n;
-                				break;
-                			}
-				
-                if (client != null) {
-                    
+                IMap map = MapManager.RetrieveActiveMap(npc.MapID);
+                Client client = null;
+                foreach (Client n in map.GetClients()) {
+                    client = n;
+                    break;
+                }
 
-                    
-					bool doBossCheck = false;
+                if (client != null) {
+
+
+
+                    bool doBossCheck = false;
 
                     switch (npc.Num) {
-                    /*
-                        case 276:
-                        case 277:
-                        case 278: { //Dynamo Trio
-                                map.RemoveNpc(npc.MapSlot);
-                                if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3)) {
-                                    map.Tile[9, 1].Mask = 96;
-                                    map.Tile[9, 1].MaskSet = 4;
-                                    map.Tile[9, 1].Type = Enums.TileType.Scripted;
-                                    map.Tile[9, 1].Data1 = 46;
-                                    map.Tile[9, 1].Data2 = 0;
-                                    map.Tile[9, 1].Data3 = 0;
-                                    map.Tile[9, 1].String1 = "19";
-                                    map.Tile[9, 1].String2 = "1";
-                                    map.Tile[9, 1].String3 = "10:7";
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 1, map));
+                        /*
+                            case 276:
+                            case 277:
+                            case 278: { //Dynamo Trio
+                                    map.RemoveNpc(npc.MapSlot);
+                                    if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3)) {
+                                        map.Tile[9, 1].Mask = 96;
+                                        map.Tile[9, 1].MaskSet = 4;
+                                        map.Tile[9, 1].Type = Enums.TileType.Scripted;
+                                        map.Tile[9, 1].Data1 = 46;
+                                        map.Tile[9, 1].Data2 = 0;
+                                        map.Tile[9, 1].Data3 = 0;
+                                        map.Tile[9, 1].String1 = "19";
+                                        map.Tile[9, 1].String2 = "1";
+                                        map.Tile[9, 1].String3 = "10:7";
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 1, map));
+                                    }
                                 }
-                            }
-                            break;
-                        */
+                                break;
+                            */
                         case 304: {//registeel
                                 map.RemoveNpc(npc.MapSlot);
                                 if (map.IsNpcSlotEmpty(5)) {
@@ -7496,22 +7492,22 @@ namespace Script {
                                 //}
                             }
                             break;
-                            /*
-                        case 465: {
-                                map.RemoveNpc(1);
-                                map.Tile[9, 4].Type = Enums.TileType.Scripted;
-                                map.Tile[9, 4].Data1 = 46;
-                                map.Tile[9, 4].Data2 = 0;
-                                map.Tile[9, 4].Data3 = 0;
-                                map.Tile[9, 4].String1 = "15";
-                                map.Tile[9, 4].String2 = "93";
-                                map.Tile[9, 4].String3 = "8:10";
-                                map.Tile[9, 4].Mask = 96;
-                                map.Tile[9, 4].MaskSet = 4;
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 4, map));
-                            }
-                            break;
-                            */
+                        /*
+                    case 465: {
+                            map.RemoveNpc(1);
+                            map.Tile[9, 4].Type = Enums.TileType.Scripted;
+                            map.Tile[9, 4].Data1 = 46;
+                            map.Tile[9, 4].Data2 = 0;
+                            map.Tile[9, 4].Data3 = 0;
+                            map.Tile[9, 4].String1 = "15";
+                            map.Tile[9, 4].String2 = "93";
+                            map.Tile[9, 4].String3 = "8:10";
+                            map.Tile[9, 4].Mask = 96;
+                            map.Tile[9, 4].MaskSet = 4;
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 4, map));
+                        }
+                        break;
+                        */
                         //case 212: {//fake Gengar (adjust for the actual NPC number)
                         //        if (map.MapType == Enums.MapType.RDungeonMap) {
                         //           int num = (map as RDungeonMap).RDungeonIndex;
@@ -7558,15 +7554,15 @@ namespace Script {
                                 StoryManager.PlayStory(client, 303);
                             }
                             break;
-                            /*
-                        case 440: {//Articuno*
-                                map.RemoveNpc(1);
-                                map.SetTile(12, 5, 96, 4, 1);
-                                map.SetAttribute(12, 5, Enums.TileType.Scripted, 46, 0, 0, "20", "342", "13:13");
-                                StoryManager.PlayStory(client, 171);
-                            }
-                            break;
-                            */
+                        /*
+                    case 440: {//Articuno*
+                            map.RemoveNpc(1);
+                            map.SetTile(12, 5, 96, 4, 1);
+                            map.SetAttribute(12, 5, Enums.TileType.Scripted, 46, 0, 0, "20", "342", "13:13");
+                            StoryManager.PlayStory(client, 171);
+                        }
+                        break;
+                        */
                         case 404: {//Heatran
                                 map.RemoveNpc(1);
                                 map.SetTile(10, 6, 96, 4, 3);
@@ -7592,15 +7588,15 @@ namespace Script {
                         case 863: { //normal PBA enemies + boss
                                 if (map.Name == "Pitch-Black Pit") {
                                     int remainingEnemies = 0;
-            						for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
-            							if (!map.IsNpcSlotEmpty(i)) remainingEnemies++;
-            						}
-            						if (remainingEnemies <= 1) {
+                                    for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
+                                        if (!map.IsNpcSlotEmpty(i)) remainingEnemies++;
+                                    }
+                                    if (remainingEnemies <= 1) {
                                         BossBattles.EndBossBattle(client, "Pitch-Black Pit");
                                     }
                                 } else PitchBlackAbyss.UnlockRoom(client, map);
-                        	}
-                        	break;
+                            }
+                            break;
                         case 139: {
                                 BossBattles.EndBossBattle(client, "ThunderstormForest");
                             }
@@ -7609,63 +7605,63 @@ namespace Script {
                                 BossBattles.EndBossBattle(client, "ThunderstormForestPart2");
                             }
                             break;
-                            /*
-                        case 588:
-                        case 587: { // EST Boss A Wave 1
-                                if (map.Name == "Electrostasis Tower Chamber") {
-                                    map.RemoveNpc(npc.MapSlot);
-                                    if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3) && map.IsNpcSlotEmpty(4) &&
-                                        (npc.MapSlot == 1 || npc.MapSlot == 2 || npc.MapSlot == 3 || npc.MapSlot == 4)) {
+                        /*
+                    case 588:
+                    case 587: { // EST Boss A Wave 1
+                            if (map.Name == "Electrostasis Tower Chamber") {
+                                map.RemoveNpc(npc.MapSlot);
+                                if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3) && map.IsNpcSlotEmpty(4) &&
+                                    (npc.MapSlot == 1 || npc.MapSlot == 2 || npc.MapSlot == 3 || npc.MapSlot == 4)) {
 
-                                        map.SetTile(4, 12, 0, 0, 1);
-                                        map.SetAttribute(4, 12, Enums.TileType.Walkable, 0, 0, 0, "", "", "");
-                                        map.SetAttribute(9, 12, Enums.TileType.Story, 201, 0, 0, "", "", "");
+                                    map.SetTile(4, 12, 0, 0, 1);
+                                    map.SetAttribute(4, 12, Enums.TileType.Walkable, 0, 0, 0, "", "", "");
+                                    map.SetAttribute(9, 12, Enums.TileType.Story, 201, 0, 0, "", "", "");
 
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(4, 12, map));
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 12, map));
-                                    } else if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3) && map.IsNpcSlotEmpty(4) &&
-                                                map.IsNpcSlotEmpty(5) && map.IsNpcSlotEmpty(6) && map.IsNpcSlotEmpty(7) &&
-                                                (npc.MapSlot == 5 || npc.MapSlot == 6 || npc.MapSlot == 7)) {
-                                        BossBattles.EndBossBattle(client, "ElectrostasisTowerA1");
-                                    }
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(4, 12, map));
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateTilePacket(9, 12, map));
+                                } else if (map.IsNpcSlotEmpty(1) && map.IsNpcSlotEmpty(2) && map.IsNpcSlotEmpty(3) && map.IsNpcSlotEmpty(4) &&
+                                            map.IsNpcSlotEmpty(5) && map.IsNpcSlotEmpty(6) && map.IsNpcSlotEmpty(7) &&
+                                            (npc.MapSlot == 5 || npc.MapSlot == 6 || npc.MapSlot == 7)) {
+                                    BossBattles.EndBossBattle(client, "ElectrostasisTowerA1");
                                 }
                             }
-                            break;
-                            */
+                        }
+                        break;
+                        */
                         case 963: {// Joey, Exbel Woods Clearing
-                        		int recruitIndex = -1;
-                        		using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
-                                	recruitIndex = client.Player.AddToRecruitmentBank(dbConnection, client.Player.CreateRecruitFromNpc(npc));
+                                int recruitIndex = -1;
+                                using (DatabaseConnection dbConnection = new DatabaseConnection(DatabaseID.Players)) {
+                                    recruitIndex = client.Player.AddToRecruitmentBank(dbConnection, client.Player.CreateRecruitFromNpc(npc));
                                 }
-								int openSlot = client.Player.FindOpenTeamSlot();
+                                int openSlot = client.Player.FindOpenTeamSlot();
                                 if (recruitIndex != -1 && openSlot != -1) {
-                                	
-                                	client.Player.AddToTeam(recruitIndex, openSlot);
-                                	client.Player.Team[openSlot].HP = client.Player.Team[openSlot].MaxHP;
-                                	Messenger.BattleMsg(client, "You have recruited a new team member!", Text.BrightGreen);
 
-                                	Messenger.SendActiveTeam(client);
+                                    client.Player.AddToTeam(recruitIndex, openSlot);
+                                    client.Player.Team[openSlot].HP = client.Player.Team[openSlot].MaxHP;
+                                    Messenger.BattleMsg(client, "You have recruited a new team member!", Text.BrightGreen);
+
+                                    Messenger.SendActiveTeam(client);
                                 } else {
-                                	Messenger.BattleMsg(client, "You cant recruit! You have too many team members in the assembly!", Text.BrightRed);
+                                    Messenger.BattleMsg(client, "You cant recruit! You have too many team members in the assembly!", Text.BrightRed);
                                 }
                                 doBossCheck = true;
-	                        }
-	                        break;
+                            }
+                            break;
                         default: {
                                 doBossCheck = true;
                             }
                             break;
                     }
-                    
+
                     if (doBossCheck) {
-	                    if (BossBattles.IsBossBattleMap(client)) {
-		                    int remainingEnemies = 0;
-		                    for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
-		                    	if (!map.IsNpcSlotEmpty(i)) remainingEnemies++;
-	                        }
-	                        //Messenger.AdminMsg(remainingEnemies.ToString(), Text.Black);
-	                        if (remainingEnemies <= 1) BossBattles.EndBossBattle(client, map.Name);
-	                    }
+                        if (BossBattles.IsBossBattleMap(client)) {
+                            int remainingEnemies = 0;
+                            for (int i = 0; i < Constants.MAX_MAP_NPCS; i++) {
+                                if (!map.IsNpcSlotEmpty(i)) remainingEnemies++;
+                            }
+                            //Messenger.AdminMsg(remainingEnemies.ToString(), Text.Black);
+                            if (remainingEnemies <= 1) BossBattles.EndBossBattle(client, map.Name);
+                        }
                     }
 
 
@@ -7679,30 +7675,30 @@ namespace Script {
         }
 
         public static Enums.Weather GetCharacterWeather(ICharacter character) {
-        	try {
-            if (character.HasActiveItem(303)) {
-                return Enums.Weather.None;
-            }
-            IMap map = MapManager.RetrieveActiveMap(character.MapID);
-            if (map != null) {
-                if (map.Weather == Enums.Weather.Ambiguous || map.Weather == Enums.Weather.None) {
-                    if (character.HasActiveItem(302)) {
-                        return Enums.Weather.Sunny;
-                    } else if (character.HasActiveItem(301)) {
-                        return Enums.Weather.Raining;
-                    } else if (character.HasActiveItem(300)) {
-                        return Enums.Weather.Sandstorm;
-                    } else if (character.HasActiveItem(299)) {
-                        return Enums.Weather.Hail;
+            try {
+                if (character.HasActiveItem(303)) {
+                    return Enums.Weather.None;
+                }
+                IMap map = MapManager.RetrieveActiveMap(character.MapID);
+                if (map != null) {
+                    if (map.Weather == Enums.Weather.Ambiguous || map.Weather == Enums.Weather.None) {
+                        if (character.HasActiveItem(302)) {
+                            return Enums.Weather.Sunny;
+                        } else if (character.HasActiveItem(301)) {
+                            return Enums.Weather.Raining;
+                        } else if (character.HasActiveItem(300)) {
+                            return Enums.Weather.Sandstorm;
+                        } else if (character.HasActiveItem(299)) {
+                            return Enums.Weather.Hail;
+                        }
+
                     }
 
+                    return map.Weather;
                 }
-
-                return map.Weather;
+            } catch (Exception ex) {
+                Messenger.AdminMsg("Error: GetCharacterWeather", Text.Black);
             }
-			} catch (Exception ex) {
-				Messenger.AdminMsg("Error: GetCharacterWeather", Text.Black);
-			}
 
             return Enums.Weather.Ambiguous;
         }
@@ -7732,14 +7728,14 @@ namespace Script {
                 if (recruit.Belly >= recruit.MaxBelly) {
                     recruit.Belly = recruit.MaxBelly;
                     if (belly > 10) {
-                    	hitlist.AddPacketToMap(recruit.Owner.Player.Map, PacketBuilder.CreateBattleMsg(character.Name + "'s belly was filled completely.", Text.BrightGreen), character.X, character.Y, 10);
+                        hitlist.AddPacketToMap(recruit.Owner.Player.Map, PacketBuilder.CreateBattleMsg(character.Name + "'s belly was filled completely.", Text.BrightGreen), character.X, character.Y, 10);
                     }
                 } else {
-                	if (belly > 10) {
-                		hitlist.AddPacketToMap(recruit.Owner.Player.Map, PacketBuilder.CreateBattleMsg(character.Name + "'s belly was filled somewhat.", Text.BrightGreen), character.X, character.Y, 10);
-                	}
+                    if (belly > 10) {
+                        hitlist.AddPacketToMap(recruit.Owner.Player.Map, PacketBuilder.CreateBattleMsg(character.Name + "'s belly was filled somewhat.", Text.BrightGreen), character.X, character.Y, 10);
+                    }
                 }
-				
+
                 PacketBuilder.AppendBelly(((Recruit)character).Owner, hitlist);
             }
         }
@@ -7761,28 +7757,28 @@ namespace Script {
 
         private static void HealCharacter(ICharacter character, IMap map, int hp, PacketHitList hitlist) {
             try {
-	            if (character.VolatileStatus.GetStatus("HealBlock") != null) {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " couldn't recover HP due to the Heal Block!", Text.BrightRed), character.X, character.Y, 10);
-	                return;
-	            }
-	
-	            if (character.HP + hp > character.MaxHP) {
-	                hp = character.MaxHP - character.HP;
-	            }
-	
-	            character.HP += hp;
-	
-	            if (hp <= 0) {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s HP didn't change.", Text.BrightGreen), character.X, character.Y, 10);
-	                //BothWaysBattleMsg(setup, setup.Defender.Name + " took no damage!", Text.BrightRed);
-	            } else if (character.HP == character.MaxHP) {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was fully healed!", Text.BrightGreen), character.X, character.Y, 10);
-	            } else {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " recovered " + hp + " HP!", Text.BrightGreen), character.X, character.Y, 10);
-	                //BothWaysBattleMsg(setup, setup.Defender.Name + " took " + damage + " damage!", Text.BrightRed);
-	            }
+                if (character.VolatileStatus.GetStatus("HealBlock") != null) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " couldn't recover HP due to the Heal Block!", Text.BrightRed), character.X, character.Y, 10);
+                    return;
+                }
+
+                if (character.HP + hp > character.MaxHP) {
+                    hp = character.MaxHP - character.HP;
+                }
+
+                character.HP += hp;
+
+                if (hp <= 0) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s HP didn't change.", Text.BrightGreen), character.X, character.Y, 10);
+                    //BothWaysBattleMsg(setup, setup.Defender.Name + " took no damage!", Text.BrightRed);
+                } else if (character.HP == character.MaxHP) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was fully healed!", Text.BrightGreen), character.X, character.Y, 10);
+                } else {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " recovered " + hp + " HP!", Text.BrightGreen), character.X, character.Y, 10);
+                    //BothWaysBattleMsg(setup, setup.Defender.Name + " took " + damage + " damage!", Text.BrightRed);
+                }
             } catch (Exception ex) {
-            	Messenger.AdminMsg("Error: HealCharacter: " + character.Name, Text.Black);
+                Messenger.AdminMsg("Error: HealCharacter: " + character.Name, Text.Black);
                 Messenger.AdminMsg(ex.ToString(), Text.Black);
                 throw new Exception();
             }
@@ -7791,70 +7787,70 @@ namespace Script {
         private static void DamageCharacter(ICharacter character, IMap map, int dmg, Enums.KillType killType, PacketHitList hitlist, bool checkDeath) {
             int point = 0;
             try {
-	            character.HP -= dmg;
-	
-	            if (dmg <= 0) {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took no damage!", Text.BrightRed), character.X, character.Y, 10);
-	                //BothWaysBattleMsg(setup, setup.Defender.Name + " took no damage!", Text.BrightRed);
-	            } else {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took " + dmg + " damage!", Text.BrightRed), character.X, character.Y, 10);
-	                //BothWaysBattleMsg(setup, setup.Defender.Name + " took " + damage + " damage!", Text.BrightRed);
-	            }
-	            
-	            point = 1;
-	
-	            if (checkDeath && character.HP <= 0) {
-	                if (character.CharacterType == Enums.CharacterType.Recruit) {
-	
-						point = 2;
-	                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Oh, no!  " + character.Name + " fainted!", Text.BrightRed));
-	                    point = 3;
-	                    OnDeath(((Recruit)character).Owner, Enums.KillType.Other);
-	                    point = 4;
-	
-	                } else {
-	
-						if (character.HeldItem != null) {
-	                        character.MapDropItem(character.HeldItem.Amount, null);
-	                    }
-						
-	                    OnNpcDeath(hitlist, null, (MapNpc)character);
-	                    //((MapNpc)character).Num = 0;
-	                    //((MapNpc)character).HP = 0;
-	                    map.ActiveNpc[((MapNpc)character).MapSlot] = new MapNpc(character.MapID, ((MapNpc)character).MapSlot);
-	
-	                    hitlist.AddPacketToMap(map, TcpPacket.CreatePacket("npcdead", ((MapNpc)character).MapSlot));
-	
-	                }
-	            }
-            } catch(Exception ex) {
-            	Messenger.AdminMsg("Error: DamageCharacter", Text.Black);
-            	Messenger.AdminMsg(ex.ToString(), Text.Black);
-            	Messenger.AdminMsg(character.Name + " took " + dmg + " dmg at " + map.Name + " from " + killType + " with checkDeath=" + checkDeath + " and point=" + point, Text.Black);
-            	throw new Exception();
+                character.HP -= dmg;
+
+                if (dmg <= 0) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took no damage!", Text.BrightRed), character.X, character.Y, 10);
+                    //BothWaysBattleMsg(setup, setup.Defender.Name + " took no damage!", Text.BrightRed);
+                } else {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took " + dmg + " damage!", Text.BrightRed), character.X, character.Y, 10);
+                    //BothWaysBattleMsg(setup, setup.Defender.Name + " took " + damage + " damage!", Text.BrightRed);
+                }
+
+                point = 1;
+
+                if (checkDeath && character.HP <= 0) {
+                    if (character.CharacterType == Enums.CharacterType.Recruit) {
+
+                        point = 2;
+                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("Oh, no!  " + character.Name + " fainted!", Text.BrightRed));
+                        point = 3;
+                        OnDeath(((Recruit)character).Owner, Enums.KillType.Other);
+                        point = 4;
+
+                    } else {
+
+                        if (character.HeldItem != null) {
+                            character.MapDropItem(character.HeldItem.Amount, null);
+                        }
+
+                        OnNpcDeath(hitlist, null, (MapNpc)character);
+                        //((MapNpc)character).Num = 0;
+                        //((MapNpc)character).HP = 0;
+                        map.ActiveNpc[((MapNpc)character).MapSlot] = new MapNpc(character.MapID, ((MapNpc)character).MapSlot);
+
+                        hitlist.AddPacketToMap(map, TcpPacket.CreatePacket("npcdead", ((MapNpc)character).MapSlot));
+
+                    }
+                }
+            } catch (Exception ex) {
+                Messenger.AdminMsg("Error: DamageCharacter", Text.Black);
+                Messenger.AdminMsg(ex.ToString(), Text.Black);
+                Messenger.AdminMsg(character.Name + " took " + dmg + " dmg at " + map.Name + " from " + killType + " with checkDeath=" + checkDeath + " and point=" + point, Text.Black);
+                throw new Exception();
             }
         }
-        
+
         public static bool IsInvokableMove(int moveNum) {
-        	switch (moveNum) {
-        		case 402: //metronome
-        		case 224: //sleep talk
-        		case 287: //assist
-        		case 314: //copycat
-        		case 230: //mirror move
-        		case 259: //me first
-        		case 357: //mimic
-        		case 435: //sketch
-        		case 401: //transform
-        		case 466: //struggle
-        		case 628: {//after you
-        			return false;
-        		}
-        	}
-        	if (moveNum <= 0) return false;
-        	if (moveNum >= 470 && moveNum <= 600) return false;
-        
-        	return true;
+            switch (moveNum) {
+                case 402: //metronome
+                case 224: //sleep talk
+                case 287: //assist
+                case 314: //copycat
+                case 230: //mirror move
+                case 259: //me first
+                case 357: //mimic
+                case 435: //sketch
+                case 401: //transform
+                case 466: //struggle
+                case 628: {//after you
+                        return false;
+                    }
+            }
+            if (moveNum <= 0) return false;
+            if (moveNum >= 470 && moveNum <= 600) return false;
+
+            return true;
         }
 
 
@@ -7879,7 +7875,7 @@ namespace Script {
                 && (attackerMap.Moral == Enums.MapMoral.House || attackerMap.Moral == Enums.MapMoral.Safe)) {
                 if (attacker.CharacterType == Enums.CharacterType.Recruit && defender.CharacterType == Enums.CharacterType.Recruit) {
                     //if (!((Recruit)defender).Owner.Player.PK) {
-                        return true;
+                    return true;
                     //}
                 }
             }

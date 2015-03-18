@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 namespace Script 
 {
-	using System;
+    using System;
     using System.Collections.Generic;
     using System.Text;
 
@@ -41,10 +41,11 @@ namespace Script
     using Server.Events.Player.TriggerEvents;
     using Server.WonderMails;
     using Server.Tournaments;
-    
-	public partial class Main {
-	
-		public static void ScriptedTile(IMap map, ICharacter character, int script, string param1, string param2, string param3, PacketHitList hitlist) {
+
+    public partial class Main 
+    {
+
+        public static void ScriptedTile(IMap map, ICharacter character, int script, string param1, string param2, string param3, PacketHitList hitlist) {
             try {
                 PacketHitList.MethodStart(ref hitlist);
                 Client client = null;
@@ -198,14 +199,14 @@ namespace Script
                                     //}
                                     //}
                                     //Messenger.PlayerWarp(client, 1, 10, 7);
-            						exPlayer.Get(client).SpawnMap = "s1035";
-		                            exPlayer.Get(client).SpawnX = 9;
-		                            exPlayer.Get(client).SpawnY = 7;
-            						StoryManager.PlayStory(client, 639);
-            						//StoryManager.PlayStory(client, 640);
+                                    exPlayer.Get(client).SpawnMap = "s1035";
+                                    exPlayer.Get(client).SpawnX = 9;
+                                    exPlayer.Get(client).SpawnY = 7;
+                                    StoryManager.PlayStory(client, 639);
+                                    //StoryManager.PlayStory(client, 640);
                                     //} else {
-                                   	//	StoryManager.PlayStory(client, StoryConstruction.CreateIntroStory(client));
-                                	//}
+                                    //	StoryManager.PlayStory(client, StoryConstruction.CreateIntroStory(client));
+                                    //}
                                 }
                             }
                         }
@@ -225,7 +226,7 @@ namespace Script
 
                     case 13: {//drop from the sky
                             if (client != null) {
-                            	Messenger.AskQuestion(client, "SkyDrop:"+param1+":"+param2, "Will you land at " + param3 + "?", -1);
+                                Messenger.AskQuestion(client, "SkyDrop:" + param1 + ":" + param2, "Will you land at " + param3 + "?", -1);
                             }
                         }
                         break;
@@ -465,14 +466,13 @@ namespace Script
                         }
                         break;
                     case 35: {//R Dungeon secret room
-                    		if (client != null && map.MapType == Enums.MapType.RDungeonMap && ((RDungeonMap)map).RDungeonIndex > -1) {
+                            if (client != null && map.MapType == Enums.MapType.RDungeonMap && ((RDungeonMap)map).RDungeonIndex > -1) {
 
                                 InstancedMap iMap = null;
 
                                 PartyManager.AttemptPartyWarp(client, (Client warpClient) =>
                                 {
-                                    if (iMap == null)
-                                    {
+                                    if (iMap == null) {
                                         iMap = new InstancedMap(MapManager.GenerateMapID("i"));
                                         IMap baseMap = MapManager.RetrieveMap(param1.ToInt());
                                         MapCloner.CloneMapTiles(baseMap, iMap);
@@ -480,18 +480,13 @@ namespace Script
                                         MapCloner.CloneMapGeneralProperties(baseMap, iMap);
                                         iMap.MapBase = param1.ToInt();
                                         iMap.SpawnItems();
-                                        for (int x = 0; x < iMap.MaxX; x++)
-                                        {
-                                            for (int y = 0; y < iMap.MaxY; y++)
-                                            {
-                                                if (iMap.Tile[x, y].Type == Enums.TileType.Scripted && iMap.Tile[x, y].Data1 == 33)
-                                                {
+                                        for (int x = 0; x < iMap.MaxX; x++) {
+                                            for (int y = 0; y < iMap.MaxY; y++) {
+                                                if (iMap.Tile[x, y].Type == Enums.TileType.Scripted && iMap.Tile[x, y].Data1 == 33) {
                                                     //iMap.Tile[x, y].Data1 = 36;
                                                     iMap.Tile[x, y].String1 = (((RDungeonMap)map).RDungeonIndex + 1).ToString();
                                                     iMap.Tile[x, y].String2 = (((RDungeonMap)map).RDungeonFloor + 2).ToString();
-                                                }
-                                                else if (iMap.Tile[x, y].Type == Enums.TileType.Item)
-                                                {
+                                                } else if (iMap.Tile[x, y].Type == Enums.TileType.Item) {
                                                     iMap.Tile[x, y].Type = Enums.TileType.Walkable;
                                                 }
                                             }
@@ -611,8 +606,7 @@ namespace Script
                                     int warpX = param3.Split(':')[0].ToInt();
                                     int warpY = param3.Split(':')[1].ToInt();
 
-                                    if (dungeonIndex > 0)
-                                    {
+                                    if (dungeonIndex > 0) {
                                         warpClient.Player.IncrementDungeonCompletionCount(dungeonIndex - 1, 1);
                                         PostDungeonCompletion(warpClient, dungeonIndex);
                                     }
@@ -624,7 +618,7 @@ namespace Script
                         }
                         break;
                     case 47: {//Dungeon exit without increment
-                            
+
                         }
                         break;
                     case 48: { // Removes snowballs
@@ -707,23 +701,23 @@ namespace Script
                                     segment.Parameters.Add("Speed", "0");
                                     segment.Parameters.Add("PauseLocation", "0");
                                     story.Segments.Add(segment);
-                                    
+
                                     segment = new StorySegment();
-									segment.Action = Enums.StoryAction.AskQuestion;
-									segment.AddParameter("Question", "All items that do not fit arena restrictions will be sent to storage.  Is that OK?");
-									segment.AddParameter("SegmentOnYes", (story.Segments.Count + 2).ToString());
-									segment.AddParameter("SegmentOnNo", (story.Segments.Count + 3).ToString());
-									segment.AddParameter("Mugshot", "-1");
-									story.Segments.Add(segment);
-									
-									segment = new StorySegment();
-						            segment.Action = Enums.StoryAction.RunScript;
-						            segment.AddParameter("ScriptIndex", "61");
-						            segment.AddParameter("ScriptParam1", param1);
-						            segment.AddParameter("ScriptParam2", param2);
-						            segment.AddParameter("ScriptParam3", param3);
-						            segment.AddParameter("Pause", "1");
-						            story.Segments.Add(segment);
+                                    segment.Action = Enums.StoryAction.AskQuestion;
+                                    segment.AddParameter("Question", "All items that do not fit arena restrictions will be sent to storage.  Is that OK?");
+                                    segment.AddParameter("SegmentOnYes", (story.Segments.Count + 2).ToString());
+                                    segment.AddParameter("SegmentOnNo", (story.Segments.Count + 3).ToString());
+                                    segment.AddParameter("Mugshot", "-1");
+                                    story.Segments.Add(segment);
+
+                                    segment = new StorySegment();
+                                    segment.Action = Enums.StoryAction.RunScript;
+                                    segment.AddParameter("ScriptIndex", "61");
+                                    segment.AddParameter("ScriptParam1", param1);
+                                    segment.AddParameter("ScriptParam2", param2);
+                                    segment.AddParameter("ScriptParam3", param3);
+                                    segment.AddParameter("Pause", "1");
+                                    story.Segments.Add(segment);
 
                                     StoryManager.PlayStory(client, story);
 
@@ -743,33 +737,33 @@ namespace Script
                         break;
                     case 56: { // Pitch-Black Abyss warps
                             if (client != null) {
-                            	//if DungeonMap.Length < 1
-                            		//GenerateMap
-                            	/*Enums.Direction dir;
-            					if (param1.ToInt() == 1) {
-            						dir = Enums.Direction.Up;
-            					} else if (param1.ToInt() == 2) {
-            						dir = Enums.Direction.Down;
-            					} else if (param1.ToInt() == 3) {
-            						dir = Enums.Direction.Left;
-            					} else { //param1.ToInt() = 4
-            						dir = Enums.Direction.Right;
-           						}*/
-           						//switch to use dir when done rewriting GetDungeonRoom
-           						if (exPlayer.Get(client).DungeonGenerated == false) {
-                    				PitchBlackAbyss.GenerateMap(client);
-                    			}
-                                PitchBlackAbyss.GetDungeonRoom(client, param1.ToInt()); 
+                                //if DungeonMap.Length < 1
+                                //GenerateMap
+                                /*Enums.Direction dir;
+                                if (param1.ToInt() == 1) {
+                                    dir = Enums.Direction.Up;
+                                } else if (param1.ToInt() == 2) {
+                                    dir = Enums.Direction.Down;
+                                } else if (param1.ToInt() == 3) {
+                                    dir = Enums.Direction.Left;
+                                } else { //param1.ToInt() = 4
+                                    dir = Enums.Direction.Right;
+                                }*/
+                                //switch to use dir when done rewriting GetDungeonRoom
+                                if (exPlayer.Get(client).DungeonGenerated == false) {
+                                    PitchBlackAbyss.GenerateMap(client);
+                                }
+                                PitchBlackAbyss.GetDungeonRoom(client, param1.ToInt());
                             }
                         }
                         break;
                     case 57: { // Pitch-Black Abyss entrance
                             if (client != null) {
                                 if (client.Player.MapID == MapManager.GenerateMapID(1545)) { //easy PBA
-                                	PitchBlackAbyss.InitializeMap(client, PitchBlackAbyss.Difficulty.Easy);
-                                	PitchBlackAbyss.GenerateMap(client);
-                                	Story story = DungeonRules.CreatePreDungeonStory(client, "1546", "9:9", "22", false);
-                                	StoryManager.PlayStory(client, story);
+                                    PitchBlackAbyss.InitializeMap(client, PitchBlackAbyss.Difficulty.Easy);
+                                    PitchBlackAbyss.GenerateMap(client);
+                                    Story story = DungeonRules.CreatePreDungeonStory(client, "1546", "9:9", "22", false);
+                                    StoryManager.PlayStory(client, story);
                                 }
                             }
                         }
@@ -850,7 +844,7 @@ namespace Script
                         break;
                     case 65: {//dungeon completion block
                             if (client != null) {
-                                if (client.Player.GetDungeonCompletionCount(param1.ToInt()-1) < 1) {
+                                if (client.Player.GetDungeonCompletionCount(param1.ToInt() - 1) < 1) {
                                     BlockPlayer(client);
                                     Messenger.PlayerMsg(client, "You must complete " + DungeonManager.Dungeons[param1.ToInt() - 1].Name + " to get through!", Text.BrightRed);
                                 }
@@ -858,54 +852,54 @@ namespace Script
                         }
                         break;
                     case 66: {// Delite Plaza exit warp
-                    		if (!string.IsNullOrEmpty(exPlayer.Get(client).PlazaEntranceMap)) {
-                    			Messenger.PlayerWarp(client, exPlayer.Get(client).PlazaEntranceMap, exPlayer.Get(client).PlazaEntranceX, exPlayer.Get(client).PlazaEntranceY);
-                    		
-                    			exPlayer.Get(client).PlazaEntranceMap = null;
-                    			exPlayer.Get(client).PlazaEntranceX = 0;
-                    			exPlayer.Get(client).PlazaEntranceY = 0;
-                    		} else {
-                    			Messenger.PlayerWarp(client, 737, 6, 41);
-                    		}
-                    	}
-                    	break;
-                    case 67: {// Auction master + bid winner only
-                    		if (client.Player.CharID != Auction.AuctionMaster && client.Player.CharID != Auction.LastAuctionMaster && client.Player.Name != Auction.HighestBidder
-                    			&& Ranks.IsDisallowed(client, Enums.Rank.Moniter)) {
-                    			BlockPlayer(client);
-                    		}
-                    	}
-                    	break;
-                    case 68: {// key-blocked next floor of different dungeon
-                    	if (client != null) {
-                    			int slot = 0;
-	                    		for (int i = 1; i <= client.Player.Inventory.Count; i++) {
-					                if (client.Player.Inventory[i].Num == param2.ToInt() && !client.Player.Inventory[i].Sticky) {
-					                    slot = i;
-					                    break;
-					                }
-					            }
-	                            if (slot > 0) {
-	                                Messenger.AskQuestion(client, "UseItem:"+param2, "Will you use your " + ItemManager.Items[param2.ToInt()].Name + " on this tile?", -1);
-	                            } else {
-	                    			Messenger.PlaySoundToMap(client.Player.MapID, "magic132.wav");
-	                    			//Messenger.PlayerMsg(client, Server.RDungeons.RDungeonManager.RDungeons[param1.ToInt()-1].DungeonName, Text.Pink);
-	                            	Messenger.PlayerMsg(client, "There is a peculiar marking on the floor... It seems to need a key.", Text.BrightRed);
-	                            }
-	                        }
-                    	}
-                    	break;
-                    case 69: {// next floor of different dungeon
-                    	if (client != null) {
+                            if (!string.IsNullOrEmpty(exPlayer.Get(client).PlazaEntranceMap)) {
+                                Messenger.PlayerWarp(client, exPlayer.Get(client).PlazaEntranceMap, exPlayer.Get(client).PlazaEntranceX, exPlayer.Get(client).PlazaEntranceY);
 
-                            PartyManager.AttemptPartyWarp(client, (Client warpClient) =>
-                            {
-                                warpClient.Player.WarpToRDungeon(param1.ToInt() - 1, ((RDungeonMap)warpClient.Player.Map).RDungeonFloor + 1);
-                            });
+                                exPlayer.Get(client).PlazaEntranceMap = null;
+                                exPlayer.Get(client).PlazaEntranceX = 0;
+                                exPlayer.Get(client).PlazaEntranceY = 0;
+                            } else {
+                                Messenger.PlayerWarp(client, 737, 6, 41);
+                            }
+                        }
+                        break;
+                    case 67: {// Auction master + bid winner only
+                            if (client.Player.CharID != Auction.AuctionMaster && client.Player.CharID != Auction.LastAuctionMaster && client.Player.Name != Auction.HighestBidder
+                                && Ranks.IsDisallowed(client, Enums.Rank.Moniter)) {
+                                BlockPlayer(client);
+                            }
+                        }
+                        break;
+                    case 68: {// key-blocked next floor of different dungeon
+                            if (client != null) {
+                                int slot = 0;
+                                for (int i = 1; i <= client.Player.Inventory.Count; i++) {
+                                    if (client.Player.Inventory[i].Num == param2.ToInt() && !client.Player.Inventory[i].Sticky) {
+                                        slot = i;
+                                        break;
+                                    }
+                                }
+                                if (slot > 0) {
+                                    Messenger.AskQuestion(client, "UseItem:" + param2, "Will you use your " + ItemManager.Items[param2.ToInt()].Name + " on this tile?", -1);
+                                } else {
+                                    Messenger.PlaySoundToMap(client.Player.MapID, "magic132.wav");
+                                    //Messenger.PlayerMsg(client, Server.RDungeons.RDungeonManager.RDungeons[param1.ToInt()-1].DungeonName, Text.Pink);
+                                    Messenger.PlayerMsg(client, "There is a peculiar marking on the floor... It seems to need a key.", Text.BrightRed);
+                                }
+                            }
+                        }
+                        break;
+                    case 69: {// next floor of different dungeon
+                            if (client != null) {
+
+                                PartyManager.AttemptPartyWarp(client, (Client warpClient) =>
+                                {
+                                    warpClient.Player.WarpToRDungeon(param1.ToInt() - 1, ((RDungeonMap)warpClient.Player.Map).RDungeonFloor + 1);
+                                });
 
                             }
-                    	}
-                    	break;
+                        }
+                        break;
                     case 70: { // Shocker Trap
                             if (WillTrapActivate(character, map, character.X, character.Y)) {
                                 RevealTrap(map, character.X, character.Y, hitlist);
@@ -915,67 +909,67 @@ namespace Script
                         }
                         break;
                     case 71: {// fossil revival
-                    	if (client != null) {
-                    			if (Server.Globals.ServerTime != Enums.Time.Night) { 
-                    				Story story = new Story();
-		                            StoryBuilderSegment segment = StoryBuilder.BuildStory();
-		                            if (string.IsNullOrEmpty(param1)) {
-		                            StoryBuilder.AppendSaySegment(segment, "The light of " + Server.Globals.ServerTime.ToString().ToLower() + " is seeping down from above.", -1, 0, 0);
-		                            } else if (param1.ToInt() == 1) {
-		                            	StoryBuilder.AppendSaySegment(segment, "A bizzare light of " + Server.Globals.ServerTime.ToString().ToLower() + " is seeping down from above.", -1, 0, 0);
-		                            }
-		                            
-		                            segment.AppendToStory(story);
-		                            StoryManager.PlayStory(client, story);
-                    			} else {
-                    				int slot = 0;
-                    				int itemNum = -1;
-		                    		for (int i = 1; i <= client.Player.Inventory.Count; i++) {
-		                    		if (string.IsNullOrEmpty(param1)) {
-						                if (client.Player.Inventory[i].Num >= 791 && client.Player.Inventory[i].Num <= 799
-						                	&& !client.Player.Inventory[i].Sticky) {
-						                    slot = i;
-						                    itemNum = client.Player.Inventory[i].Num;
-						                    break;
-						                }
-						              } else if (param1.ToInt() == 1) {
-						              	if (client.Player.Inventory[i].Num == 846
-						                	&& !client.Player.Inventory[i].Sticky) {
-						                    slot = i;
-						                    itemNum = client.Player.Inventory[i].Num;
-						                    break;
-						                }
-						              }
-						            }
-		                            if (slot > 0) {
-		                            	if (string.IsNullOrEmpty(param1)) {
-		                                Messenger.AskQuestion(client, "UseItem:"+itemNum, "Red moonlight is pouring down from above... Will you hold up your " + ItemManager.Items[itemNum].Name + " to the light?", -1);
-		                                } else if (param1.ToInt() == 1) {
-		                                	Messenger.AskQuestion(client, "UseItem:"+itemNum, "Your Wonder Egg is emanating a strong aura. Will you hold up your " + ItemManager.Items[itemNum].Name + " to the light?", -1);
-		                                }
-		                                Messenger.PlaySoundToMap(client.Player.MapID, "magic848.wav");
-		                            } else {
-		                            
-	                    				Story story = new Story();
-			                            StoryBuilderSegment segment = StoryBuilder.BuildStory();
-			                            if (string.IsNullOrEmpty(param1)) {
-			                            StoryBuilder.AppendSaySegment(segment, "Red moonlight is pouring down from above...", -1, 0, 0);
-			                            } else if (param1.ToInt() == 1) {
-			                            	StoryBuilder.AppendSaySegment(segment, "A bizzare light is seeping down from above...", -1, 0, 0);
-			                            }
-			                            segment.AppendToStory(story);
-			                            StoryManager.PlayStory(client, story);
-			                            
-	                    				Messenger.PlaySoundToMap(client.Player.MapID, "magic848.wav");
-                    				}
-                    			}
-	                        }
-                    	}
-                    	break;
+                            if (client != null) {
+                                if (Server.Globals.ServerTime != Enums.Time.Night) {
+                                    Story story = new Story();
+                                    StoryBuilderSegment segment = StoryBuilder.BuildStory();
+                                    if (string.IsNullOrEmpty(param1)) {
+                                        StoryBuilder.AppendSaySegment(segment, "The light of " + Server.Globals.ServerTime.ToString().ToLower() + " is seeping down from above.", -1, 0, 0);
+                                    } else if (param1.ToInt() == 1) {
+                                        StoryBuilder.AppendSaySegment(segment, "A bizzare light of " + Server.Globals.ServerTime.ToString().ToLower() + " is seeping down from above.", -1, 0, 0);
+                                    }
+
+                                    segment.AppendToStory(story);
+                                    StoryManager.PlayStory(client, story);
+                                } else {
+                                    int slot = 0;
+                                    int itemNum = -1;
+                                    for (int i = 1; i <= client.Player.Inventory.Count; i++) {
+                                        if (string.IsNullOrEmpty(param1)) {
+                                            if (client.Player.Inventory[i].Num >= 791 && client.Player.Inventory[i].Num <= 799
+                                                && !client.Player.Inventory[i].Sticky) {
+                                                slot = i;
+                                                itemNum = client.Player.Inventory[i].Num;
+                                                break;
+                                            }
+                                        } else if (param1.ToInt() == 1) {
+                                            if (client.Player.Inventory[i].Num == 846
+                                                && !client.Player.Inventory[i].Sticky) {
+                                                slot = i;
+                                                itemNum = client.Player.Inventory[i].Num;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (slot > 0) {
+                                        if (string.IsNullOrEmpty(param1)) {
+                                            Messenger.AskQuestion(client, "UseItem:" + itemNum, "Red moonlight is pouring down from above... Will you hold up your " + ItemManager.Items[itemNum].Name + " to the light?", -1);
+                                        } else if (param1.ToInt() == 1) {
+                                            Messenger.AskQuestion(client, "UseItem:" + itemNum, "Your Wonder Egg is emanating a strong aura. Will you hold up your " + ItemManager.Items[itemNum].Name + " to the light?", -1);
+                                        }
+                                        Messenger.PlaySoundToMap(client.Player.MapID, "magic848.wav");
+                                    } else {
+
+                                        Story story = new Story();
+                                        StoryBuilderSegment segment = StoryBuilder.BuildStory();
+                                        if (string.IsNullOrEmpty(param1)) {
+                                            StoryBuilder.AppendSaySegment(segment, "Red moonlight is pouring down from above...", -1, 0, 0);
+                                        } else if (param1.ToInt() == 1) {
+                                            StoryBuilder.AppendSaySegment(segment, "A bizzare light is seeping down from above...", -1, 0, 0);
+                                        }
+                                        segment.AppendToStory(story);
+                                        StoryManager.PlayStory(client, story);
+
+                                        Messenger.PlaySoundToMap(client.Player.MapID, "magic848.wav");
+                                    }
+                                }
+                            }
+                        }
+                        break;
                     case 72: { // Warp to hard mode entrance
                             if (client != null) {
                                 if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
-                                	Messenger.PlayerWarp(client, param1.ToInt(), param2.ToInt(), param3.ToInt());
+                                    Messenger.PlayerWarp(client, param1.ToInt(), param2.ToInt(), param3.ToInt());
                                 }
                             }
                         }
@@ -983,7 +977,7 @@ namespace Script
                     case 73: { // Warp from hard mode entrance
                             if (client != null) {
                                 if (Ranks.IsAllowed(client, Enums.Rank.Moniter)) {
-                                	Messenger.PlayerWarp(client, param1.ToInt(), param2.ToInt(), param3.ToInt());
+                                    Messenger.PlayerWarp(client, param1.ToInt(), param2.ToInt(), param3.ToInt());
                                 }
                             }
                         }
@@ -1018,23 +1012,23 @@ namespace Script
                                     segment.Parameters.Add("Speed", "0");
                                     segment.Parameters.Add("PauseLocation", "0");
                                     story.Segments.Add(segment);
-                                    
+
                                     segment = new StorySegment();
-									segment.Action = Enums.StoryAction.AskQuestion;
-									segment.AddParameter("Question", "All items that do not fit arena restrictions will be sent to storage.  Is that OK?");
-									segment.AddParameter("SegmentOnYes", (story.Segments.Count + 2).ToString());
-									segment.AddParameter("SegmentOnNo", (story.Segments.Count + 3).ToString());
-									segment.AddParameter("Mugshot", "-1");
-									story.Segments.Add(segment);
-									
-									segment = new StorySegment();
-						            segment.Action = Enums.StoryAction.RunScript;
-						            segment.AddParameter("ScriptIndex", "61");
-						            segment.AddParameter("ScriptParam1", param1);
-						            segment.AddParameter("ScriptParam2", param2);
-						            segment.AddParameter("ScriptParam3", param3);
-						            segment.AddParameter("Pause", "1");
-						            story.Segments.Add(segment);
+                                    segment.Action = Enums.StoryAction.AskQuestion;
+                                    segment.AddParameter("Question", "All items that do not fit arena restrictions will be sent to storage.  Is that OK?");
+                                    segment.AddParameter("SegmentOnYes", (story.Segments.Count + 2).ToString());
+                                    segment.AddParameter("SegmentOnNo", (story.Segments.Count + 3).ToString());
+                                    segment.AddParameter("Mugshot", "-1");
+                                    story.Segments.Add(segment);
+
+                                    segment = new StorySegment();
+                                    segment.Action = Enums.StoryAction.RunScript;
+                                    segment.AddParameter("ScriptIndex", "61");
+                                    segment.AddParameter("ScriptParam1", param1);
+                                    segment.AddParameter("ScriptParam2", param2);
+                                    segment.AddParameter("ScriptParam3", param3);
+                                    segment.AddParameter("Pause", "1");
+                                    story.Segments.Add(segment);
 
                                     StoryManager.PlayStory(client, story);
 
@@ -1045,26 +1039,26 @@ namespace Script
                             }
                         }
                         break;
-                	case 75: {
-    						for (int i = 1; i <= client.Player.MaxInv; i++) {
-                				if (client.Player.Inventory[i].Num > -1) {
-                					BlockPlayer(client);
-                					Messenger.PlayerMsg(client, "You cannot have any items in your inventory!", Text.Red);
-                					break;
-                				}
-                			}
-                			
-                			for (int j = 1; j < Constants.MAX_ACTIVETEAM; j++) {
-                            	if (client.Player.Team[j] != null) {
-                                	BlockPlayer(client);
-                					Messenger.PlayerMsg(client, "You cannot have any team members in your team!", Text.Red);
-                					break;
-                            	}
+                    case 75: {
+                            for (int i = 1; i <= client.Player.MaxInv; i++) {
+                                if (client.Player.Inventory[i].Num > -1) {
+                                    BlockPlayer(client);
+                                    Messenger.PlayerMsg(client, "You cannot have any items in your inventory!", Text.Red);
+                                    break;
+                                }
+                            }
+
+                            for (int j = 1; j < Constants.MAX_ACTIVETEAM; j++) {
+                                if (client.Player.Team[j] != null) {
+                                    BlockPlayer(client);
+                                    Messenger.PlayerMsg(client, "You cannot have any team members in your team!", Text.Red);
+                                    break;
+                                }
 
                             }
- 	               		}
-                		break;
-                	case 76: {//Dive
+                        }
+                        break;
+                    case 76: {//Dive
                             if (client != null) {
                                 Messenger.PlayerMsg(client, "The water goes pretty deep here...", Text.Grey);
                                 //Messenger.PlaySound(client, "Magic477.wav");
@@ -1073,68 +1067,59 @@ namespace Script
                         }
                         break;
                     case 77: { // Asks a question
-                    	if (client != null) {
-                    		int slot = 0;
-                    		int itemNum = -1;
-                    		int npcToSpawn = param1.ToInt();
-                    		int itemToUse = param2.ToInt();
-                    		string questionAsked = param3;
-                    		
-                    		for (int i = 1; i <= client.Player.Inventory.Count; i++) {
-                    			if (client.Player.Inventory[i].Num == param2.ToInt()
-                    				&& !client.Player.Inventory[i].Sticky) {
-                    					slot = i;
-                    					itemNum = client.Player.Inventory[i].Num;
-                    					break;
-                    				}
-                    		}
-                    		
-                    		if (slot > 0) {
-                    			Messenger.AskQuestion(client, "UseItem:"+itemNum, param3, -1);
-                    		}
-                    	}
-                    }
-                    break;
+                            if (client != null) {
+                                int slot = 0;
+                                int itemNum = -1;
+                                int npcToSpawn = param1.ToInt();
+                                int itemToUse = param2.ToInt();
+                                string questionAsked = param3;
+
+                                for (int i = 1; i <= client.Player.Inventory.Count; i++) {
+                                    if (client.Player.Inventory[i].Num == param2.ToInt()
+                                        && !client.Player.Inventory[i].Sticky) {
+                                        slot = i;
+                                        itemNum = client.Player.Inventory[i].Num;
+                                        break;
+                                    }
+                                }
+
+                                if (slot > 0) {
+                                    Messenger.AskQuestion(client, "UseItem:" + itemNum, param3, -1);
+                                }
+                            }
+                        }
+                        break;
                     case 78: {// warp everyone to respective locations
-                    	if (client != null) {
-							
-				            IMap sourceMap = client.Player.Map;
-				            Tile clientTile = sourceMap.Tile[client.Player.X, client.Player.Y];
-				            if (client.Player.PartyID == null)
-				            {
-				            	Messenger.PlayerWarp(client, clientTile.String1.ToInt(), clientTile.String2.ToInt(), clientTile.String3.ToInt());
-				            }
-				            else
-				            {
-				                bool warp = true;
-				                Party party = PartyManager.FindPlayerParty(client);
-				                foreach (Client member in party.GetOnlineMemberClients())
-				                {
-									Tile tile = sourceMap.Tile[member.Player.X, member.Player.Y];
-				                    if (/*!member.Player.Dead &&*/ member.Player.MapID == client.Player.MapID && (clientTile.Type != tile.Type || clientTile.Data1 != tile.Data1 || clientTile.String1 != tile.String1))
-				                    {
-				                        warp = false;
-				                    }
-				                }
-				
-				                if (warp)
-				                {
-				                    foreach (Client member in party.GetOnlineMemberClients())
-				                    {
-				                        if (member.Player.Map != sourceMap) continue;
-										Tile tile = sourceMap.Tile[member.Player.X, member.Player.Y];
-				            			Messenger.PlayerWarp(member, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
-				                    }
-				                }
-				                else
-				                {
-				                    Messenger.PlayerMsg(client, "All surviving players must be on the East or West stairs in order to continue.", Text.WhiteSmoke);
-				                }
-				            }
+                            if (client != null) {
+
+                                IMap sourceMap = client.Player.Map;
+                                Tile clientTile = sourceMap.Tile[client.Player.X, client.Player.Y];
+                                if (client.Player.PartyID == null) {
+                                    Messenger.PlayerWarp(client, clientTile.String1.ToInt(), clientTile.String2.ToInt(), clientTile.String3.ToInt());
+                                } else {
+                                    bool warp = true;
+                                    Party party = PartyManager.FindPlayerParty(client);
+                                    foreach (Client member in party.GetOnlineMemberClients()) {
+                                        Tile tile = sourceMap.Tile[member.Player.X, member.Player.Y];
+                                        if (/*!member.Player.Dead &&*/ member.Player.MapID == client.Player.MapID && (clientTile.Type != tile.Type || clientTile.Data1 != tile.Data1 || clientTile.String1 != tile.String1)) {
+                                            warp = false;
+                                        }
+                                    }
+
+                                    if (warp) {
+                                        foreach (Client member in party.GetOnlineMemberClients()) {
+                                            if (member.Player.Map != sourceMap) continue;
+                                            Tile tile = sourceMap.Tile[member.Player.X, member.Player.Y];
+                                            Messenger.PlayerWarp(member, tile.String1.ToInt(), tile.String2.ToInt(), tile.String3.ToInt());
+                                        }
+                                    } else {
+                                        Messenger.PlayerMsg(client, "All surviving players must be on the East or West stairs in order to continue.", Text.WhiteSmoke);
+                                    }
+                                }
 
                             }
-                    	}
-                    	break;	                  
+                        }
+                        break;
                 }
                 PacketHitList.MethodEnded(ref hitlist);
             } catch (Exception ex) {
@@ -1281,29 +1266,29 @@ namespace Script
                     return scriptNum + ": Completion Count check";
                 case 66:
                     return scriptNum + ": Delite Plaza Exit";
-                case 67: 
-                	return scriptNum + ": Auction Block";
-                case 70: 
-                	return scriptNum + ": Shocker Trap";
-                case 71: 
-                	return scriptNum + ": Fossil Revival";
-                case 72: 
-                	return scriptNum + ": To Hard Entrance";
-                case 73: 
-                	return scriptNum + ": From Hard Entrance";
-                case 74: 
-                	return scriptNum + ": Tanren Arena Entrance";
+                case 67:
+                    return scriptNum + ": Auction Block";
+                case 70:
+                    return scriptNum + ": Shocker Trap";
+                case 71:
+                    return scriptNum + ": Fossil Revival";
+                case 72:
+                    return scriptNum + ": To Hard Entrance";
+                case 73:
+                    return scriptNum + ": From Hard Entrance";
+                case 74:
+                    return scriptNum + ": Tanren Arena Entrance";
                 case 75:
-                	return scriptNum + ": Dodgeball Block";
+                    return scriptNum + ": Dodgeball Block";
                 case 76:
-                	return scriptNum + ": Dive";
-               	case 77: 
-               		return scriptNum + ": Spawn on Item Use";
-               	case 78: 
-               		return scriptNum + ": Friendship Forest Warps";
+                    return scriptNum + ": Dive";
+                case 77:
+                    return scriptNum + ": Spawn on Item Use";
+                case 78:
+                    return scriptNum + ": Friendship Forest Warps";
                 default:
                     return scriptNum.ToString() + ": Unknown";
             }
         }
-	}
+    }
 }

@@ -15,7 +15,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Script {
+namespace Script 
+{
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -40,7 +41,8 @@ namespace Script {
     using Server.WonderMails;
     using Server.Tournaments;
 
-    public partial class Main {
+    public partial class Main 
+    {
 
         public static void RemoveBuffs(ICharacter character) {
             character.AttackBuff = 0;
@@ -66,13 +68,13 @@ namespace Script {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 //twist band
                 if (character.HasActiveItem(172)) {
-                	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Twist Band prevented its Attack stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Twist Band prevented its Attack stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 if (HasActiveBagItem(character, 49, 0, 0)) {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s item prevented its stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
@@ -158,13 +160,13 @@ namespace Script {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 //spin band
                 if (character.HasActiveItem(719)) {
-                	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Spin Band prevented its Defense stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Spin Band prevented its Defense stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 if (HasActiveBagItem(character, 49, 0, 0)) {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s item prevented its stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
@@ -250,13 +252,13 @@ namespace Script {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 //twist band
                 if (character.HasActiveItem(172)) {
-                	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Twist Band prevented its Attack stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Twist Band prevented its Attack stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 if (HasActiveBagItem(character, 49, 0, 0)) {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s item prevented its stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
@@ -338,13 +340,13 @@ namespace Script {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 //spin band
                 if (character.HasActiveItem(719)) {
-                	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Spin Band prevented its Defense stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Spin Band prevented its Defense stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 if (HasActiveBagItem(character, 49, 0, 0)) {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s item prevented its stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
@@ -425,7 +427,7 @@ namespace Script {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
                 }
-                
+
                 if (HasActiveBagItem(character, 49, 0, 0)) {
                     hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s item prevented its stats from dropping!", Text.WhiteSmoke), character.X, character.Y, 10);
                     return;
@@ -648,13 +650,13 @@ namespace Script {
             }
 
         }
-        
+
         public static void Flinch(ICharacter character, IMap map, PacketHitList hitlist) {
-        	Flinch(character, null, map, hitlist);
+            Flinch(character, null, map, hitlist);
         }
-        
+
         public static void Flinch(ICharacter character, ICharacter attacker, IMap map, PacketHitList hitlist) {
-        	if (!CheckStatusProtection(character, attacker, map, "Cringe", true, hitlist)) {
+            if (!CheckStatusProtection(character, attacker, map, "Cringe", true, hitlist)) {
                 if (character.AttackTimer == null || character.AttackTimer.Tick < Core.GetTickCount().Tick) {
                     character.AttackTimer = new TickCount(Core.GetTickCount().Tick);
                 }
@@ -662,7 +664,7 @@ namespace Script {
                 hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " cringed!", Text.BrightRed), character.X, character.Y, 10);
             }
             if (HasAbility(character, "Steadfast")) {
-            	ChangeSpeedBuff(character, map, 1, hitlist);
+                ChangeSpeedBuff(character, map, 1, hitlist);
             }
         }
 
@@ -673,43 +675,43 @@ namespace Script {
         //public static void Confuse(ICharacter character, ICharacter attacker, IMap map, int confusionSteps, PacketHitList hitlist) {
         //    PacketHitList.MethodStart(ref hitlist);
 
-		//	bool skip = false;
+        //	bool skip = false;
         //    if (CheckStatusProtection(character, attacker, map, "Confusion:" + confusionSteps, true, hitlist)) {
         //        skip = true;
         //    }
-		//	if (!skip) {
-	    //        IMap characterMap = MapManager.RetrieveActiveMap(character.MapID);
-	    //        if (character.CharacterType == Enums.CharacterType.Recruit) {
-	    //            if (confusionSteps <= 0) {
-	    //                ((Recruit)character).Owner.Player.Confusion = 0;
-	    //                PacketBuilder.AppendConfusion(((Recruit)character).Owner, hitlist);
-	    //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " recovered from confusion!", Text.BrightCyan), character.X, character.Y, 10);
-	
-	    //            } else {
-	    //                ((Recruit)character).Owner.Player.Confusion = confusionSteps;
-	    //                PacketBuilder.AppendConfusion(((Recruit)character).Owner, hitlist);
-	    //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " became confused!", Text.BrightRed), character.X, character.Y, 10);
-	
-	    //            }
-	    //        } else {
-	    //            if (confusionSteps <= 0) {
-	    //                ((MapNpc)character).Confused = 0;
-	    //                PacketBuilder.AppendNpcConfusion(characterMap, hitlist, ((MapNpc)character).MapSlot);
-	    //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " recovered from confusion!", Text.BrightCyan), character.X, character.Y, 10);
-	    //            } else {
-	    //                ((MapNpc)character).Confused = confusionSteps;
-	    //                PacketBuilder.AppendNpcConfusion(characterMap, hitlist, ((MapNpc)character).MapSlot);
-	    //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " became confused!", Text.BrightRed), character.X, character.Y, 10);
-	
-	    //            }
-	    //        }
+        //	if (!skip) {
+        //        IMap characterMap = MapManager.RetrieveActiveMap(character.MapID);
+        //        if (character.CharacterType == Enums.CharacterType.Recruit) {
+        //            if (confusionSteps <= 0) {
+        //                ((Recruit)character).Owner.Player.Confusion = 0;
+        //                PacketBuilder.AppendConfusion(((Recruit)character).Owner, hitlist);
+        //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " recovered from confusion!", Text.BrightCyan), character.X, character.Y, 10);
+
+        //            } else {
+        //                ((Recruit)character).Owner.Player.Confusion = confusionSteps;
+        //                PacketBuilder.AppendConfusion(((Recruit)character).Owner, hitlist);
+        //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " became confused!", Text.BrightRed), character.X, character.Y, 10);
+
+        //            }
+        //        } else {
+        //            if (confusionSteps <= 0) {
+        //                ((MapNpc)character).Confused = 0;
+        //                PacketBuilder.AppendNpcConfusion(characterMap, hitlist, ((MapNpc)character).MapSlot);
+        //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " recovered from confusion!", Text.BrightCyan), character.X, character.Y, 10);
+        //            } else {
+        //                ((MapNpc)character).Confused = confusionSteps;
+        //                PacketBuilder.AppendNpcConfusion(characterMap, hitlist, ((MapNpc)character).MapSlot);
+        //                hitlist.AddPacketToMap(characterMap, PacketBuilder.CreateBattleMsg(character.Name + " became confused!", Text.BrightRed), character.X, character.Y, 10);
+
+        //            }
+        //        }
         //    }
-            
+
         //    if (confusionSteps > 0) {
-            	
-	            //if (HasAbility(character, "Tangled Feet")) {
-	            //	ChangeEvasionBuff(character, map, 2, hitlist);
-	            //}
+
+        //if (HasAbility(character, "Tangled Feet")) {
+        //	ChangeEvasionBuff(character, map, 2, hitlist);
+        //}
         //    }
 
         //    PacketHitList.MethodEnded(ref hitlist);
@@ -808,14 +810,14 @@ namespace Script {
             }
 
             RefreshCharacterTraits(character, map, hitlist);
-            
+
             if (attacker != null && statusAilment != Enums.StatusAilment.OK) {
-	            if (HasAbility(character, "Synchronize")) {
-	                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Synchronize shared the status problem!", Text.BrightRed), character.X, character.Y, 10);
-	                SetStatusAilment(attacker, map, statusAilment, counter, hitlist);
-	            }
+                if (HasAbility(character, "Synchronize")) {
+                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Synchronize shared the status problem!", Text.BrightRed), character.X, character.Y, 10);
+                    SetStatusAilment(attacker, map, statusAilment, counter, hitlist);
+                }
             }
-            
+
 
             PacketHitList.MethodEnded(ref hitlist);
         }
@@ -823,1260 +825,1260 @@ namespace Script {
         public static bool CheckStatusProtection(ICharacter character, IMap map, string status, bool msg, PacketHitList hitlist) {
             return CheckStatusProtection(character, null, map, status, msg, hitlist);
         }
-        
+
         public static bool CheckStatusProtection(ICharacter character, ICharacter attacker, IMap map, string status, bool msg, PacketHitList hitlist) {
-        	return CheckStatusProtection(character, attacker, map, status, "", msg, hitlist);
+            return CheckStatusProtection(character, attacker, map, status, "", msg, hitlist);
         }
 
         public static bool CheckStatusProtection(ICharacter character, ICharacter attacker, IMap map, string status, string tag, bool msg, PacketHitList hitlist) {
             try {
-            PacketHitList.MethodStart(ref hitlist);
-            ExtraStatus checkStatus;
-            string[] statusParam = status.Split(':');
+                PacketHitList.MethodStart(ref hitlist);
+                ExtraStatus checkStatus;
+                string[] statusParam = status.Split(':');
 
-            //if (statusParam[0] == "Confusion" && statusParam[1].ToInt() <= 0) {
-            //    if (character.CharacterType == Enums.CharacterType.Recruit && ((Recruit)character).Owner.Player.Confusion <= 0) {
-            //        PacketHitList.MethodEnded(ref hitlist);
-            //        return true;
-            //    } else if (character.CharacterType == Enums.CharacterType.MapNpc && !((MapNpc)character).Confused) {
-            //        PacketHitList.MethodEnded(ref hitlist);
-            //        return true;
-            //    }
+                //if (statusParam[0] == "Confusion" && statusParam[1].ToInt() <= 0) {
+                //    if (character.CharacterType == Enums.CharacterType.Recruit && ((Recruit)character).Owner.Player.Confusion <= 0) {
+                //        PacketHitList.MethodEnded(ref hitlist);
+                //        return true;
+                //    } else if (character.CharacterType == Enums.CharacterType.MapNpc && !((MapNpc)character).Confused) {
+                //        PacketHitList.MethodEnded(ref hitlist);
+                //        return true;
+                //    }
 
-            //    if (character.HasActiveItem(347)) {
-            //        if (msg) {
-            //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from confusion due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-            //        }
-            //        PacketHitList.MethodEnded(ref hitlist);
-            //        return true;
-            //    }
-            //}
-            
-            if (IsStatusBad(status)) {
-            	if (character.VolatileStatus.GetStatus("Safeguard") != null && (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0)))) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Safeguard!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                        //pokemon specific item
-                        if (HasActiveBagItem(character, 4, -1, (int)GetCharacterWeather(character)) || HasActiveBagItem(character, 4, (int)GetCharacterWeather(character), -1) || HasActiveBagItem(character, 29, 0, 0)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                //    if (character.HasActiveItem(347)) {
+                //        if (msg) {
+                //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from confusion due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                //        }
+                //        PacketHitList.MethodEnded(ref hitlist);
+                //        return true;
+                //    }
+                //}
 
-                        //Type Gems
-                        if (character.HasActiveItem(595) && GetCharacterWeather(character) == Enums.Weather.Cloudy) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the White Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(596) && GetCharacterWeather(character) == Enums.Weather.Sunny) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Fiery Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(597) && (GetCharacterWeather(character) == Enums.Weather.Raining || GetCharacterWeather(character) == Enums.Weather.Thunder)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Aqua Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(600) && GetCharacterWeather(character) == Enums.Weather.Hail) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Icy Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(602) && GetCharacterWeather(character) == Enums.Weather.Cloudy) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Poison Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(603) && GetCharacterWeather(character) == Enums.Weather.Sandstorm) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Earth Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(605) && GetCharacterWeather(character) == Enums.Weather.Fog) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Psyche Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(606) && (GetCharacterWeather(character) == Enums.Weather.None || GetCharacterWeather(character) == Enums.Weather.Ambiguous)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Guard Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(609) && (GetCharacterWeather(character) == Enums.Weather.None || GetCharacterWeather(character) == Enums.Weather.Ambiguous)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Dragon Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(610) && GetCharacterWeather(character) == Enums.Weather.Fog) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Dark Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-                        if (character.HasActiveItem(611) && GetCharacterWeather(character) == Enums.Weather.Sandstorm) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Metal Gem!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-
-                        }
-
-                        if (HasAbility(character, "Leaf Guard") && GetCharacterWeather(character) == Enums.Weather.Sunny && !HasAbility(attacker, "Mold Breaker")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Leaf Guard!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (attacker != character && statusParam[0] != "Pause" && statusParam[0] != "Taunt" &&
-                            statusParam[0] != "Torment" && statusParam[0] != "Encore" && statusParam[0] != "MoveSeal" &&
-                            statusParam[0] != "Disable" && statusParam[0] != "PerishCount" && statusParam[0] != "Curse" &&
-                            statusParam[0] != "Attract" && statusParam[0] != "Grounded" && character.VolatileStatus.GetStatus("Substitute") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.BrightCyan), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-            }
-
-
-            switch (statusParam[0]) {
-                case "OK": {
-                        if (character.StatusAilment == Enums.StatusAilment.OK) {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (character.HasActiveItem(347)) {
-                            if (msg) {
-                                switch (character.StatusAilment) {
-                                    case Enums.StatusAilment.Burn: {
-                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from the burn due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                                        }
-                                        break;
-                                    case Enums.StatusAilment.Freeze: {
-                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't thaw out due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                                        }
-                                        break;
-                                    case Enums.StatusAilment.Paralyze: {
-                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from paralysis due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                                        }
-                                        break;
-                                    case Enums.StatusAilment.Poison: {
-                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from poison due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                                        }
-                                        break;
-                                    case Enums.StatusAilment.Sleep: {
-                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't wake up due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                                        }
-                                        break;
-                                }
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Burn": {
-                        if (character.StatusAilment == Enums.StatusAilment.OK) {
-                            if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
-                                checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                                if (checkStatus != null && checkStatus.Tag == "1") {
-                                    if (msg) {
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from burns!", Text.BrightCyan), character.X, character.Y, 10);
-                                    }
-                                    PacketHitList.MethodEnded(ref hitlist);
-                                    return true;
-                                }
-                            }
-	                        
-	                        
-                            if (character.HasActiveItem(633)) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Rawst Scarf!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-	                        
-                            if (HasAbility(character, "Water Veil") && !HasAbility(character, "Flare Boost") && !HasAbility(attacker, "Mold Breaker")) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Water Veil protected it from a burn!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-
-                            if (character.Type1 == Enums.PokemonType.Fire || character.Type2 == Enums.PokemonType.Fire) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get burned!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                        } else if (character.StatusAilment == Enums.StatusAilment.Burn) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already burned!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        } else {
-                            //if (msg) {
-                            //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
-                            //}
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Freeze": {
-                        if (character.StatusAilment == Enums.StatusAilment.OK) {
-                            if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
-                                checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                                if (checkStatus != null && checkStatus.Tag == "2") {
-                                    if (msg) {
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from being frozen!", Text.BrightCyan), character.X, character.Y, 10);
-                                    }
-                                    PacketHitList.MethodEnded(ref hitlist);
-                                    return true;
-                                }
-                            }
-	                        
-                            if (character.HasActiveItem(634)) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Aspear Scarf!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                            if (HasAbility(character, "Magma Armor") && !HasAbility(attacker, "Mold Breaker")) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Magma Armor protected it from being frozen!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-
-                            if (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get frozen!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                        } else if (character.StatusAilment == Enums.StatusAilment.Freeze) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already frozen!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        } else {
-                            //if (msg) {
-                            //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
-                            //}
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Paralyze": {
-                        if (character.StatusAilment == Enums.StatusAilment.OK) {
-                        	if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
-                                checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                                if (checkStatus != null && checkStatus.Tag == "3") {
-                                    if (msg) {
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from paralysis!", Text.BrightCyan), character.X, character.Y, 10);
-                                    }
-                                    PacketHitList.MethodEnded(ref hitlist);
-                                    return true;
-                                }
-                            }
-	                        
-	                        
-                            if (character.HasActiveItem(632)) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Cheri Scarf!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                            if (HasAbility(character, "Limber") && !HasAbility(attacker, "Mold Breaker")) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Limber prevented it from being paralyzed!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                        } else if (character.StatusAilment == Enums.StatusAilment.Paralyze) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already paralyzed!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        } else {
-                            //if (msg) {
-                            //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
-                            //}
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Poison": {
-                        if (character.StatusAilment == Enums.StatusAilment.OK) {
-                            if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
-                                checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                                if (checkStatus != null && checkStatus.Tag == "4") {
-                                    if (msg) {
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from poison!", Text.BrightCyan), character.X, character.Y, 10);
-                                    }
-                                    PacketHitList.MethodEnded(ref hitlist);
-                                    return true;
-                                }
-                            }
-                            if (HasAbility(character, "Immunity") && !HasAbility(character, "Toxic Boost") && !HasAbility(attacker, "Mold Breaker")) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Immunity prevented it from being poisoned!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-
-                            if (character.Type1 == Enums.PokemonType.Poison || character.Type2 == Enums.PokemonType.Poison || character.Type1 == Enums.PokemonType.Steel || character.Type2 == Enums.PokemonType.Steel) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get poisoned!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                            if (character.HasActiveItem(483)) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Pecha Scarf!", Text.BrightRed), character.X, character.Y, 10);
-                                }
-                                PacketHitList.MethodEnded(ref hitlist);
-                                return true;
-                            }
-                        } else if (character.StatusAilment == Enums.StatusAilment.Poison) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already poisoned!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        } else {
-                            //if (msg) {
-                            //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
-                            //}
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                    }
-                    break;
-                case "Sleep": {
-                		if (character.StatusAilment == Enums.StatusAilment.OK) {
-                            if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
-                                checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                                if (checkStatus != null && checkStatus.Tag == "5") {
-                                    if (msg) {
-                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from paralysis!", Text.BrightCyan), character.X, character.Y, 10);
-                                    }
-                                    PacketHitList.MethodEnded(ref hitlist);
-                                    return true;
-                                }
-                            }
-	                        if (character.HasActiveItem(59)) {
-	                            if (msg) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Insomniscope prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
-	                            }
-	                            PacketHitList.MethodEnded(ref hitlist);
-	                            return true;
-	                        }
-	
-	                        if (character.VolatileStatus.GetStatus("Sleepless") != null) {
-	                            if (msg) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't fall asleep!", Text.BrightRed), character.X, character.Y, 10);
-	                            }
-	                            PacketHitList.MethodEnded(ref hitlist);
-	                            return true;
-	                        }
-	
-	
-	                        if (HasAbility(character, "Insomnia") && !HasAbility(attacker, "Mold Breaker")) {
-	                            if (msg) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Insomnia prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
-	                            }
-	                            PacketHitList.MethodEnded(ref hitlist);
-	                            return true;
-	                        }
-	
-	                        if (HasAbility(character, "Vital Spirit") && !HasAbility(attacker, "Mold Breaker")) {
-	                            if (msg) {
-	                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Vital Spirit prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
-	                            }
-	                            PacketHitList.MethodEnded(ref hitlist);
-	                            return true;
-	                        }
-	
-	                        
-
-                        } else if (character.StatusAilment == Enums.StatusAilment.Sleep) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already asleep!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        } else {
-                            //if (msg) {
-                            //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
-                            //}
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Confusion": {
-
-                    if (character.VolatileStatus.GetStatus("Confusion") != null) {
+                if (IsStatusBad(status)) {
+                    if (character.VolatileStatus.GetStatus("Safeguard") != null && (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0)))) {
                         if (msg) {
-                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Safeguard!", Text.BrightCyan), character.X, character.Y, 10);
                         }
                         PacketHitList.MethodEnded(ref hitlist);
                         return true;
                     }
-                    
-                    if ((attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) && character.VolatileStatus.GetStatus("Confusion Guard") != null) {
-	                    if (msg) {
-	                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from confusion!", Text.BrightCyan), character.X, character.Y, 10);
-	                    }
-	                    PacketHitList.MethodEnded(ref hitlist);
-	                	return true;
-	                }
-
-
-
-                    if (character.HasActiveItem(323)) {
+                    //pokemon specific item
+                    if (HasActiveBagItem(character, 4, -1, (int)GetCharacterWeather(character)) || HasActiveBagItem(character, 4, (int)GetCharacterWeather(character), -1) || HasActiveBagItem(character, 29, 0, 0)) {
                         if (msg) {
-                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Persim Band prevented confusion!", Text.BrightRed), character.X, character.Y, 10);
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.BrightCyan), character.X, character.Y, 10);
                         }
                         PacketHitList.MethodEnded(ref hitlist);
                         return true;
                     }
-                        if (HasAbility(character, "Own Tempo") && !HasAbility(character, "Tangled Feet") && !HasAbility(attacker, "Mold Breaker")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Own Tempo prevented it from becoming confused!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
 
-                        //if (character.CharacterType == Enums.CharacterType.Recruit) {
-                        //    if (((Recruit)character).Owner.Player.Confusion > 0 && statusParam[1].ToInt() > 0) {
-                        //        if (msg) {
-                        //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
-                        //        }
-                        //        PacketHitList.MethodEnded(ref hitlist);
-                        //        return true;
-                        //    }
-                        //} else {
-                        //    if (((MapNpc)character).Confused) {
-                        //        if (msg) {
-                        //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
-                        //        }
-                        //        PacketHitList.MethodEnded(ref hitlist);
-                        //        return true;
-                        //    }
-                        //}
-                    }
-                    break;
-                case "Cringe": {
-                        
+                    //Type Gems
+                    if (character.HasActiveItem(595) && GetCharacterWeather(character) == Enums.Weather.Cloudy) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the White Gem!", Text.BrightCyan), character.X, character.Y, 10);
+                        }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (HasAbility(character, "Inner Focus") && !HasAbility(attacker, "Mold Breaker")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Inner Focus prevented it from cringing!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Immobilize": {
-                        if (character.VolatileStatus.GetStatus("Immobilize") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already Immobilized!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(596) && GetCharacterWeather(character) == Enums.Weather.Sunny) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Fiery Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected from being immobilized by the Shed Shell!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    }
+                    if (character.HasActiveItem(597) && (GetCharacterWeather(character) == Enums.Weather.Raining || GetCharacterWeather(character) == Enums.Weather.Thunder)) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Aqua Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided immobilization with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Nightmare": {
-                        if (character.VolatileStatus.GetStatus("Nightmare") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Nightmare!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(600) && GetCharacterWeather(character) == Enums.Weather.Hail) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Icy Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(498)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The Lunar Wing protected " + character.Name + " from the nightmare!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "GastroAcid": {
-                        if (character.VolatileStatus.GetStatus("GastroAcid") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Gastro Acid!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(602) && GetCharacterWeather(character) == Enums.Weather.Cloudy) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Poison Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
-                    }
-                    break;
-                case "Attract": {
-                        if (character.VolatileStatus.GetStatus("Attract") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already infatuated!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                        if (HasAbility(character, "Oblivious") && !HasAbility(attacker, "Mold Breaker")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided infatuation with Oblivious!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                        if (HasActiveBagItem(character, 14, 0, 0)) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                        	return true;
-                        }
-                    }
-                    break;
-                case "Encore": {
-                        if (HasActiveBagItem(character, 14, 0, 0)) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                        	return true;
-                        }
-                    }
-                    break;
-                case "Torment": {
-                        if (HasActiveBagItem(character, 14, 0, 0)) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                        	return true;
-                        }
-                    }
-                    break;
-                case "Taunt": {
-                        if (HasActiveBagItem(character, 14, 0, 0)) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                        	return true;
-                        }
-                    }
-                    break;
-                case "Embargo": {
-                        if (character.VolatileStatus.GetStatus("Embargo") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Embargo!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "HealBlock": {
-                        if (character.VolatileStatus.GetStatus("HealBlock") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Heal Block!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Substitute": {
-                        if (character.VolatileStatus.GetStatus("Substitute") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Ingrain": {
-                        if (character.VolatileStatus.GetStatus("Ingrain") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has its roots planted!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "AquaRing": {
-                        if (character.VolatileStatus.GetStatus("AquaRing") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has an Aqua Ring!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Wish": {
-                        if (character.VolatileStatus.GetStatus("Wish") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already being wished upon!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Exposed": {
-                        if (character.VolatileStatus.GetStatus("Exposed") != null) {
-                            if (msg && !HasActiveBagItem(character, 20, 9, 0) && !HasActiveBagItem(character, 20, 6, 0)) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already exposed!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MiracleEye": {
-                        if (character.VolatileStatus.GetStatus("MiracleEye") != null) {
-                            if (msg && !HasActiveBagItem(character, 20, 2, 0)) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can already hit Dark-type Pok�mon with Psychic-type moves!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Bind": {
-                        if (character.VolatileStatus.GetStatus("Bind:0") != null && statusParam[1] == "0" ||
-                            character.VolatileStatus.GetStatus("Bind:1") != null && statusParam[1] == "1") {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40) && statusParam[1] == "0") {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Clamp": {
-                        if (character.VolatileStatus.GetStatus("Clamp:0") != null && statusParam[1] == "0" ||
-                            character.VolatileStatus.GetStatus("Clamp:1") != null && statusParam[1] == "1") {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(603) && GetCharacterWeather(character) == Enums.Weather.Sandstorm) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Earth Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40) && statusParam[1] == "0") {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Wrap": {
-                        if (character.VolatileStatus.GetStatus("Wrap:0") != null && statusParam[1] == "0" ||
-                            character.VolatileStatus.GetStatus("Wrap:1") != null && statusParam[1] == "1") {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(605) && GetCharacterWeather(character) == Enums.Weather.Fog) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Psyche Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40) && statusParam[1] == "0") {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "FireSpin": {
-                        if (character.VolatileStatus.GetStatus("FireSpin") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Fire Spin!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(606) && (GetCharacterWeather(character) == Enums.Weather.None || GetCharacterWeather(character) == Enums.Weather.Ambiguous)) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Guard Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Whirlpool": {
-                        if (character.VolatileStatus.GetStatus("Whirlpool") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Whirlpool!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(609) && (GetCharacterWeather(character) == Enums.Weather.None || GetCharacterWeather(character) == Enums.Weather.Ambiguous)) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Dragon Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "Infestation": {
-                        if (character.VolatileStatus.GetStatus("Infesation") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by an Infestation!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(610) && GetCharacterWeather(character) == Enums.Weather.Fog) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Dark Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "SandTomb": {
-                        if (character.VolatileStatus.GetStatus("SandTomb") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Sand Tomb!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (character.HasActiveItem(611) && GetCharacterWeather(character) == Enums.Weather.Sandstorm) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by the Metal Gem!", Text.BrightCyan), character.X, character.Y, 10);
                         }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
                     }
-                    break;
-                case "MagmaStorm": {
-                        if (character.VolatileStatus.GetStatus("MagmaStorm") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Magma Storm!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
 
-                        if (character.HasActiveItem(40)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
+                    if (HasAbility(character, "Leaf Guard") && GetCharacterWeather(character) == Enums.Weather.Sunny && !HasAbility(attacker, "Mold Breaker")) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Leaf Guard!", Text.BrightCyan), character.X, character.Y, 10);
                         }
-
-                        if (HasAbility(character, "Run Away")) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
                     }
-                    break;
-                case "LeechSeed": {
-                        if (statusParam[1] == "0") {
 
-                            if (character.VolatileStatus.GetStatus("LeechSeed") != null) {
-                                if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a Leech Seed!", Text.WhiteSmoke), character.X, character.Y, 10);
-                                }
+                    if (attacker != character && statusParam[0] != "Pause" && statusParam[0] != "Taunt" &&
+                        statusParam[0] != "Torment" && statusParam[0] != "Encore" && statusParam[0] != "MoveSeal" &&
+                        statusParam[0] != "Disable" && statusParam[0] != "PerishCount" && statusParam[0] != "Curse" &&
+                        statusParam[0] != "Attract" && statusParam[0] != "Grounded" && character.VolatileStatus.GetStatus("Substitute") != null) {
+                        if (msg) {
+                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by Substitute!", Text.BrightCyan), character.X, character.Y, 10);
+                        }
+                        PacketHitList.MethodEnded(ref hitlist);
+                        return true;
+                    }
+                }
+
+
+                switch (statusParam[0]) {
+                    case "OK": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
                                 PacketHitList.MethodEnded(ref hitlist);
                                 return true;
                             }
 
-                            if (character.Type1 == Enums.PokemonType.Grass || character.Type2 == Enums.PokemonType.Grass) {
+                            if (character.HasActiveItem(347)) {
                                 if (msg) {
-                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " didn't take on the Leech Seed.", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    switch (character.StatusAilment) {
+                                        case Enums.StatusAilment.Burn: {
+                                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from the burn due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                            }
+                                            break;
+                                        case Enums.StatusAilment.Freeze: {
+                                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't thaw out due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                            }
+                                            break;
+                                        case Enums.StatusAilment.Paralyze: {
+                                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from paralysis due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                            }
+                                            break;
+                                        case Enums.StatusAilment.Poison: {
+                                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't recover from poison due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                            }
+                                            break;
+                                        case Enums.StatusAilment.Sleep: {
+                                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't wake up due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                            }
+                                            break;
+                                    }
                                 }
                                 PacketHitList.MethodEnded(ref hitlist);
                                 return true;
                             }
                         }
-                    }
-                    break;
-                case "TypeReduce": {
-                        checkStatus = character.VolatileStatus.GetStatus("TypeReduce");
-                        if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already takes reduced damage from " + (Enums.PokemonType)statusParam[1].ToInt() + " -type moves!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "TypeBoost": {
-                        checkStatus = character.VolatileStatus.GetStatus("TypeBoost");
-                        if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + (Enums.PokemonType)statusParam[1].ToInt() + " -type moves are already boosted!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "AttackReturn": {
-                        checkStatus = character.VolatileStatus.GetStatus("AttackReturn");
-                        if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already set to counter " + (Enums.MoveCategory)statusParam[1].ToInt() + " moves!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "FlashFire": {
-                        if (character.VolatileStatus.GetStatus("FlashFire") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already powered up by Flash Fire!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MoveSeal": {
-                        if (character.Moves[statusParam[1].ToInt()].MoveNum <= 0) {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                        break;
+                    case "Burn": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
+                                if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
+                                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                                    if (checkStatus != null && checkStatus.Tag == "1") {
+                                        if (msg) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from burns!", Text.BrightCyan), character.X, character.Y, 10);
+                                        }
+                                        PacketHitList.MethodEnded(ref hitlist);
+                                        return true;
+                                    }
+                                }
 
-                        if (character.VolatileStatus.GetStatus(status) != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + MoveManager.Moves[character.Moves[statusParam[1].ToInt()].MoveNum].Name + " is already sealed!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Disable": {
-                        if (character.Moves[statusParam[1].ToInt()].MoveNum == 0) {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
 
-                        if (character.VolatileStatus.GetStatus("Disable") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a move disabled!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Stockpile": {
-                    checkStatus = character.VolatileStatus.GetStatus("Stockpile");
-                        if (checkStatus != null && checkStatus.Counter >= 3) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't stockpile any more!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Roost": {
-                        if (map.Tile[character.X, character.Y].Type == Enums.TileType.MobileBlock) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't land here!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "PerishCount": {
-                    checkStatus = character.VolatileStatus.GetStatus("PerishCount");
-                        if (checkStatus != null && checkStatus.Counter <= statusParam[1].ToInt()) {
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "FutureSight": {
-                        if (character.VolatileStatus.GetStatus("FutureSight") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already targeted by Future Sight!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "FocusEnergy": {
-                        if (character.VolatileStatus.GetStatus("FocusEnergy") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already focused!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Yawn": {
-	
-                        if (character.VolatileStatus.GetStatus("Sleepless") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy its sleeplessness!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                        
-                        if (HasAbility(character, "Insomnia") && !HasAbility(attacker, "Mold Breaker")) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy due to Insomnia!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                        
-                        if (HasAbility(character, "Vital Spirit") && !HasAbility(attacker, "Mold Breaker")) {
-                        	if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy due to Vital Spirit!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                                if (character.HasActiveItem(633)) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Rawst Scarf!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
 
-                        if (character.VolatileStatus.GetStatus("Yawn") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already yawning!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                                if (HasAbility(character, "Water Veil") && !HasAbility(character, "Flare Boost") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Water Veil protected it from a burn!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
 
-                        if (character.StatusAilment != Enums.StatusAilment.OK) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " didn't yawn!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                if (character.Type1 == Enums.PokemonType.Fire || character.Type2 == Enums.PokemonType.Fire) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get burned!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                            } else if (character.StatusAilment == Enums.StatusAilment.Burn) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already burned!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            } else {
+                                //if (msg) {
+                                //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
+                                //}
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
                             }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
                         }
-                    }
-                    break;
-                case "Sleepless": {
-                        if (character.StatusAilment == Enums.StatusAilment.Sleep && character.HasActiveItem(347)) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't wake up due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
+                        break;
+                    case "Freeze": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
+                                if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
+                                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                                    if (checkStatus != null && checkStatus.Tag == "2") {
+                                        if (msg) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from being frozen!", Text.BrightCyan), character.X, character.Y, 10);
+                                        }
+                                        PacketHitList.MethodEnded(ref hitlist);
+                                        return true;
+                                    }
+                                }
 
-                        if (character.VolatileStatus.GetStatus("Sleepless") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already sleepless!", Text.BrightRed), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Status Guard": {
-                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
-                        if (checkStatus != null && tag == checkStatus.Tag) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected from the " + (Enums.StatusAilment)tag.ToInt() + " status!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Confusion Guard": {
-                        if (character.VolatileStatus.GetStatus("Confusion Guard") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected from confusion", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Wide Guard": {
-                        if (character.VolatileStatus.GetStatus("WideGuard") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Wide Guard!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Quick Guard": {
-                        if (character.VolatileStatus.GetStatus("QuickGuard") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Quick Guard!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Protect": {
-                        if (character.VolatileStatus.GetStatus("Protect") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Endure": {
-                        if (character.VolatileStatus.GetStatus("Endure") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already enduring!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MagicCoat": {
-                        if (character.VolatileStatus.GetStatus("MagicCoat") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Magic Coat!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MagnetRise": {
-                        if (character.VolatileStatus.GetStatus("MagnetRise") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already levitating with Magnet Rise!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Telekinesis": {
-                        if (character.VolatileStatus.GetStatus("Telekinesis") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already floating from Telekinesis!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Counter": {
-                        if (character.VolatileStatus.GetStatus("Counter") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Counter up!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MirrorCoat": {
-                        if (character.VolatileStatus.GetStatus("MirrorCoat") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Mirror Coat up!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "MetalBurst": {
-                        if (character.VolatileStatus.GetStatus("MetalBurst") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Metal Burst up!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
-                case "DestinyBond": {
-                        if (character.VolatileStatus.GetStatus("DestinyBond") != null) {
-                            if (msg) {
-                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Destiny Bond up!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            }
-                            PacketHitList.MethodEnded(ref hitlist);
-                            return true;
-                        }
-                    }
-                    break;
+                                if (character.HasActiveItem(634)) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Aspear Scarf!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                                if (HasAbility(character, "Magma Armor") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Magma Armor protected it from being frozen!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
 
-            }
+                                if (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get frozen!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                            } else if (character.StatusAilment == Enums.StatusAilment.Freeze) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already frozen!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            } else {
+                                //if (msg) {
+                                //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
+                                //}
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Paralyze": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
+                                if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
+                                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                                    if (checkStatus != null && checkStatus.Tag == "3") {
+                                        if (msg) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from paralysis!", Text.BrightCyan), character.X, character.Y, 10);
+                                        }
+                                        PacketHitList.MethodEnded(ref hitlist);
+                                        return true;
+                                    }
+                                }
 
-            PacketHitList.MethodEnded(ref hitlist);
-            return false;
+
+                                if (character.HasActiveItem(632)) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Cheri Scarf!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                                if (HasAbility(character, "Limber") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Limber prevented it from being paralyzed!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                            } else if (character.StatusAilment == Enums.StatusAilment.Paralyze) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already paralyzed!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            } else {
+                                //if (msg) {
+                                //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
+                                //}
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Poison": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
+                                if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
+                                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                                    if (checkStatus != null && checkStatus.Tag == "4") {
+                                        if (msg) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from poison!", Text.BrightCyan), character.X, character.Y, 10);
+                                        }
+                                        PacketHitList.MethodEnded(ref hitlist);
+                                        return true;
+                                    }
+                                }
+                                if (HasAbility(character, "Immunity") && !HasAbility(character, "Toxic Boost") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Immunity prevented it from being poisoned!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+                                if (character.Type1 == Enums.PokemonType.Poison || character.Type2 == Enums.PokemonType.Poison || character.Type1 == Enums.PokemonType.Steel || character.Type2 == Enums.PokemonType.Steel) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s type doesn't get poisoned!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                                if (character.HasActiveItem(483)) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected by its Pecha Scarf!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                            } else if (character.StatusAilment == Enums.StatusAilment.Poison) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already poisoned!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            } else {
+                                //if (msg) {
+                                //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
+                                //}
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                        }
+                        break;
+                    case "Sleep": {
+                            if (character.StatusAilment == Enums.StatusAilment.OK) {
+                                if (attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) {
+                                    checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                                    if (checkStatus != null && checkStatus.Tag == "5") {
+                                        if (msg) {
+                                            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from paralysis!", Text.BrightCyan), character.X, character.Y, 10);
+                                        }
+                                        PacketHitList.MethodEnded(ref hitlist);
+                                        return true;
+                                    }
+                                }
+                                if (character.HasActiveItem(59)) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Insomniscope prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+                                if (character.VolatileStatus.GetStatus("Sleepless") != null) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't fall asleep!", Text.BrightRed), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+
+                                if (HasAbility(character, "Insomnia") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Insomnia prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+                                if (HasAbility(character, "Vital Spirit") && !HasAbility(attacker, "Mold Breaker")) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Vital Spirit prevented it from falling asleep!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+
+
+                            } else if (character.StatusAilment == Enums.StatusAilment.Sleep) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already asleep!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            } else {
+                                //if (msg) {
+                                //	hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " wasn't burned", Text.BrightRed), character.X, character.Y, 10);
+                                //}
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Confusion": {
+
+                            if (character.VolatileStatus.GetStatus("Confusion") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if ((attacker == null || !(HasAbility(attacker, "Infiltrator") || HasActiveBagItem(attacker, 7, 0, 0))) && character.VolatileStatus.GetStatus("Confusion Guard") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected from confusion!", Text.BrightCyan), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+
+
+                            if (character.HasActiveItem(323)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Persim Band prevented confusion!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                            if (HasAbility(character, "Own Tempo") && !HasAbility(character, "Tangled Feet") && !HasAbility(attacker, "Mold Breaker")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Own Tempo prevented it from becoming confused!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            //if (character.CharacterType == Enums.CharacterType.Recruit) {
+                            //    if (((Recruit)character).Owner.Player.Confusion > 0 && statusParam[1].ToInt() > 0) {
+                            //        if (msg) {
+                            //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
+                            //        }
+                            //        PacketHitList.MethodEnded(ref hitlist);
+                            //        return true;
+                            //    }
+                            //} else {
+                            //    if (((MapNpc)character).Confused) {
+                            //        if (msg) {
+                            //            hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already confused!", Text.BrightRed), character.X, character.Y, 10);
+                            //        }
+                            //        PacketHitList.MethodEnded(ref hitlist);
+                            //        return true;
+                            //    }
+                            //}
+                        }
+                        break;
+                    case "Cringe": {
+
+
+                            if (HasAbility(character, "Inner Focus") && !HasAbility(attacker, "Mold Breaker")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Inner Focus prevented it from cringing!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Immobilize": {
+                            if (character.VolatileStatus.GetStatus("Immobilize") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already Immobilized!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was protected from being immobilized by the Shed Shell!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided immobilization with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Nightmare": {
+                            if (character.VolatileStatus.GetStatus("Nightmare") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Nightmare!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(498)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The Lunar Wing protected " + character.Name + " from the nightmare!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "GastroAcid": {
+                            if (character.VolatileStatus.GetStatus("GastroAcid") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Gastro Acid!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Attract": {
+                            if (character.VolatileStatus.GetStatus("Attract") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already infatuated!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                            if (HasAbility(character, "Oblivious") && !HasAbility(attacker, "Mold Breaker")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided infatuation with Oblivious!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                            if (HasActiveBagItem(character, 14, 0, 0)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Encore": {
+                            if (HasActiveBagItem(character, 14, 0, 0)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Torment": {
+                            if (HasActiveBagItem(character, 14, 0, 0)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Taunt": {
+                            if (HasActiveBagItem(character, 14, 0, 0)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is protected by its item!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Embargo": {
+                            if (character.VolatileStatus.GetStatus("Embargo") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Embargo!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "HealBlock": {
+                            if (character.VolatileStatus.GetStatus("HealBlock") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already under the effects of Heal Block!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Substitute": {
+                            if (character.VolatileStatus.GetStatus("Substitute") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a substitute!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Ingrain": {
+                            if (character.VolatileStatus.GetStatus("Ingrain") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has its roots planted!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "AquaRing": {
+                            if (character.VolatileStatus.GetStatus("AquaRing") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has an Aqua Ring!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Wish": {
+                            if (character.VolatileStatus.GetStatus("Wish") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already being wished upon!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Exposed": {
+                            if (character.VolatileStatus.GetStatus("Exposed") != null) {
+                                if (msg && !HasActiveBagItem(character, 20, 9, 0) && !HasActiveBagItem(character, 20, 6, 0)) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already exposed!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MiracleEye": {
+                            if (character.VolatileStatus.GetStatus("MiracleEye") != null) {
+                                if (msg && !HasActiveBagItem(character, 20, 2, 0)) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can already hit Dark-type Pok�mon with Psychic-type moves!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Bind": {
+                            if (character.VolatileStatus.GetStatus("Bind:0") != null && statusParam[1] == "0" ||
+                                character.VolatileStatus.GetStatus("Bind:1") != null && statusParam[1] == "1") {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40) && statusParam[1] == "0") {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Clamp": {
+                            if (character.VolatileStatus.GetStatus("Clamp:0") != null && statusParam[1] == "0" ||
+                                character.VolatileStatus.GetStatus("Clamp:1") != null && statusParam[1] == "1") {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40) && statusParam[1] == "0") {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Wrap": {
+                            if (character.VolatileStatus.GetStatus("Wrap:0") != null && statusParam[1] == "0" ||
+                                character.VolatileStatus.GetStatus("Wrap:1") != null && statusParam[1] == "1") {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40) && statusParam[1] == "0") {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "FireSpin": {
+                            if (character.VolatileStatus.GetStatus("FireSpin") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Fire Spin!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Whirlpool": {
+                            if (character.VolatileStatus.GetStatus("Whirlpool") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Whirlpool!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Infestation": {
+                            if (character.VolatileStatus.GetStatus("Infesation") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by an Infestation!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "SandTomb": {
+                            if (character.VolatileStatus.GetStatus("SandTomb") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Sand Tomb!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MagmaStorm": {
+                            if (character.VolatileStatus.GetStatus("MagmaStorm") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already trapped by Magma Storm!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.HasActiveItem(40)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Shed Shell protected it from being trapped!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Run Away")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " avoided being trapped with Run Away!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "LeechSeed": {
+                            if (statusParam[1] == "0") {
+
+                                if (character.VolatileStatus.GetStatus("LeechSeed") != null) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a Leech Seed!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+
+                                if (character.Type1 == Enums.PokemonType.Grass || character.Type2 == Enums.PokemonType.Grass) {
+                                    if (msg) {
+                                        hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " didn't take on the Leech Seed.", Text.WhiteSmoke), character.X, character.Y, 10);
+                                    }
+                                    PacketHitList.MethodEnded(ref hitlist);
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                    case "TypeReduce": {
+                            checkStatus = character.VolatileStatus.GetStatus("TypeReduce");
+                            if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already takes reduced damage from " + (Enums.PokemonType)statusParam[1].ToInt() + " -type moves!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "TypeBoost": {
+                            checkStatus = character.VolatileStatus.GetStatus("TypeBoost");
+                            if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + (Enums.PokemonType)statusParam[1].ToInt() + " -type moves are already boosted!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "AttackReturn": {
+                            checkStatus = character.VolatileStatus.GetStatus("AttackReturn");
+                            if (checkStatus != null && statusParam[1].ToInt() == checkStatus.Counter) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already set to counter " + (Enums.MoveCategory)statusParam[1].ToInt() + " moves!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "FlashFire": {
+                            if (character.VolatileStatus.GetStatus("FlashFire") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already powered up by Flash Fire!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MoveSeal": {
+                            if (character.Moves[statusParam[1].ToInt()].MoveNum <= 0) {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.VolatileStatus.GetStatus(status) != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + MoveManager.Moves[character.Moves[statusParam[1].ToInt()].MoveNum].Name + " is already sealed!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Disable": {
+                            if (character.Moves[statusParam[1].ToInt()].MoveNum == 0) {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.VolatileStatus.GetStatus("Disable") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has a move disabled!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Stockpile": {
+                            checkStatus = character.VolatileStatus.GetStatus("Stockpile");
+                            if (checkStatus != null && checkStatus.Counter >= 3) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't stockpile any more!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Roost": {
+                            if (map.Tile[character.X, character.Y].Type == Enums.TileType.MobileBlock) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't land here!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "PerishCount": {
+                            checkStatus = character.VolatileStatus.GetStatus("PerishCount");
+                            if (checkStatus != null && checkStatus.Counter <= statusParam[1].ToInt()) {
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "FutureSight": {
+                            if (character.VolatileStatus.GetStatus("FutureSight") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already targeted by Future Sight!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "FocusEnergy": {
+                            if (character.VolatileStatus.GetStatus("FocusEnergy") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already focused!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Yawn": {
+
+                            if (character.VolatileStatus.GetStatus("Sleepless") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy its sleeplessness!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Insomnia") && !HasAbility(attacker, "Mold Breaker")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy due to Insomnia!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (HasAbility(character, "Vital Spirit") && !HasAbility(attacker, "Mold Breaker")) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't become drowsy due to Vital Spirit!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.VolatileStatus.GetStatus("Yawn") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already yawning!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.StatusAilment != Enums.StatusAilment.OK) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " didn't yawn!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Sleepless": {
+                            if (character.StatusAilment == Enums.StatusAilment.Sleep && character.HasActiveItem(347)) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " can't wake up due to the Blight Clay!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+
+                            if (character.VolatileStatus.GetStatus("Sleepless") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already sleepless!", Text.BrightRed), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Status Guard": {
+                            checkStatus = character.VolatileStatus.GetStatus("Status Guard");
+                            if (checkStatus != null && tag == checkStatus.Tag) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected from the " + (Enums.StatusAilment)tag.ToInt() + " status!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Confusion Guard": {
+                            if (character.VolatileStatus.GetStatus("Confusion Guard") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected from confusion", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Wide Guard": {
+                            if (character.VolatileStatus.GetStatus("WideGuard") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Wide Guard!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Quick Guard": {
+                            if (character.VolatileStatus.GetStatus("QuickGuard") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Quick Guard!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Protect": {
+                            if (character.VolatileStatus.GetStatus("Protect") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Endure": {
+                            if (character.VolatileStatus.GetStatus("Endure") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already enduring!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MagicCoat": {
+                            if (character.VolatileStatus.GetStatus("MagicCoat") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already protected by Magic Coat!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MagnetRise": {
+                            if (character.VolatileStatus.GetStatus("MagnetRise") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already levitating with Magnet Rise!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Telekinesis": {
+                            if (character.VolatileStatus.GetStatus("Telekinesis") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is already floating from Telekinesis!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "Counter": {
+                            if (character.VolatileStatus.GetStatus("Counter") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Counter up!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MirrorCoat": {
+                            if (character.VolatileStatus.GetStatus("MirrorCoat") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Mirror Coat up!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "MetalBurst": {
+                            if (character.VolatileStatus.GetStatus("MetalBurst") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Metal Burst up!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+                    case "DestinyBond": {
+                            if (character.VolatileStatus.GetStatus("DestinyBond") != null) {
+                                if (msg) {
+                                    hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " already has Destiny Bond up!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                }
+                                PacketHitList.MethodEnded(ref hitlist);
+                                return true;
+                            }
+                        }
+                        break;
+
+                }
+
+                PacketHitList.MethodEnded(ref hitlist);
+                return false;
             } catch (Exception ex) {
                 Messenger.AdminMsg("Error: CheckStatusProtection " + status + " " + tag, Text.Black);
-                
+
                 Messenger.AdminMsg(ex.ToString(), Text.Black);
-                
+
                 return false;
             }
         }
-        
+
         public static bool IsStatusBad(string status) {
-            
+
 
             string[] statusParam = status.Split(':');
 
@@ -2108,14 +2110,14 @@ namespace Script {
                 case "GastroAcid":
                 case "Blind":
                 case "Shocker": {
-                	return true;
-                }
+                        return true;
+                    }
                 default: {
-                	return false;
-                }
-                break;
+                        return false;
+                    }
+                    break;
             }
-        
+
         }
 
         public static void AddMapStatus(IMap map, string name, int counter, string tag, int graphicEffect, PacketHitList hitlist) {
@@ -2135,10 +2137,10 @@ namespace Script {
                             break;
                         case "Gravity": {
                                 hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The floor's gravity intensified!", Text.BrightBlue));
-                        		TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
-								for (int i = 0; i < targets.Count; i++) {
-				                    DropToGround(targets[i], map, hitlist, false);
-				                }
+                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
+                                for (int i = 0; i < targets.Count; i++) {
+                                    DropToGround(targets[i], map, hitlist, false);
+                                }
                             }
                             break;
                         case "WonderRoom": {
@@ -2146,18 +2148,18 @@ namespace Script {
                             }
                             break;
                         case "MagicRoom": {
-                        		
-                        		TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
-								for (int i = 0; i < targets.Count; i++) {
-				                    targets[i].RefreshActiveItemList();
-				                }
+
+                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
+                                for (int i = 0; i < targets.Count; i++) {
+                                    targets[i].RefreshActiveItemList();
+                                }
                                 hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("All items lost their effects!", Text.BrightBlue));
                             }
                             break;
                         case "Luminous": {
-                        		
-                        		hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The entire floor was illuminated!", Text.BrightBlue));
-                                
+
+                                hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg("The entire floor was illuminated!", Text.BrightBlue));
+
                             }
                             break;
                     }
@@ -2190,7 +2192,7 @@ namespace Script {
                             }
                             break;
                         case "MagicRoom": {
-                        		TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
+                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, map, null, 0, 0, Enums.Direction.Up, true, true, false);
                                 for (int i = 0; i < targets.Count; i++) {
                                     targets[i].RefreshActiveItemList();
                                 }
@@ -2202,24 +2204,24 @@ namespace Script {
                 RefreshMapTraits(map, hitlist);
             }
         }
-        
+
         public static void RefreshMapTraits(IMap map, PacketHitList hitlist) {
-        	
-        	
-        	map.Darkness = map.OriginalDarkness;
-        	
-        	if (map.TempStatus.GetStatus("Luminous") != null) {
-        		map.Darkness = -1;
-        	}
-        	
-        	if (map.TempStatus.GetStatus("Flash") != null && map.Darkness != -1 && map.Darkness < 17) {
-        		map.Darkness = 17;
-        	}
-        	
-        	
-        	foreach (Client client in map.GetClients()) {
-        		PacketBuilder.AppendMapDarkness(client, hitlist, map);
-        	}
+
+
+            map.Darkness = map.OriginalDarkness;
+
+            if (map.TempStatus.GetStatus("Luminous") != null) {
+                map.Darkness = -1;
+            }
+
+            if (map.TempStatus.GetStatus("Flash") != null && map.Darkness != -1 && map.Darkness < 17) {
+                map.Darkness = 17;
+            }
+
+
+            foreach (Client client in map.GetClients()) {
+                PacketBuilder.AppendMapDarkness(client, hitlist, map);
+            }
         }
 
 
@@ -2266,14 +2268,14 @@ namespace Script {
                 name == "ProxySpDefense" && character.VolatileStatus.GetStatus(name) != null) {
                 RemoveExtraStatus(character, map, name, hitlist, false);
             }
-            
+
             if (name == "TypeReduce" && character.VolatileStatus.GetStatus(name) != null ||
                 name == "TypeBoost" && character.VolatileStatus.GetStatus(name) != null ||
                 name == "AttackReturn" && character.VolatileStatus.GetStatus(name) != null ||
                 name == "Status Guard" && character.VolatileStatus.GetStatus(name) != null) {
                 RemoveExtraStatus(character, map, name, hitlist, true);
             }
-                
+
 
             if (name == "LeechSeed" && character.VolatileStatus.GetStatus(name) != null && counter == 1) {
                 RemoveBondedExtraStatus(character, map, "LeechSeed:1", hitlist, msg);
@@ -2486,11 +2488,11 @@ namespace Script {
                             if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " became infatuated!", Text.WhiteSmoke), character.X, character.Y, 10);
                             RefreshCharacterSpeedLimit(character, map, hitlist);
                             if (character.HasActiveItem(704)) {
-                            	if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " has a Destiny Knot!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            	TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, map, character, character.X, character.Y, Enums.Direction.Up, true, false, false);
+                                if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " has a Destiny Knot!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, map, character, character.X, character.Y, Enums.Direction.Up, true, false, false);
                                 for (int i = 0; i < targets.Count; i++) {
-                            		AddExtraStatus(targets[i], null, map, "Attract", counter, null, "", hitlist, true);
-                            	}
+                                    AddExtraStatus(targets[i], null, map, "Attract", counter, null, "", hitlist, true);
+                                }
                             }
                         }
                         break;
@@ -2607,7 +2609,7 @@ namespace Script {
                     case "TypeReduce": {
                             if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " will take less damage from " + ((Enums.PokemonType)counter).ToString() + "-type attacks!", Text.WhiteSmoke), character.X, character.Y, 10);
                             newStatus.Emoticon = 96;
-                        RefreshCharacterVolatileStatus(character, map, hitlist);
+                            RefreshCharacterVolatileStatus(character, map, hitlist);
                         }
                         break;
                     case "Type1": {
@@ -2735,8 +2737,8 @@ namespace Script {
                         }
                         break;
                     case "SkyDrop": {
-                    	RemoveExtraStatus(character, map, "Grounded", hitlist, false);
-                        RefreshCharacterSprite(character, map, hitlist);    
+                            RemoveExtraStatus(character, map, "Grounded", hitlist, false);
+                            RefreshCharacterSprite(character, map, hitlist);
                             if (msg && nameSegment[1] == "0") {
                                 hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was taken into the sky!", Text.WhiteSmoke), character.X, character.Y, 10);
                             }
@@ -2745,19 +2747,19 @@ namespace Script {
                         }
                         break;
                     case "SemiInvul": {
-                        RefreshCharacterSprite(character, map, hitlist);    
-                        switch (tag) {
+                            RefreshCharacterSprite(character, map, hitlist);
+                            switch (tag) {
                                 case "Dig": {
                                         if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " burrowed its way underground!", Text.WhiteSmoke), character.X, character.Y, 10);
                                     }
                                     break;
                                 case "Bounce": {
-                                		RemoveExtraStatus(character, map, "Grounded", hitlist, false);
+                                        RemoveExtraStatus(character, map, "Grounded", hitlist, false);
                                         if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " sprang up!", Text.WhiteSmoke), character.X, character.Y, 10);
                                     }
                                     break;
                                 case "Fly": {
-                                		RemoveExtraStatus(character, map, "Grounded", hitlist, false);
+                                        RemoveExtraStatus(character, map, "Grounded", hitlist, false);
                                         if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " flew up high!", Text.WhiteSmoke), character.X, character.Y, 10);
                                     }
                                     break;
@@ -2768,11 +2770,11 @@ namespace Script {
                                     break;
                                 case "Dive": {
                                         if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " hid underwater!", Text.WhiteSmoke), character.X, character.Y, 10);
-                                        
+
                                     }
                                     break;
                             }
-                            
+
                             RefreshCharacterSwapLock(character, map, hitlist);
                         }
                         break;
@@ -2827,7 +2829,7 @@ namespace Script {
                         }
                         break;
                     case "Grounded": {
-                    		DropToGround(character, map, hitlist, false);
+                            DropToGround(character, map, hitlist, false);
                             if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " dropped to the ground!", Text.WhiteSmoke), character.X, character.Y, 10);
                         }
                         break;
@@ -2862,7 +2864,7 @@ namespace Script {
                         }
                         break;
                     case "MagnetRise": {
-                    		RemoveExtraStatus(character, map, "Grounded", hitlist, false);
+                            RemoveExtraStatus(character, map, "Grounded", hitlist, false);
                             if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " levitated using Magnet Rise!", Text.WhiteSmoke), character.X, character.Y, 10);
                             newStatus.Emoticon = 125;
                             RefreshCharacterVolatileStatus(character, map, hitlist);
@@ -2875,19 +2877,19 @@ namespace Script {
                         }
                         break;
                     case "Conversion2": {
-                            if (HasActiveBagItem(character, 51, 0, 0)) { 
-                            if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " 's item activated!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            newStatus.Emoticon = 176;
-                            RefreshCharacterVolatileStatus(character, map, hitlist);
-                        } else {
-                            if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " has Conversion 2 up!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            newStatus.Emoticon = 176;
-                            RefreshCharacterVolatileStatus(character, map, hitlist);
-                        }
+                            if (HasActiveBagItem(character, 51, 0, 0)) {
+                                if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " 's item activated!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                newStatus.Emoticon = 176;
+                                RefreshCharacterVolatileStatus(character, map, hitlist);
+                            } else {
+                                if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " has Conversion 2 up!", Text.WhiteSmoke), character.X, character.Y, 10);
+                                newStatus.Emoticon = 176;
+                                RefreshCharacterVolatileStatus(character, map, hitlist);
+                            }
                         }
                         break;
                     case "Telekinesis": {
-                    		RemoveExtraStatus(character, map, "Grounded", hitlist, false);
+                            RemoveExtraStatus(character, map, "Grounded", hitlist, false);
                             if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " was hurled into the air!", Text.WhiteSmoke), character.X, character.Y, 10);
                             newStatus.Emoticon = 83;
                             RefreshCharacterVolatileStatus(character, map, hitlist);
@@ -2930,8 +2932,8 @@ namespace Script {
                         }
                         break;
                     case "Illusion": {
-                        if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " hid behind an illusion!", Text.WhiteSmoke), character.X, character.Y, 10);
-                        RefreshCharacterSprite(character, map, hitlist);
+                            if (msg) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " hid behind an illusion!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            RefreshCharacterSprite(character, map, hitlist);
                         }
                         break;
                     case "DefenseCurl":
@@ -2948,7 +2950,7 @@ namespace Script {
                         }
                         break;
                     case "LastUSedMoveSlot": {
-                        RefreshCharacterMoves(character, map, hitlist);
+                            RefreshCharacterMoves(character, map, hitlist);
                         }
                         break;
                 }
@@ -3113,7 +3115,7 @@ namespace Script {
                         break;
                     case "Attract": {
                             if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is no longer infatuated!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            speedLimit = true;    
+                            speedLimit = true;
                             extraStatus = true;
                         }
                         break;
@@ -3204,8 +3206,8 @@ namespace Script {
                         }
                         break;
                     case "MoveSeal": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + MoveManager.Moves[character.Moves[nameSegment[1].ToInt()].MoveNum].Name + " is no longer sealed!", Text.WhiteSmoke), character.X, character.Y, 10);
-                        moves = true;
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s " + MoveManager.Moves[character.Moves[nameSegment[1].ToInt()].MoveNum].Name + " is no longer sealed!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            moves = true;
                         }
                         break;
                     case "Disable": {
@@ -3214,14 +3216,14 @@ namespace Script {
                         }
                         break;
                     case "FocusPunch": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s lost its focus and couldn't move!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s lost its focus and couldn't move!", Text.WhiteSmoke), character.X, character.Y, 10);
                         }
                         speedLimit = true;
-                            swapLock = true;
+                        swapLock = true;
                         break;
                     case "SuperCharge": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is no longer charged with power!", Text.WhiteSmoke), character.X, character.Y, 10);
-                        extraStatus = true;
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " is no longer charged with power!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            extraStatus = true;
                         }
                         break;
                     case "Charge": {
@@ -3245,15 +3247,15 @@ namespace Script {
                         }
                         break;
                     case "Stockpile": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s stockpiled effect wore off!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s stockpiled effect wore off!", Text.WhiteSmoke), character.X, character.Y, 10);
                         }
                         break;
                     case "Roost": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took flight again!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + " took flight again!", Text.WhiteSmoke), character.X, character.Y, 10);
                         }
                         break;
                     case "PerishCount": {
-                        if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s perish count wore off!", Text.WhiteSmoke), character.X, character.Y, 10);
+                            if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s perish count wore off!", Text.WhiteSmoke), character.X, character.Y, 10);
                         }
                         break;
                     case "Curse": {
@@ -3323,8 +3325,8 @@ namespace Script {
                         break;
                     case "Illusion": {
                             if (sendInfo) hitlist.AddPacketToMap(map, PacketBuilder.CreateBattleMsg(character.Name + "'s Illusion was broken!", Text.WhiteSmoke), character.X, character.Y, 10);
-                            sprite = true;    
-                        extraStatus = true;
+                            sprite = true;
+                            extraStatus = true;
                             hitlist.AddPacketToMap(map, PacketBuilder.CreateSpellAnim(503, character.X, character.Y));
                         }
                         break;
@@ -3338,14 +3340,14 @@ namespace Script {
                         }
                         break;
                     case "SemiInvul": {
-                        sprite = true;
-                        speedLimit = true;
-                        swapLock = true;
+                            sprite = true;
+                            speedLimit = true;
+                            swapLock = true;
                         }
                         break;
                     case "Slip":
                     case "SuperMobile": {
-                        mobility = true;
+                            mobility = true;
                         }
                         break;
                     case "Rampage":
@@ -3364,7 +3366,7 @@ namespace Script {
                     case "Ability1":
                     case "Ability2":
                     case "Ability3": {
-                        ability = true;
+                            ability = true;
                         }
                         break;
                     case "FutureSight":
@@ -3375,20 +3377,20 @@ namespace Script {
                     case "AquaRing":
                     case "Wish":
                     case "Autotomize": {
-                        extraStatus = true;
+                            extraStatus = true;
                         }
                         break;
                     case "Type1":
                     case "Type2": {
-                        type = true;
+                            type = true;
                         }
                         break;
                     case "LastUsedMoveSlot": {
-                        moves = true;
+                            moves = true;
                         }
                         break;
                     case "MovementSpeed": {
-                        speedLimit = true;
+                            speedLimit = true;
                         }
                         break;
                     case "SolarBeam":
@@ -3425,7 +3427,7 @@ namespace Script {
 
 
         public static bool HasAbility(ICharacter character, string ability) {
-			if (character == null) return false;
+            if (character == null) return false;
             if (character.Ability1 == ability || character.Ability2 == ability || character.Ability3 == ability) return true;
 
             return false;
@@ -3478,11 +3480,11 @@ namespace Script {
                     setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg("The damp conditions prevented an explosion!", Text.Blue), setup.Attacker.X, setup.Attacker.Y, 10);
                 }
             }
-            
+
             if (HasAbility(setup.Attacker, "Defeatist")) {
-				if (setup.Attacker.HP < setup.Attacker.MaxHP / 2) {
-					setup.AttackStat /= 2;
-				}
+                if (setup.Attacker.HP < setup.Attacker.MaxHP / 2) {
+                    setup.AttackStat /= 2;
+                }
             }
             if (HasAbility(setup.Attacker, "Flare Boost")) {
 
@@ -3542,8 +3544,8 @@ namespace Script {
                 }
 
             }
-            
-            
+
+
             //Plus and Minus
             if (HasAbility(setup.Attacker, "Minus")) {
                 TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, false, true, false);
@@ -3744,25 +3746,25 @@ namespace Script {
 
             //Lightningrod
             if (!HasAbility(setup.Attacker, "Mold Breaker")) {
-	            if (setup.Move.Element == Enums.PokemonType.Electric && setup.Attacker != setup.Defender) {
-	                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, true);
-	                int highestSpeed = 0;
-	                ICharacter singleTarget = null;
-	                for (int i = 0; i < targets.Count; i++) {
-	                    if (HasAbility(targets[i], "Lightning Rod")) {
-	                        if (targets[i].Spd > highestSpeed) {
-	                            singleTarget = targets[i];
-	                            highestSpeed = targets[i].Spd;
-	                        }
-	                    }
-	                }
-	
-	                if (singleTarget != null) {
-	                    setup.Defender = singleTarget;
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Lightning Rod drew in the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-	                    SetAsNeutralizedMove(setup.Move);
-	                }
-	            }
+                if (setup.Move.Element == Enums.PokemonType.Electric && setup.Attacker != setup.Defender) {
+                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, true);
+                    int highestSpeed = 0;
+                    ICharacter singleTarget = null;
+                    for (int i = 0; i < targets.Count; i++) {
+                        if (HasAbility(targets[i], "Lightning Rod")) {
+                            if (targets[i].Spd > highestSpeed) {
+                                singleTarget = targets[i];
+                                highestSpeed = targets[i].Spd;
+                            }
+                        }
+                    }
+
+                    if (singleTarget != null) {
+                        setup.Defender = singleTarget;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Lightning Rod drew in the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                        SetAsNeutralizedMove(setup.Move);
+                    }
+                }
             }
 
             if (HasAbility(setup.Defender, "Motor Drive") && !HasAbility(setup.Attacker, "Mold Breaker")) {
@@ -3816,26 +3818,26 @@ namespace Script {
 
             //Storm Drain
             if (!HasAbility(setup.Attacker, "Mold Breaker")) {
-	            if (setup.Move.Element == Enums.PokemonType.Water && setup.Attacker != setup.Defender) {
-	                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, true);
-	                int highestSpeed = 0;
-	                ICharacter singleTarget = null;
-	                for (int i = 0; i < targets.Count; i++) {
-	                	
-	                    if (HasAbility(targets[i], "Storm Drain")) {
-	                        if (targets[i].Spd > highestSpeed) {
-	                            singleTarget = targets[i];
-	                            highestSpeed = targets[i].Spd;
-	                        }
-	                    }
-	                }
-	
-	                if (singleTarget != null) {
-	                    setup.Defender = singleTarget;
-	                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Storm Drain drew in the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-	                    SetAsNeutralizedMove(setup.Move);
-	                }
-	            }
+                if (setup.Move.Element == Enums.PokemonType.Water && setup.Attacker != setup.Defender) {
+                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, true);
+                    int highestSpeed = 0;
+                    ICharacter singleTarget = null;
+                    for (int i = 0; i < targets.Count; i++) {
+
+                        if (HasAbility(targets[i], "Storm Drain")) {
+                            if (targets[i].Spd > highestSpeed) {
+                                singleTarget = targets[i];
+                                highestSpeed = targets[i].Spd;
+                            }
+                        }
+                    }
+
+                    if (singleTarget != null) {
+                        setup.Defender = singleTarget;
+                        setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Storm Drain drew in the attack!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                        SetAsNeutralizedMove(setup.Move);
+                    }
+                }
             }
 
             if (HasAbility(setup.Defender, "Telepathy") && !HasAbility(setup.Attacker, "Mold Breaker")) {
@@ -3869,7 +3871,7 @@ namespace Script {
 
         public static void CheckDefenderModAbility(BattleSetup setup) {
             ExtraStatus status;
-            
+
             if (HasAbility(setup.Attacker, "Analytic")) {
                 status = setup.Attacker.VolatileStatus.GetStatus("LastHitBy");
                 if (status != null && status.Target == setup.Defender) {
@@ -3907,15 +3909,15 @@ namespace Script {
 
             //Friend Guard
             if (!HasAbility(setup.Attacker, "Mold Breaker")) {
-	            if (setup.Move.EffectType == Enums.MoveType.SubHP) {
-	                TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
-	                for (int i = 0; i < targets.Friends.Count; i++) {
-	                    if (HasAbility(targets.Friends[i], "Friend Guard")) {
-	                        setup.Multiplier *= 4;
-	                        setup.Multiplier /= 5;
-	                    }
-	                }
-	            }
+                if (setup.Move.EffectType == Enums.MoveType.SubHP) {
+                    TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Room, 10, setup.DefenderMap, setup.Defender, setup.Defender.X, setup.Defender.Y, Enums.Direction.Up, false, true, false);
+                    for (int i = 0; i < targets.Friends.Count; i++) {
+                        if (HasAbility(targets.Friends[i], "Friend Guard")) {
+                            setup.Multiplier *= 4;
+                            setup.Multiplier /= 5;
+                        }
+                    }
+                }
             }
 
             if (HasAbility(setup.Defender, "Heatproof") && !HasAbility(setup.Attacker, "Mold Breaker")) {
@@ -3935,14 +3937,14 @@ namespace Script {
                     ChangeAttackBuff(setup.Attacker, setup.Defender, setup.AttackerMap, -1, setup.PacketStack);
                 }
             }
-            
+
             if (HasAbility(setup.Defender, "Levitate") && IsGroundImmune(setup.Defender, setup.DefenderMap) && setup.Defender != setup.Attacker && !HasAbility(setup.Attacker, "Mold Breaker")) {
-		        if (setup.Move.Element == Enums.PokemonType.Ground) {
-		            setup.Move.Accuracy = 0;
-		            setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " avoided damage with Levitate!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
-		        }
-		    }
-            
+                if (setup.Move.Element == Enums.PokemonType.Ground) {
+                    setup.Move.Accuracy = 0;
+                    setup.PacketStack.AddPacketToMap(setup.AttackerMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " avoided damage with Levitate!", Text.WhiteSmoke), setup.Attacker.X, setup.Attacker.Y, 10);
+                }
+            }
+
             if (HasAbility(setup.Defender, "Marvel Scale") && !HasAbility(setup.Attacker, "Mold Breaker")) {
                 if (setup.Move.MoveCategory == Enums.MoveCategory.Physical
                 && setup.Defender.StatusAilment != Enums.StatusAilment.OK) {
@@ -3950,14 +3952,14 @@ namespace Script {
                     setup.Multiplier /= 3;
                 }
             }
-            
+
             if (HasAbility(setup.Defender, "Multiscale") && setup.Defender.HP == setup.Defender.MaxHP && !HasAbility(setup.Attacker, "Mold Breaker")) {
                 setup.Multiplier /= 2;
             }
-            
+
             if (HasAbility(setup.Defender, "Tangled Feet") && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe
-            	&& setup.Move.Accuracy != -1 && setup.Defender.VolatileStatus.GetStatus("Confusion") != null && !HasAbility(setup.Attacker, "Mold Breaker")) {
-                    setup.Move.Accuracy /= 2;
+                && setup.Move.Accuracy != -1 && setup.Defender.VolatileStatus.GetStatus("Confusion") != null && !HasAbility(setup.Attacker, "Mold Breaker")) {
+                setup.Move.Accuracy /= 2;
             }
             if (HasAbility(setup.Attacker, "Rivalry")) {
                 if (setup.Attacker.Sex == setup.Defender.Sex) {
@@ -4077,10 +4079,10 @@ namespace Script {
                     AddExtraStatus(setup.Defender, setup.DefenderMap, "Immobilize", 2, null, "", setup.PacketStack);
                 }
             }
-            
-            
+
+
             if (HasAbility(setup.Defender, "Color Change") && setup.Move.MoveCategory != Enums.MoveCategory.Status && setup.Move.Element != Enums.PokemonType.None
-            	&& (setup.Move.Element != setup.Defender.Type1 && setup.Defender.Type1 != Enums.PokemonType.None || setup.Move.Element != setup.Defender.Type2 && setup.Defender.Type2 != Enums.PokemonType.None)) {
+                && (setup.Move.Element != setup.Defender.Type1 && setup.Defender.Type1 != Enums.PokemonType.None || setup.Move.Element != setup.Defender.Type2 && setup.Defender.Type2 != Enums.PokemonType.None)) {
                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Type1", (int)setup.Move.Element, null, "", setup.PacketStack);
                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Type2", 0, null, "", setup.PacketStack);
             }
@@ -4102,7 +4104,7 @@ namespace Script {
                     }
                 }
             }
-            
+
             if (HasAbility(setup.Defender, "Effect Spore") && setup.Move.MoveCategory != Enums.MoveCategory.Status
                 && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe) {
                 if (Server.Math.Rand(0, 5) == 0 && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
@@ -4127,7 +4129,7 @@ namespace Script {
                     }
                 }
             }
-            
+
             if (HasAbility(setup.Defender, "Flame Body") && setup.Move.MoveCategory != Enums.MoveCategory.Status
                 && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe) {
                 if (Server.Math.Rand(0, 5) == 0 && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
@@ -4151,7 +4153,7 @@ namespace Script {
             if (HasAbility(setup.Defender, "Justified") && setup.Move.Element == Enums.PokemonType.Dark && setup.Move.MoveCategory != Enums.MoveCategory.Status) {
                 ChangeAttackBuff(setup.Defender, setup.DefenderMap, 1, setup.PacketStack);
             }
-            
+
             if (HasAbility(setup.Defender, "Magnet Pull")/* && (setup.Defender.HP > 0 || !setup.KnockedOut)*/ && MoveProcessor.IsInAreaRange(3, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)
                 && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, "Immobilize", false, setup.PacketStack)
                 && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe) {
@@ -4235,18 +4237,18 @@ namespace Script {
             }
 
             if (HasAbility(setup.Attacker, "Mummy") && !HasAbility(setup.Defender, "Mummy") && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) != Enums.CharacterMatchup.Self
-            	 && MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, setup.Defender.X, setup.Defender.Y)) {
+                 && MoveProcessor.IsInAreaRange(1, setup.Attacker.X, setup.Attacker.Y, setup.Defender.X, setup.Defender.Y)) {
                 AddExtraStatus(setup.Defender, setup.Attacker, setup.AttackerMap, "Ability1", 0, null, "Mummy", setup.PacketStack, true);
                 AddExtraStatus(setup.Defender, setup.Attacker, setup.AttackerMap, "Ability2", 0, null, "None", setup.PacketStack, false);
                 AddExtraStatus(setup.Defender, setup.Attacker, setup.AttackerMap, "Ability3", 0, null, "None", setup.PacketStack, false);
             }
             if (HasAbility(setup.Defender, "Mummy") && !HasAbility(setup.Attacker, "Mummy") && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) != Enums.CharacterMatchup.Self
-            	 && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
+                 && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
                 AddExtraStatus(setup.Attacker, setup.Defender, setup.DefenderMap, "Ability1", 0, null, "Mummy", setup.PacketStack, true);
                 AddExtraStatus(setup.Attacker, setup.Defender, setup.DefenderMap, "Ability2", 0, null, "None", setup.PacketStack, false);
                 AddExtraStatus(setup.Attacker, setup.Defender, setup.DefenderMap, "Ability3", 0, null, "None", setup.PacketStack, false);
             }
-            
+
             if (HasAbility(setup.Defender, "Poison Point") && setup.Move.MoveCategory != Enums.MoveCategory.Status
                 && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) == Enums.CharacterMatchup.Foe) {
                 if (Server.Math.Rand(0, 5) == 0 && MoveProcessor.IsInAreaRange(1, setup.Defender.X, setup.Defender.Y, setup.Attacker.X, setup.Attacker.Y)) {
@@ -4296,35 +4298,35 @@ namespace Script {
                     SetStatusAilment(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.Paralyze, 1, setup.PacketStack);
                 }
             }
-            
+
             if (HasAbility(setup.Defender, "Trace")
                 && MoveProcessor.GetMatchupWith(setup.Attacker, setup.Defender) != Enums.CharacterMatchup.Self) {
                 string ability = "None";
-                switch (Server.Math.Rand(0,3)) {
-                	case 0: {
-                		ability = setup.Attacker.Ability1;
-                	}
-                	break;
-                	case 1: {
-                		ability = setup.Attacker.Ability2;
-                	}
-                	break;
-                	case 2: {
-                		ability = setup.Attacker.Ability3;
-                	}
-                	break;
+                switch (Server.Math.Rand(0, 3)) {
+                    case 0: {
+                            ability = setup.Attacker.Ability1;
+                        }
+                        break;
+                    case 1: {
+                            ability = setup.Attacker.Ability2;
+                        }
+                        break;
+                    case 2: {
+                            ability = setup.Attacker.Ability3;
+                        }
+                        break;
                 }
                 if (setup.Defender.Ability1 == "Trace" && ability != "None") {
-                	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-                	AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability1", 0, null, ability, setup.PacketStack, true);
+                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                    AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability1", 0, null, ability, setup.PacketStack, true);
                 }
                 if (setup.Defender.Ability2 == "Trace" && ability != "None") {
-                	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-                	AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability2", 0, null, ability, setup.PacketStack, true);
+                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                    AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability2", 0, null, ability, setup.PacketStack, true);
                 }
                 if (setup.Defender.Ability3 == "Trace" && ability != "None") {
-                	setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
-                	AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability3", 0, null, ability, setup.PacketStack, true);
+                    setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + " traced an ability!", Text.WhiteSmoke), setup.Defender.X, setup.Defender.Y, 10);
+                    AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability3", 0, null, ability, setup.PacketStack, true);
                 }
                 /*
                 AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability1", 0, null, setup.Attacker.Ability1, setup.PacketStack, true);
@@ -4332,21 +4334,21 @@ namespace Script {
                 AddExtraStatus(setup.Defender, setup.Attacker, setup.DefenderMap, "Ability3", 0, null, setup.Attacker.Ability3, setup.PacketStack, true);
                 */
             }
-            
+
             if (HasAbility(setup.Defender, "Weak Armor") && setup.Move.MoveCategory == Enums.MoveCategory.Physical) {
                 setup.PacketStack.AddPacketToMap(setup.DefenderMap, PacketBuilder.CreateBattleMsg(setup.Defender.Name + "'s Weak Armor broke off!", Text.BrightRed), setup.Defender.X, setup.Defender.Y, 10);
                 ChangeDefenseBuff(setup.Defender, setup.DefenderMap, -1, setup.PacketStack);
                 ChangeSpeedBuff(setup.Defender, setup.DefenderMap, 2, setup.PacketStack);
             }
-            
+
             if (HasActiveBagItem(setup.Defender, 51, 0, 0)) {  // Exclusive-item with Conversion2 Effect
                 AddExtraStatus(setup.Defender, setup.DefenderMap, "Conversion2", 0, null, "", setup.PacketStack);
-            } 
+            }
         }
 
         public static void CheckAfterActionTakenAbility(BattleSetup setup) {
-			
-			//Bad Dreams
+
+            //Bad Dreams
             if (setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep) {
                 TargetCollection targets = MoveProcessor.GetTargetsInRange(Enums.MoveRange.Floor, 0, setup.AttackerMap, setup.Attacker, setup.Attacker.X, setup.Attacker.Y, Enums.Direction.Up, true, false, false);
                 for (int i = 0; i < targets.Foes.Count; i++) {
@@ -4367,7 +4369,7 @@ namespace Script {
                     }
                 }
             }
-			
+
             //Early Bird
             if (HasAbility(setup.Attacker, "Early Bird") && setup.Attacker.StatusAilment == Enums.StatusAilment.Sleep && !CheckStatusProtection(setup.Attacker, setup.AttackerMap, Enums.StatusAilment.OK.ToString(), false, setup.PacketStack)) {
                 setup.Attacker.StatusAilmentCounter = 0;
@@ -4399,106 +4401,106 @@ namespace Script {
                 }
             }
         }
-        
+
         public static void OnMoveSwapped(Client client, int oldSlot, int newSlot) {
             ExtraStatus status;
             status = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("LastUsedMoveSlot");
-        	if (status != null) {
-        		
-        		if (status.Counter == oldSlot) {
-        			status.Counter = newSlot;
-        		} else if (status.Counter == newSlot) {
-        			status.Counter = oldSlot;
-        		}
-        	}
+            if (status != null) {
+
+                if (status.Counter == oldSlot) {
+                    status.Counter = newSlot;
+                } else if (status.Counter == newSlot) {
+                    status.Counter = oldSlot;
+                }
+            }
 
             status = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("Disable");
-        	if (status != null) {
-        		
-        		if (status.Counter == oldSlot) {
-        			status.Counter = newSlot;
-        		} else if (status.Counter == newSlot) {
-        			status.Counter = oldSlot;
-        		}
-        	}
-        	
-        	ExtraStatus oldSeal = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("MoveSeal:" + oldSlot);
-        	ExtraStatus newSeal = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("MoveSeal:" + newSlot);
-        	
-        	if (oldSeal != null) {
-        		oldSeal.Name = "MoveSeal:" + newSlot;
-        	}
-        	if (newSeal != null) {
-        		newSeal.Name = "MoveSeal:" + oldSlot;
-        	}
-        	RefreshCharacterMoves(client.Player.GetActiveRecruit(), client.Player.Map, null);
-        	
+            if (status != null) {
+
+                if (status.Counter == oldSlot) {
+                    status.Counter = newSlot;
+                } else if (status.Counter == newSlot) {
+                    status.Counter = oldSlot;
+                }
+            }
+
+            ExtraStatus oldSeal = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("MoveSeal:" + oldSlot);
+            ExtraStatus newSeal = client.Player.GetActiveRecruit().VolatileStatus.GetStatus("MoveSeal:" + newSlot);
+
+            if (oldSeal != null) {
+                oldSeal.Name = "MoveSeal:" + newSlot;
+            }
+            if (newSeal != null) {
+                newSeal.Name = "MoveSeal:" + oldSlot;
+            }
+            RefreshCharacterMoves(client.Player.GetActiveRecruit(), client.Player.Map, null);
+
         }
-        
+
         public static void DropToGround(ICharacter character, IMap map, PacketHitList hitlist, bool msg) {
-        	RemoveExtraStatus(character, map, "Telekinesis", hitlist, msg);
+            RemoveExtraStatus(character, map, "Telekinesis", hitlist, msg);
             RemoveExtraStatus(character, map, "MagnetRise", hitlist, msg);
             ExtraStatus status = character.VolatileStatus.GetStatus("SemiInvul");
             if (status != null) {
-            	if (status.Tag == "Fly" || status.Tag == "Bounce") {
-            		RemoveExtraStatus(character, map, "SemiInvul", hitlist, msg);
-            	}
+                if (status.Tag == "Fly" || status.Tag == "Bounce") {
+                    RemoveExtraStatus(character, map, "SemiInvul", hitlist, msg);
+                }
             }
             RemoveBondedExtraStatus(character, map, "SkyDrop:0", hitlist, msg);
             RemoveBondedExtraStatus(character, map, "SkyDrop:1", hitlist, msg);
         }
-        
+
         public static bool IsGroundImmune(ICharacter character, IMap map) {
-        	bool immune = false;
-        	if (character.Type1 == Enums.PokemonType.Flying || character.Type2 == Enums.PokemonType.Flying) {
-        		immune = true;
-        	}
-        	if (character.VolatileStatus.GetStatus("Roost") != null) {
-        		immune = false;
-        	}
-        	if (HasAbility(character, "Levitate")) {
-        		immune = true;
-        	}
-        	if (character.VolatileStatus.GetStatus("MagnetRise") != null) {
-        		immune = true;
-        	}
-        	if (character.VolatileStatus.GetStatus("Telekinesis") != null) {
-        		immune = true;
-        	}
-        	if (character.HasActiveItem(82)) {
-        		immune = true;
-        	}
-        	
-        	if (character.HasActiveItem(111)) {
-        		immune = false;
-        	}
-        	
-        	if (character.VolatileStatus.GetStatus("Grounded") != null) {
-        		immune = false;
-        	}
-        	if (map != null && map.TempStatus.GetStatus("Gravity") != null) {
-        		immune = false;
-        	}
-        	return immune;
+            bool immune = false;
+            if (character.Type1 == Enums.PokemonType.Flying || character.Type2 == Enums.PokemonType.Flying) {
+                immune = true;
+            }
+            if (character.VolatileStatus.GetStatus("Roost") != null) {
+                immune = false;
+            }
+            if (HasAbility(character, "Levitate")) {
+                immune = true;
+            }
+            if (character.VolatileStatus.GetStatus("MagnetRise") != null) {
+                immune = true;
+            }
+            if (character.VolatileStatus.GetStatus("Telekinesis") != null) {
+                immune = true;
+            }
+            if (character.HasActiveItem(82)) {
+                immune = true;
+            }
+
+            if (character.HasActiveItem(111)) {
+                immune = false;
+            }
+
+            if (character.VolatileStatus.GetStatus("Grounded") != null) {
+                immune = false;
+            }
+            if (map != null && map.TempStatus.GetStatus("Gravity") != null) {
+                immune = false;
+            }
+            return immune;
         }
-        
+
         public static bool IsBondedStatus(string status) {
-        	switch (status) {
-        		case "Wrap:0":
-	            case "Wrap:1":
-	            case "Bind:0":
-	            case "Bind:1":
-	            case "Clamp:0":
-	            case "Clamp:1":
-	            case "LeechSeed:0":
-	            case "LeechSeed:1":
-	            case "SkyDrop:0":
-	            case "SkyDrop:1":
-	            case "LastHitBy":
-	            	return true;
-        		default:
-        			return false;
-        	}
+            switch (status) {
+                case "Wrap:0":
+                case "Wrap:1":
+                case "Bind:0":
+                case "Bind:1":
+                case "Clamp:0":
+                case "Clamp:1":
+                case "LeechSeed:0":
+                case "LeechSeed:1":
+                case "SkyDrop:0":
+                case "SkyDrop:1":
+                case "LastHitBy":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public static void RemoveAllBondedExtraStatus(ICharacter character, IMap map, PacketHitList hitlist, bool msg) {
@@ -4549,43 +4551,43 @@ namespace Script {
             RemoveExtraStatus(character, map, statusName, hitlist, msg);
             PacketHitList.MethodEnded(ref hitlist);
         }
-        
+
         public static bool IsTeamStatus(string status) {
-	        switch (status) {
-	        	case "LightScreen":
-				case "Reflect":
-				case "Mist":
-				case "Safeguard":
-				case "LuckyChant":
-				case "FutureSight":
-				case "Wish":
-				case "Embargo":
-				case "HealBlock":
-					return true;
-				default:
-					return false;
-			}
+            switch (status) {
+                case "LightScreen":
+                case "Reflect":
+                case "Mist":
+                case "Safeguard":
+                case "LuckyChant":
+                case "FutureSight":
+                case "Wish":
+                case "Embargo":
+                case "HealBlock":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public static void RemoveTeamStatus(ICharacter character, IMap map, PacketHitList hitlist, bool msg) {
             List<ExtraStatus> teamStatus = new List<ExtraStatus>();
 
             //string[] nameSegment = status.Name.Split(':');
-			
-			RemoveExtraStatus(character, map, "LightScreen", hitlist, msg);
-			RemoveExtraStatus(character, map, "Reflect", hitlist, msg);
-			RemoveExtraStatus(character, map, "Mist", hitlist, msg);
-			RemoveExtraStatus(character, map, "Safeguard", hitlist, msg);
-			RemoveExtraStatus(character, map, "LuckyChant", hitlist, msg);
-			RemoveExtraStatus(character, map, "FutureSight", hitlist, msg);
-			RemoveExtraStatus(character, map, "Wish", hitlist, msg);
-			RemoveExtraStatus(character, map, "Embargo", hitlist, msg);
-			RemoveExtraStatus(character, map, "HealBlock", hitlist, msg);
-			
+
+            RemoveExtraStatus(character, map, "LightScreen", hitlist, msg);
+            RemoveExtraStatus(character, map, "Reflect", hitlist, msg);
+            RemoveExtraStatus(character, map, "Mist", hitlist, msg);
+            RemoveExtraStatus(character, map, "Safeguard", hitlist, msg);
+            RemoveExtraStatus(character, map, "LuckyChant", hitlist, msg);
+            RemoveExtraStatus(character, map, "FutureSight", hitlist, msg);
+            RemoveExtraStatus(character, map, "Wish", hitlist, msg);
+            RemoveExtraStatus(character, map, "Embargo", hitlist, msg);
+            RemoveExtraStatus(character, map, "HealBlock", hitlist, msg);
+
         }
 
         public static List<ExtraStatus> GetTeamStatus(ICharacter character) {
-            
+
             return character.VolatileStatus.GetStatuses("LightScreen", "Reflect", "Mist", "Safeguard",
                 "LuckyChant", "FutureSight", "Wish", "Embargo", "HealBlock");
         }
@@ -4603,7 +4605,7 @@ namespace Script {
         }
 
         //public static void ChangeSpeedLimit(ICharacter character, Enums.Speed speed) {
-        
+
         //    if (character.CharacterType == Enums.CharacterType.Recruit) {
 
         //        ((Recruit)character).Owner.Player.ge.SpeedLimit = speed;
@@ -4744,8 +4746,8 @@ namespace Script {
             }
 
             if (character.VolatileStatus.GetStatus("SemiInvul") != null ||
-            	character.VolatileStatus.GetStatus("SkyDrop:0") != null ||
-            	character.VolatileStatus.GetStatus("SkyDrop:1") != null) {
+                character.VolatileStatus.GetStatus("SkyDrop:0") != null ||
+                character.VolatileStatus.GetStatus("SkyDrop:1") != null) {
                 character.Sprite = 0;
                 character.Form = 2;
             }
@@ -4835,8 +4837,8 @@ namespace Script {
                 character.TimeMultiplier *= 6;
                 character.TimeMultiplier /= 10;
             }
-            
-             if (HasActiveBagItem(character, 34, -1, (int)GetCharacterWeather(character)) || HasActiveBagItem(character, 34, (int)GetCharacterWeather(character), -1)) {
+
+            if (HasActiveBagItem(character, 34, -1, (int)GetCharacterWeather(character)) || HasActiveBagItem(character, 34, (int)GetCharacterWeather(character), -1)) {
                 character.TimeMultiplier *= 6;
                 character.TimeMultiplier /= 10;
             }
@@ -4873,23 +4875,23 @@ namespace Script {
             ExtraStatus status;
 
             int speed = 4;
-            
+
             if (character.Species == 492 && character.Form == 1) {
-            	speed++;
+                speed++;
             }
 
             if (character.HasActiveItem(118)) {
                 speed -= 2;
             }
-            
+
             if (character.HasActiveItem(111)) {
-            	speed -=1;
+                speed -= 1;
             }
 
             if ((GetCharacterWeather(character) == Enums.Weather.Snowing || GetCharacterWeather(character) == Enums.Weather.Snowstorm) && (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice)) {
                 speed++;
             }
-            
+
             if (HasActiveBagItem(character, 3, -1, (int)GetCharacterWeather(character)) || HasActiveBagItem(character, 3, (int)GetCharacterWeather(character), -1)) {
                 speed++;
             }
@@ -5017,7 +5019,7 @@ namespace Script {
                 //character.Mobility[6] = true;
                 //character.Mobility[7] = true;
             }
-            
+
             if (character.Type1 == Enums.PokemonType.Ice || character.Type2 == Enums.PokemonType.Ice) {
                 character.Mobility[5] = true;
             }
@@ -5045,25 +5047,25 @@ namespace Script {
             }
 
             if (HasAbility(character, "Levitate") || character.HasActiveItem(82)) {
-            	if (IsGroundImmune(character, map)) {
-	                character.Mobility[1] = true;
-	                character.Mobility[2] = true;
-	                character.Mobility[3] = true;
+                if (IsGroundImmune(character, map)) {
+                    character.Mobility[1] = true;
+                    character.Mobility[2] = true;
+                    character.Mobility[3] = true;
                 }
             }
-            
+
             if (character.HasActiveItem(349)) {
-            	character.Mobility[1] = true;
+                character.Mobility[1] = true;
             }
-            
+
             if (character.HasActiveItem(805)) {
-            	character.Mobility[3] = true;
+                character.Mobility[3] = true;
             }
-            
+
             if (character.HasActiveItem(814)) {
-            	for (int i = 0; i < character.Mobility.Length; i++) {
-                	character.Mobility[i] = false;
-            	}
+                for (int i = 0; i < character.Mobility.Length; i++) {
+                    character.Mobility[i] = false;
+                }
             }
 
             if (character.CharacterType == Enums.CharacterType.Recruit) {
@@ -5085,16 +5087,12 @@ namespace Script {
             }
 
             character.Visible = visible;
-            if (map != null)
-            {
-                if (character.CharacterType == Enums.CharacterType.Recruit)
-                {
+            if (map != null) {
+                if (character.CharacterType == Enums.CharacterType.Recruit) {
                     Client client = ((Recruit)character).Owner;
                     hitlist.AddPacketToOthers(character, map, PacketBuilder.CreatePlayerActivation(client, character.Visible));
                     PacketBuilder.AppendVisibility(client, hitlist, character.Visible);
-                }
-                else
-                {
+                } else {
                     hitlist.AddPacketToOthers(character, map, PacketBuilder.CreateNpcActivation((MapNpc)character, character.Visible));
                 }
             }
@@ -5116,7 +5114,7 @@ namespace Script {
             if (character.HasActiveItem(348)) {
                 character.Darkness = 0;
             }
-            
+
             if (character.VolatileStatus.GetStatus("Blind") != null) {
                 character.Darkness = 0;
             }
