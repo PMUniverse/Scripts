@@ -2753,47 +2753,38 @@ namespace Script {
                             }
                         }
                         break;
-                     case 40: {//Heal
+                    case 40: {//Heal
                             int maxHP = setup.Attacker.MaxHP;
                             double percentageToHeal;
                             switch (setup.Move.Data2) {
-                                case 1:
-
-                                    { //Weather Dependent
+                                case 1: {//Weather Dependent
                                         switch (GetCharacterWeather(setup.Attacker)) {
-                                    
-                                          
-
-            case Enums.Weather.Sunny:
-                                    percentageToHeal = 75;
+                                            case Enums.Weather.Sunny:
+                                                    percentageToHeal = 75;
+                                                break;
+                                            case Enums.Weather.Cloudy:
+                                            case Enums.Weather.Raining:
+                                            case Enums.Weather.Snowing:
+                                                percentageToHeal = 25;
+                                                break;
+                                            case Enums.Weather.Thunder:
+                                            case Enums.Weather.Snowstorm:
+                                            case Enums.Weather.Sandstorm:
+                                            case Enums.Weather.Hail:
+                                                percentageToHeal = 12.5;
+                                                break;
+                                            case Enums.Weather.Fog:
+                                            case Enums.Weather.Ashfall:
+                                                percentageToHeal = 1;
+                                                break;
+                                            default:
+                                                percentageToHeal = 50;
+                                                break;
+                                        }
+                                        double hpToHeal = maxHP * (percentageToHeal / 100);
+                                        HealCharacter(setup.Defender, setup.DefenderMap, (int)hpToHeal, setup.PacketStack);
+                                    }
                                     break;
-
-                                case Enums.Weather.Cloudy:
-                                case Enums.Weather.Raining:
-                                case Enums.Weather.Snowing:
-                                    percentageToHeal = 25;
-                                    break;
-
-                                case Enums.Weather.Thunder:
-                                case Enums.Weather.Snowstorm:
-                                case Enums.Weather.Sandstorm:
-                                case Enums.Weather.Hail:
-                                    percentageToHeal = 12.5;
-                                    break;
-
-                                case Enums.Weather.Fog:
-                                case Enums.Weather.Ashfall:
-                                    percentageToHeal = 1;
-                                    break;
-
-                                default:
-                                    percentageToHeal = 50;
-                                    break;
-                            }
-                            double hpToHeal = maxHP * (percentageToHeal / 100);
-                            HealCharacter(setup.Defender, setup.DefenderMap, (int)hpToHeal, setup.PacketStack);
-                        }
-                        break;
                                 case 2: {//user HP dependent
                                         HealCharacter(setup.Defender, setup.DefenderMap, setup.Attacker.MaxHP / setup.Move.Data3, setup.PacketStack);
                                     }
