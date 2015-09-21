@@ -2754,37 +2754,35 @@ namespace Script {
                         }
                         break;
                     case 40: {//Heal
+                            int maxHP = setup.Attacker.MaxHP;
+                            double percentageToHeal;
                             switch (setup.Move.Data2) {
                                 case 1: {//Weather Dependent
                                         switch (GetCharacterWeather(setup.Attacker)) {
-                                            case Enums.Weather.Sunny: {
-                                                    HealCharacter(setup.Defender, setup.DefenderMap, 120, setup.PacketStack);
-                                                }
+                                            case Enums.Weather.Sunny:
+                                                    percentageToHeal = 75;
                                                 break;
                                             case Enums.Weather.Cloudy:
                                             case Enums.Weather.Raining:
-                                            case Enums.Weather.Snowing: {
-                                                    HealCharacter(setup.Defender, setup.DefenderMap, 60, setup.PacketStack);
-                                                }
+                                            case Enums.Weather.Snowing:
+                                                percentageToHeal = 25;
                                                 break;
                                             case Enums.Weather.Thunder:
                                             case Enums.Weather.Snowstorm:
                                             case Enums.Weather.Sandstorm:
-                                            case Enums.Weather.Hail: {
-                                                    HealCharacter(setup.Defender, setup.DefenderMap, 40, setup.PacketStack);
-                                                }
+                                            case Enums.Weather.Hail:
+                                                percentageToHeal = 12.5;
                                                 break;
                                             case Enums.Weather.Fog:
-                                            case Enums.Weather.Ashfall: {
-                                                    HealCharacter(setup.Defender, setup.DefenderMap, 1, setup.PacketStack);
-                                                }
+                                            case Enums.Weather.Ashfall:
+                                                percentageToHeal = 1;
                                                 break;
-                                            default: {
-                                                    HealCharacter(setup.Defender, setup.DefenderMap, 80, setup.PacketStack);
-                                                }
+                                            default:
+                                                percentageToHeal = 50;
                                                 break;
-
                                         }
+                                        double hpToHeal = maxHP * (percentageToHeal / 100);
+                                        HealCharacter(setup.Defender, setup.DefenderMap, (int)hpToHeal, setup.PacketStack);
                                     }
                                     break;
                                 case 2: {//user HP dependent
